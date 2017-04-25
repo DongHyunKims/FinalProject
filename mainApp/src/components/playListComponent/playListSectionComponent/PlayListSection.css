@@ -34,31 +34,34 @@
   height:100%;
 }
 
-
 .playListPartTitleArea{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   width: 88%;
   height:100%;
   float: left;
   font-size: 11px;
-
+  line-height: 3.5;
   /*display: table-cell;*/
   /*vertical-align: middle;*/
-
   /*background-color: chartreuse;*/
 }
 
 .playListPartDurationArea {
+  white-space: nowrap;
+  overflow: hidden;
   width: 5%;
   height: 100%;
   float: left;
   font-size: 11px;
-
-
+  text-align: center;
+  line-height: 3.5;
   /*display: table-cell;*/
   /*vertical-align: middle;*/
 }
 
-.float{
+.floater{
   float: left;
   height: 50%;
   margin-bottom: -12px;
@@ -74,7 +77,6 @@
   margin-left: 25%;
 
 }
-
 
 
 .playListPartIconArea img{

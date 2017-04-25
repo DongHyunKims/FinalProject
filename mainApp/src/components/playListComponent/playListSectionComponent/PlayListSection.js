@@ -28,7 +28,6 @@ const PlayListPart = function(props){
                     <div className="eq__bar"></div>
                     <div className="eq__bar"></div>
                     <div className="eq__bar"></div>
-                    {/*<div className="eq__bar"></div>*/}
                 </div>
         );
 
@@ -41,7 +40,7 @@ const PlayListPart = function(props){
     return (
         <div className="playListPartArea" onClick={props.onClick} style={alStyle}>
             <div className="icon playListPartIconArea">
-                <div className="float"></div>
+                <div className="floater"></div>
                 <div className="iconArea">
                     {iconRendering}
                 </div>
@@ -49,7 +48,7 @@ const PlayListPart = function(props){
             <div className="playListPartTitleArea" style={asStyle}>
                 {title}
             </div>
-            <div className="playListPartDurationArea">
+            <div className="playListPartDurationArea" style={asStyle}>
                 03:45
             </div>
         </div>
