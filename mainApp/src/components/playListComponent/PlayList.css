@@ -1,4 +1,4 @@
-.album_block {
+.playListArea {
     height: 100%;
     width: 100%;
     /*background-color: #7983ff;*/
@@ -6,13 +6,13 @@
 
 }
 
-.video_block {
+.youtubePlayerArea {
     /*background-color: bisque;*/
     height: 50%;
 }
 
 
-.album_list_block {
+.playListSectionArea {
     /*background-color: #ff5644;*/
     height: 50%;
 }

@@ -33,11 +33,12 @@ class PlayList extends Component {
             controls : 1,
             autoplay : 1,
         };
-        console.log("selectedData",selectedData);
+        //console.log("selectedData",selectedData);
 
 
         // default 사진 제공
         let youtubePlayer = <div>Loading...</div>;
+
 
         if(selectedData){
             youtubePlayer = <YoutubePlayerComponent videoId={selectedData.id.videoId} opts={opts}/>
@@ -47,11 +48,11 @@ class PlayList extends Component {
         //autoplay=1
         //playlist=XGSy3_Czz8k&loop=1
         return (
-            <div className="album_block">
-                <div className="video_block">
+            <div className="playListArea">
+                <div className="youtubePlayerArea">
                     {youtubePlayer}
                 </div>
-                <div className="album_list_block">
+                <div className="playListSectionArea">
                     <PlayListSection videoData={videoData} albumListClickHandler={this.albumListClickHandler} selectedKey={selectedKey} />
                 </div>
             </div>

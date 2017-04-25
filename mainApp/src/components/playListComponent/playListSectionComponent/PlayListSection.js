@@ -21,36 +21,36 @@ const PlayListPart = function(props){
         };
         asStyle ={
             color: "#FFFFFF"
-        }
-        iconRendering = ( <div className="eq">
-            <div className="eq__bar"></div>
-            <div className="eq__bar"></div>
-            <div className="eq__bar"></div>
-        </div> );
-    }else{
+        };
         iconRendering = (
-            <img src="./images/Headphones-64.png" />
-        )
+
+                <div className="eq">
+                    <div className="eq__bar"></div>
+                    <div className="eq__bar"></div>
+                    <div className="eq__bar"></div>
+                    {/*<div className="eq__bar"></div>*/}
+                </div>
+        );
+
+    }else {
+        iconRendering = (
+            <img src="./images/Headphones-64.png"/>
+        );
     }
 
-
-    /*
-    <div className="eq">
-        <div className="eq__bar"></div>
-        <div className="eq__bar"></div>
-        <div className="eq__bar"></div>
-    </div>
-    */
-
-
-
     return (
-        <div className="album_section" onClick={props.onClick} style={alStyle}>
-            <div className="icon album_section_icon">
-                {iconRendering}
+        <div className="playListPartArea" onClick={props.onClick} style={alStyle}>
+            <div className="icon playListPartIconArea">
+                <div className="float"></div>
+                <div className="iconArea">
+                    {iconRendering}
+                </div>
             </div>
-            <div className="album_section_title" style={asStyle}>
+            <div className="playListPartTitleArea" style={asStyle}>
                 {title}
+            </div>
+            <div className="playListPartDurationArea">
+                03:45
             </div>
         </div>
     );
@@ -66,7 +66,7 @@ class PlayListSection extends Component {
 
     render(){
         let{lStyle, videoData, albumListClickHandler, selectedKey} = this.props;
-        console.log("albumListClickHandler",albumListClickHandler);
+        //console.log("albumListClickHandler",albumListClickHandler);
 
         if(!lStyle){
             lStyle = {
@@ -87,18 +87,12 @@ class PlayListSection extends Component {
         }
 
 
-/*
-
- <div className="album_menu">
-
- </div>
- */
         return (
-            <div className="album_list" style={lStyle}>
-                <div className="album_menu">
+            <div className="playListSectionGroupArea" style={lStyle}>
+                <div className="playListSectionMenu">
 
                 </div>
-                <div className="album_section_list" >
+                <div className="playListSectionGroup" >
                     {playListSection}
                 </div>
             </div>

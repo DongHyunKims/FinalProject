@@ -1,6 +1,6 @@
 
 
-.album_menu {
+.playListSectionMenu{
   width: 100%;
   height: 10%;
   /*background-color: #f5f5ff;*/
@@ -9,19 +9,77 @@
 }
 
 
-.album_section_list{
+.playListSectionGroup{
   width: 100%;
   height: 90%;
   overflow: auto;
 
 }
 
-.album_section {
+.playListPartArea {
   width: 100%;
   height: 35px;
   /*background-color: #f5f5ff;*/
   cursor: pointer;
   border-bottom: 1px solid lightgray;
+}
+
+
+
+
+.playListPartIconArea {
+  /*background-color: #5f3aff;*/
+  float: left;
+  width: 7%;
+  height:100%;
+}
+
+
+.playListPartTitleArea{
+  width: 88%;
+  height:100%;
+  float: left;
+  font-size: 11px;
+
+  /*display: table-cell;*/
+  /*vertical-align: middle;*/
+
+  /*background-color: chartreuse;*/
+}
+
+.playListPartDurationArea {
+  width: 5%;
+  height: 100%;
+  float: left;
+  font-size: 11px;
+
+
+  /*display: table-cell;*/
+  /*vertical-align: middle;*/
+}
+
+.float{
+  float: left;
+  height: 50%;
+  margin-bottom: -12px;
+}
+
+
+.iconArea{
+  width: 50%;
+  height: 70%;
+  /*background-color: #2aff5e;*/
+  position: relative;
+  clear: both;
+  margin-left: 25%;
+
+}
+
+
+
+.playListPartIconArea img{
+  width: 100%;
+  height: 100%;
 }
 
 
@@ -31,11 +89,14 @@
   100% { height: 3px; }
 }
 .eq {
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
   display: flex;
-  width: 20px;
-  height: 20px;
-  margin: 0 auto;
-  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  /*margin: 0 auto;*/
+  /*justify-content: space-between;*/
+  justify-content: space-around;
   align-items: flex-end;
 }
 .eq__bar {
@@ -52,24 +113,7 @@
 .eq__bar:nth-child(3) {
   animation: eq .8s ease-in-out infinite .4s;
 }
+/*.eq__bar:nth-child(4) {*/
+  /*animation: eq .8s ease-in-out infinite .6s;*/
+/*}*/
 
-.album_section_icon {
-  /*background-color: #5f3aff;*/
-  float: left;
-  width:10%;
-  height:100%;
-}
-
-.album_section_icon img{
-  width: 25px;
-  height: 25px;
-}
-
-
-.album_section_title{
-  width: 90%;
-  height:100%;
-  float: right;
-  font-size: 11px;
-  /*background-color: chartreuse;*/
-}
