@@ -15,8 +15,7 @@ body{
 }
 
 .container{
-  height:calc(100% - 80px);
-  background-color: #ff3872;
+  height:calc(100% - 190px);
 }
 
 .container:after{
@@ -46,7 +45,6 @@ body{
 
 .container .rightArea{
   float: left;
-  background-color: #2aff5e;
   width: 46%;
   height: 100%;
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import MainList from './components/mainListComponent/MainList'
+
 class App extends Component {
   render() {
     return (
@@ -14,9 +16,7 @@ class App extends Component {
               left
             </div>
 
-            <div className="rightArea">
-              right
-            </div>
+            <MainList/>
 
             <nav className="navArea">
             </nav>
