@@ -42,3 +42,5 @@ const utility = {
         return obj;
     }
 };
+
+export default utility;

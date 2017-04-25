@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import utility from '../public/javascript/utility';
+
 import PlayListComponent from './components/playListComponent/PlayList';
+import utility from './utility/utility';
 
 
 

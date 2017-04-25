@@ -4,9 +4,7 @@
 import React, {Component} from 'react';
 import "./PlayList.css";
 import YoutubePlayerComponent from "./youtubePlayerComponent/YoutubePlayer";
-
-
-
+import PlayListSection from "./playListSectionComponent/PlayListSection";
 
 class PlayList extends Component {
 
@@ -39,7 +37,7 @@ class PlayList extends Component {
 
 
         // default 사진 제공
-        let youtubePlayer = <h3>Loading...</h3>;
+        let youtubePlayer = <div>Loading...</div>;
 
         if(selectedData){
             youtubePlayer = <YoutubePlayerComponent videoId={selectedData.id.videoId} opts={opts}/>
@@ -54,7 +52,7 @@ class PlayList extends Component {
                     {youtubePlayer}
                 </div>
                 <div className="album_list_block">
-
+                    <PlayListSection videoData={videoData} albumListClickHandler={this.albumListClickHandler} selectedKey={selectedKey} />
                 </div>
             </div>
         );
