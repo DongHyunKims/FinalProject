@@ -16,8 +16,6 @@ body{
 
 .container{
   height:calc(100% - 190px);
-  /*height:100%;*/
-  /*background-color: #ff3872;*/
 }
 
 .container:after{
@@ -28,7 +26,7 @@ body{
 }
 
 .mainFooter{
-  /*position:absolute;*/
+  position:absolute;
   bottom:0;
   left:0;
   width:100%;
@@ -40,14 +38,16 @@ body{
 .container .leftArea{
   float: left;
   /*background-color: #ff89d3;*/
-  width: 46%;
+  width: calc(46% - 1px);
   height: 100%;
+  /*height: calc(100% - 1px);*/
+  /*background-color: #7983ff;*/
+  border-right: 1px solid lightgray;
 
 }
 
 .container .rightArea{
   float: left;
-  background-color: #2aff5e;
   width: 46%;
   height: 100%;
 }

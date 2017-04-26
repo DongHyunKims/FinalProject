@@ -2,9 +2,9 @@
  * Created by donghyunkim on 2017. 4. 24..
  */
 import React, {Component} from 'react';
-import "./PlayList.css";
-import YoutubePlayerComponent from "./youtubePlayerComponent/YoutubePlayer";
-import PlayListSection from "./playListSectionComponent/PlayListSection";
+import "./playList.css";
+import YoutubePlayerComponent from "./YoutubePlayer";
+import PlayListSection from "./PlayListSection";
 
 class PlayList extends Component {
 
@@ -48,14 +48,14 @@ class PlayList extends Component {
         //autoplay=1
         //playlist=XGSy3_Czz8k&loop=1
         return (
-            <div className="playListArea">
-                <div className="youtubePlayerArea">
-                    {youtubePlayer}
-                </div>
-                <div className="playListSectionArea">
-                    <PlayListSection videoData={videoData} albumListClickHandler={this.albumListClickHandler} selectedKey={selectedKey} />
-                </div>
+          <div className="leftArea">
+            <div className="youtubePlayerArea">
+                {youtubePlayer}
             </div>
+            <div className="playListSectionArea">
+                <PlayListSection videoData={videoData} albumListClickHandler={this.albumListClickHandler} selectedKey={selectedKey} />
+            </div>
+          </div>
         );
     }
 

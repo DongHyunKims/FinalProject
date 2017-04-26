@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import MainList from './components/mainListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
 import utility from './utility/utility';
-
-
 
 class App extends Component {
     constructor(props){
@@ -39,19 +38,14 @@ class App extends Component {
 
         <div className="container">
 
-            <div className="leftArea">
-                <PlayListComponent videoData={videoData} />
-            </div>
+            <PlayListComponent videoData={videoData} />
 
-            <div className="rightArea">
-
-            </div>
+            <MainList/>
 
             <nav className="navArea">
             </nav>
 
         </div>
-
 
         <footer className="mainFooter">
         </footer>

@@ -2,9 +2,6 @@
  * Created by donghyunkim on 2017. 4. 18..
  */
 import React, {Component} from 'react';
-import "./PlayListSection.css";
-
-
 
 const PlayListPart = function(props){
 
