@@ -1,0 +1,18 @@
+.playListArea {
+    height: calc(100% - 1px);
+    width: 100%;
+    /*background-color: #7983ff;*/
+    border-right: 1px solid lightgray;
+
+}
+
+.youtubePlayerArea {
+    /*background-color: bisque;*/
+    height: 50%;
+}
+
+
+.playListSectionArea {
+    /*background-color: #ff5644;*/
+    height: 50%;
+}

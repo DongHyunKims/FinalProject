@@ -15,8 +15,9 @@ body{
 }
 
 .container{
-  height:calc(100% - 80px);
-  background-color: #ff3872;
+  height:calc(100% - 190px);
+  /*height:100%;*/
+  /*background-color: #ff3872;*/
 }
 
 .container:after{
@@ -27,7 +28,7 @@ body{
 }
 
 .mainFooter{
-  position:absolute;
+  /*position:absolute;*/
   bottom:0;
   left:0;
   width:100%;
@@ -38,7 +39,7 @@ body{
 
 .container .leftArea{
   float: left;
-  background-color: #ff89d3;
+  /*background-color: #ff89d3;*/
   width: 46%;
   height: 100%;
 
