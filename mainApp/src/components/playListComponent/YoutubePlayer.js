@@ -19,9 +19,8 @@ class YoutubePlayer extends Component{
     }
 
     render() {
-        let id = this.props.videoId;
-        let styles = this.props.styles;
-        let src = "https://www.youtube.com/embed/" + id + "?";
+        let {styles,videoId} = this.props;
+        let src = "https://www.youtube.com/embed/" + videoId + "?";
         src = this.createYoutubeUrl(src);
         if(!styles){
             styles = {
@@ -30,13 +29,22 @@ class YoutubePlayer extends Component{
             }
         }
 
+
+        let renderingIframe = <div>Loading...</div>;
+
+        if(videoId){
+            renderingIframe =  <iframe style={styles} src={src} frameBorder="0" allowFullScreen ></iframe>;
+        }
+
         //controls=0
         //autoplay=1
         //playlist=XGSy3_Czz8k&loop=1
         //?autoplay=1&rel=0&enablejsapi=1&frameborder=0&allowfullscreen
 
         return (
-            <iframe style={styles} src={src} frameBorder="0" allowFullScreen ></iframe>
+            <div className="youtubePlayerArea">
+                {renderingIframe}
+            </div>
         );
     }
 

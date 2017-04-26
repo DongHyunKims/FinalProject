@@ -63,15 +63,9 @@ class PlayListSection extends Component {
     }
 
     render(){
-        let{lStyle, videoData, albumListClickHandler, selectedKey} = this.props;
+        let{videoData, albumListClickHandler, selectedKey} = this.props;
         //console.log("albumListClickHandler",albumListClickHandler);
 
-        if(!lStyle){
-            lStyle = {
-                width : "100%",
-                height : "100%",
-            }
-        }
 
         let playListSection = <h2>Album에 저장된 데이터가 없습니다</h2>;
         //videoData.items[0].id.videoId
@@ -84,16 +78,16 @@ class PlayListSection extends Component {
 
         }
 
-
         return (
-            <div className="playListSectionGroupArea" style={lStyle}>
-                <div className="playListSectionGroup" >
-                    {playListSection}
-                </div>
 
-                {/*<div className="playListSectionMenu">*/}
+            <div className="playListSectionArea">
+                    <div className="playListSection" >
+                        {playListSection}
+                    </div>
 
-                {/*</div>*/}
+                    {/*<div className="playListSectionMenu">*/}
+
+                    {/*</div>*/}
             </div>
         );
     }
