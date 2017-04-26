@@ -88,12 +88,13 @@ class PlayListSection extends Component {
 
         return (
             <div className="playListSectionGroupArea" style={lStyle}>
-                <div className="playListSectionMenu">
-
-                </div>
                 <div className="playListSectionGroup" >
                     {playListSection}
                 </div>
+
+                {/*<div className="playListSectionMenu">*/}
+
+                {/*</div>*/}
             </div>
         );
     }
