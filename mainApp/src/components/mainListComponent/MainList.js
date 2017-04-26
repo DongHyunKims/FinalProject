@@ -1,7 +1,7 @@
 import React from "react"
 import "./mainList.css"
 
-import SearchInputBox from "./SearchInputBox"
+import SearchInputBox from "./SearchInputSection"
 import SearchList from "./SearchList"
 
 class MainList extends React.Component{

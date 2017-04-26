@@ -37,9 +37,12 @@ body{
 
 .container .leftArea{
   float: left;
-  background-color: #ff89d3;
-  width: 46%;
+  /*background-color: #ff89d3;*/
+  width: calc(46% - 1px);
   height: 100%;
+  /*height: calc(100% - 1px);*/
+  /*background-color: #7983ff;*/
+  border-right: 1px solid lightgray;
 
 }
 

@@ -1,6 +1,6 @@
 import React from "react"
 
-class SearchInputBox extends React.Component{
+class SearchInputSection extends React.Component{
   constructor(){
     super()
   }
@@ -14,4 +14,4 @@ class SearchInputBox extends React.Component{
   }
 }
 
-export default SearchInputBox;
+export default SearchInputSection;
