@@ -1,0 +1,32 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+
+html, body, div, p , section, article, header, footer, h1, h2, a, button, input, textarea, ul, li{
+  word-break: break-all;
+  white-space: normal;
+  margin:0;
+  padding:0;
+  font-size:14px;
+  font-family:"Nanum Gothic","Helvetica Neue","arial","sans-serif";
+  line-height:18px;
+  color:#666;
+
+}
+
+a:link,a:hover,a:visited,a:active{
+  text-decoration: none;
+}
+
+ul{
+  list-style: none;
+}
+
+html, body{
+  width: 100%;
+  height: 100%;
+}
+
+#root{
+  width: 100%;
+  height: 100%;
+}
