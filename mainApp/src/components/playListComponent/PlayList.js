@@ -14,11 +14,11 @@ class PlayList extends Component {
             selectedData : null,
             selectedKey : -1,
         };
-        this.albumListClickHandler = this.albumListClickHandler.bind(this);
+        this.playListClickHandler = this.playListClickHandler.bind(this);
 
 
     }
-    albumListClickHandler(key){
+    playListClickHandler(key){
 
         let videoData = this.props.videoData;
         this.setState({selectedData : videoData.items[key], selectedKey : key});
@@ -36,25 +36,19 @@ class PlayList extends Component {
         //console.log("selectedData",selectedData);
 
 
-        // default 사진 제공
-        let youtubePlayer = <div>Loading...</div>;
-
-
+        let videoId = null;
         if(selectedData){
-            youtubePlayer = <YoutubePlayerComponent videoId={selectedData.id.videoId} opts={opts}/>
+            videoId = selectedData.id.videoId;
         }
+
 
         //controls=0
         //autoplay=1
         //playlist=XGSy3_Czz8k&loop=1
         return (
           <div className="leftArea">
-            <div className="youtubePlayerArea">
-                {youtubePlayer}
-            </div>
-            <div className="playListSectionArea">
-                <PlayListSection videoData={videoData} albumListClickHandler={this.albumListClickHandler} selectedKey={selectedKey} />
-            </div>
+              <YoutubePlayerComponent videoId={videoId} opts={opts}/>
+              <PlayListSection videoData={videoData} playListClickHandler={this.playListClickHandler} selectedKey={selectedKey} />
           </div>
         );
     }

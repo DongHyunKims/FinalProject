@@ -15,14 +15,12 @@ class App extends Component {
         this.requestListener = this.requestListener.bind(this);
 
     }
-
+    //동현 - 삭제 할것
     componentDidMount(){
 
         utility.runAjax(this.requestListener,"GET","./youtubeData.json")
 
     }
-
-
 
     requestListener(res){
         console.log("jsonData",res.currentTarget.responseText);
