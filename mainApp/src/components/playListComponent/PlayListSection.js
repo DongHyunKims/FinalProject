@@ -27,7 +27,6 @@ class PlayListSection extends Component {
     checkClickHandler(videoId, checkIdx, isChecked, event) {
 
         let {deleteVideoCheckList,checkIdxList}  = this.state;
-
         let newDeleteVideoCheckList = [...deleteVideoCheckList];
         let newCheckIdxList = [...checkIdxList];
         //check 되어있지 않으면
@@ -49,7 +48,7 @@ class PlayListSection extends Component {
 
     render(){
         let {videoData, playListClickHandler, selectedKey} = this.props;
-        let {deleteVideoCheckList,checkIdxList} = this.state;
+        let {checkIdxList} = this.state;
         //console.log("albumListClickHandler",albumListClickHandler);
 
 
@@ -59,20 +58,32 @@ class PlayListSection extends Component {
             let items = videoData.items;
             playListSection = items.map((val,idx)=>{
                 let {snippet, id} = val;
-
                 return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,idx)} videoId={id.videoId}  selectedKey={selectedKey} idx={idx} checkClickHandler={this.checkClickHandler} isChecked={checkIdxList.indexOf(idx) !== -1}/>;
             });
         }
 
+        let menuStyle = null;
+        let sectionStyle = null;
+
+        if(checkIdxList.length >= 1 ){
+            sectionStyle = {
+                height: "87%",
+            };
+            menuStyle = {
+                height: "13%",
+            };
+        }
+
         return (
-            <div className="playListSectionArea">
-                    <div className="playListSection" >
+            <div className="playListSectionArea" >
+                    <div className="playListSection" style={sectionStyle}>
                         {playListSection}
                     </div>
 
-                    {/*<div className="playListSectionMenu">*/}
-
-                    {/*</div>*/}
+                    <div className="playListSectionMenu" style={menuStyle}>
+                        <button className="button selectBtn">전체선택</button>
+                        <button className="button deleteBtn">삭제</button>
+                    </div>
             </div>
         );
     }
