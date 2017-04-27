@@ -1,163 +1,30 @@
 import React from "react"
+import SearchListItem from "./SearchListItem"
 
 class SearchList extends React.Component{
   constructor(){
     super()
+    this.makeListItem = this.makeListItem.bind(this);
+  }
+
+  makeListItem(items){
+    return items.map((data) => {
+      //console.log(data)
+      return <SearchListItem data={data}/>
+    })
   }
 
   render(){
     return(
-
-        <ul className="searchList">
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-          <li>
-            <p className="thum"><img src=""/></p>
-            <div className="itemCont">
-              <p className="title">이곳은 제목입니다용!!!!</p>
-              <p className="info">
-                <span className="date">10 day ago</span>
-                <span className="viewCount">1,000 Views</span>
-              </p>
-              <button className="addBtn">Add</button>
-            </div>
-          </li>
-
-
-        </ul>
-      
+      <ul className="searchList">
+        {this.makeListItem(this.props.items)}
+      </ul>
     )
   }
+}
+
+SearchList.propTypes = {
+  items : React.PropTypes.array
 }
 
 export default SearchList;

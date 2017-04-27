@@ -17,7 +17,7 @@ class App extends Component {
 
     componentDidMount(){
 
-        utility.runAjax(this.requestListener,"GET","./youtubeData.json")
+        //utility.runAjax(this.requestListener,"GET","./youtubeData.json")
 
     }
 
