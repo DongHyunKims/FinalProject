@@ -2,68 +2,60 @@
  * Created by donghyunkim on 2017. 4. 18..
  */
 import React, {Component} from 'react';
+import PlayListPart from './PlayListPart';
 
 
-
-const PlayListPart = function(props){
-
-    let {videoSnippet,selectedKey,idx} = props;
-    let title = videoSnippet.title;
-    let iconRendering = null;
-    let alStyle = null;
-    let asStyle = null;
-
-    if(selectedKey === idx){
-
-        alStyle = {
-            backgroundColor: "#FD0061",
-        };
-        asStyle ={
-            color: "#FFFFFF"
-        };
-        iconRendering = (
-
-                <div className="eq">
-                    <div className="eq__bar"></div>
-                    <div className="eq__bar"></div>
-                    <div className="eq__bar"></div>
-                </div>
-        );
-
-    }else {
-        iconRendering = (
-            <img src="./images/Headphones-64.png"/>
-        );
-    }
-
-    return (
-        <div className="playListPartArea" onClick={props.onClick} style={alStyle}>
-            <div className="icon playListPartIconArea">
-                <div className="floater"></div>
-                <div className="iconArea">
-                    {iconRendering}
-                </div>
-            </div>
-            <div className="playListPartTitleArea" style={asStyle}>
-                {title}
-            </div>
-            <div className="playListPartDurationArea" style={asStyle}>
-                03:45
-            </div>
-        </div>
-    );
-};
 
 
 class PlayListSection extends Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            deleteVideoCheckList : [],
+        };
+
+
+        this.hoverPlayListHandler = this.hoverPlayListHandler.bind(this);
+    }
+
+
+    hoverPlayListHandler(videoDuration,event){
+
+
+        // let value = event.currentTarget.firstChild.value;
+        //
+        // if(value === selectedId){
+        //
+        // }
+        let currentTarget = event.currentTarget.lastChild;
+
+
+        // console.log("currentTarget",currentTarget);
+        // console.log("currentTarget12312312",event.currentTarget);
+
+            if (videoDuration) {
+
+                console.log("mouse out");
+                currentTarget.innerHTML = videoDuration;
+            } else {
+                console.log("mouse over");
+                currentTarget.innerHTML = "<img src='./images/default/Ok-64.png' />";
+
+            }
 
     }
 
+    // checkPlayListHandler(event){
+    //
+    //
+    // }
+
+
+
+
     render(){
-        let{videoData, albumListClickHandler, selectedKey} = this.props;
+        let{videoData, playListClickHandler, selectedKey} = this.props;
         //console.log("albumListClickHandler",albumListClickHandler);
 
 
@@ -72,14 +64,12 @@ class PlayListSection extends Component {
         if(videoData){
             let items = videoData.items;
             playListSection = items.map((val,key)=>{
-                let videoSnippet = val.snippet;
-                return  <PlayListPart key={val.id.videoId} videoSnippet={videoSnippet} onClick={albumListClickHandler.bind(null,key)}  selectedKey={selectedKey} idx={key}/>;
+                let {snippet, id} = val;
+                return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,key)} videoId={id.videoId}  selectedKey={selectedKey} idx={key} />;
             });
-
         }
 
         return (
-
             <div className="playListSectionArea">
                     <div className="playListSection" >
                         {playListSection}

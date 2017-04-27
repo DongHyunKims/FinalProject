@@ -14,11 +14,11 @@ class PlayList extends Component {
             selectedData : null,
             selectedKey : -1,
         };
-        this.albumListClickHandler = this.albumListClickHandler.bind(this);
+        this.playListClickHandler = this.playListClickHandler.bind(this);
 
 
     }
-    albumListClickHandler(key){
+    playListClickHandler(key){
 
         let videoData = this.props.videoData;
         this.setState({selectedData : videoData.items[key], selectedKey : key});
@@ -48,7 +48,7 @@ class PlayList extends Component {
         return (
           <div className="leftArea">
               <YoutubePlayerComponent videoId={videoId} opts={opts}/>
-              <PlayListSection videoData={videoData} albumListClickHandler={this.albumListClickHandler} selectedKey={selectedKey} />
+              <PlayListSection videoData={videoData} playListClickHandler={this.playListClickHandler} selectedKey={selectedKey} />
           </div>
         );
     }
