@@ -18,7 +18,7 @@ class App extends Component {
     //동현 - 삭제 할것
     componentDidMount(){
 
-        //utility.runAjax(this.requestListener,"GET","./youtubeData.json")
+        utility.runAjax(this.requestListener,"GET","./youtubeData.json")
 
     }
 

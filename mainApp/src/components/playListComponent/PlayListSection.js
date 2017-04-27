@@ -13,44 +13,27 @@ class PlayListSection extends Component {
         super(props);
         this.state = {
             deleteVideoCheckList : [],
+            checkIdxList : [],
         };
-
-
-        this.hoverPlayListHandler = this.hoverPlayListHandler.bind(this);
+        this.checkClickHandler = this.checkClickHandler.bind(this);
     }
 
+    /*
+    videoId
+    checkState
+    idx
+    */
 
-    hoverPlayListHandler(videoDuration,event){
+    checkClickHandler(videoId, checkIdx,event) {
 
-
-        // let value = event.currentTarget.firstChild.value;
-        //
-        // if(value === selectedId){
-        //
-        // }
-        let currentTarget = event.currentTarget.lastChild;
-
-
-        // console.log("currentTarget",currentTarget);
-        // console.log("currentTarget12312312",event.currentTarget);
-
-            if (videoDuration) {
-
-                console.log("mouse out");
-                currentTarget.innerHTML = videoDuration;
-            } else {
-                console.log("mouse over");
-                currentTarget.innerHTML = "<img src='./images/default/Ok-64.png' />";
-
-            }
-
+        let {deleteVideoCheckList,checkIdxList}  = this.state;
+        let newDeleteVideoCheckList = [...deleteVideoCheckList , videoId];
+        let newCheckIdx = [...checkIdxList , checkIdx];
+        console.log("newDeleteVideoCheckList",newDeleteVideoCheckList);
+        console.log("newCheckIdx",newCheckIdx);
+        this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdx});
+        event.stopPropagation();
     }
-
-    // checkPlayListHandler(event){
-    //
-    //
-    // }
-
 
 
 
@@ -63,9 +46,9 @@ class PlayListSection extends Component {
         //videoData.items[0].id.videoId
         if(videoData){
             let items = videoData.items;
-            playListSection = items.map((val,key)=>{
+            playListSection = items.map((val,idx)=>{
                 let {snippet, id} = val;
-                return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,key)} videoId={id.videoId}  selectedKey={selectedKey} idx={key} />;
+                return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,idx)} videoId={id.videoId}  selectedKey={selectedKey} idx={idx} checkClickHandler={this.checkClickHandler}/>;
             });
         }
 

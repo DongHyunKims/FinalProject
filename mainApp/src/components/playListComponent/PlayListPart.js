@@ -10,35 +10,55 @@ class PlayListPart extends Component {
 
     constructor(props){
         super(props);
-        this.state = { flipped: null };
-        this.mouseOut = this.mouseOut.bind(this);
-        this.mouseOver = this.mouseOver.bind(this);
+        this.state = {
+            toggleState: false,
+        };
+        this.mouseLeave = this.mouseLeave.bind(this);
+        this.mouseEnter = this.mouseEnter.bind(this);
     }
 
 
+    //
+    // shouldComponentUpdate(){
+    //     let {selectedKey, idx} = this.props;
+    //     if(selectedKey !== idx){
+    //         return true;
+    //     }else {
+    //         return false;
+    //     }
+    // }
+    // componentDidMount(){
+    //     console.log("sadfasdfasdf");
+    //
+    // }
+    //
+    // componentDidUpdate(){
+    //     console.log("sadfasdfasdf12312312");
+    // }
+    //
 
-    mouseOut(event) {
-        console.log("Mouse out!!!");
-        this.setState({flipped: false});
+
+    mouseLeave() {
+        //console.log("Mouse out!!!");
+        this.setState({toggleState: false});
     }
 
-    mouseOver(event) {
-        console.log("Mouse over!!!");
-        this.setState({flipped: true});
+    mouseEnter() {
+        //console.log("Mouse over!!!");
+        this.setState({toggleState: true});
     }
 
-    flipped(){
-    if (this.state.flipped === null) {
-        return "03:45";
-    }
-        return this.state.flipped ? <img src='./images/default/Ok-64.png' /> : "03:45";
+    checkToggle(){
+        let {idx, videoId, checkClickHandler} = this.props;
+        let {toggleState} = this.state;
+        return toggleState ? <img src='./images/default/Ok-64.png' onClick={checkClickHandler.bind(null,videoId,idx)}/> : "03:45";
     }
 
 
 
     render() {
 
-        let {videoSnippet, selectedKey, idx, videoId, onClick} = this.props;
+        let {videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler} = this.props;
         let title = videoSnippet.title;
         let iconRendering = null;
         let playlistPartStyle = null;
@@ -70,8 +90,8 @@ class PlayListPart extends Component {
 
         return (
             <div className="playListPartArea" onClick={onClick} style={playlistPartStyle}
-                 onMouseOver={this.mouseOver}
-                 onMouseOut={this.mouseOut}
+                 onMouseEnter={this.mouseEnter}
+                 onMouseLeave={this.mouseLeave}
                  >
 
                 <input type="hidden" value={videoId}/>
@@ -86,8 +106,7 @@ class PlayListPart extends Component {
                 </div>
 
                 <div className="iconDiv playListPartDurationArea" style={playListFontStyle}>
-
-                    {this.flipped()}
+                    {this.checkToggle()}
                 </div>
             </div>
         );
