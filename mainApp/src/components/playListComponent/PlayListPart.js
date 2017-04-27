@@ -11,7 +11,7 @@ class PlayListPart extends Component {
     constructor(props){
         super(props);
         this.state = {
-            toggleState: false,
+            isToggled: false,
         };
         this.mouseLeave = this.mouseLeave.bind(this);
         this.mouseEnter = this.mouseEnter.bind(this);
@@ -40,25 +40,27 @@ class PlayListPart extends Component {
 
     mouseLeave() {
         //console.log("Mouse out!!!");
-        this.setState({toggleState: false});
+        this.setState({isToggled: false});
     }
 
     mouseEnter() {
         //console.log("Mouse over!!!");
-        this.setState({toggleState: true});
+        this.setState({isToggled: true});
     }
 
     checkToggle(){
-        let {idx, videoId, checkClickHandler} = this.props;
-        let {toggleState} = this.state;
-        return toggleState ? <img src='./images/default/Ok-64.png' onClick={checkClickHandler.bind(null,videoId,idx)}/> : "03:45";
+        let {isToggled} = this.state;
+
+
+
+        return isToggled ? <img src='./images/default/Ok-64.png'/> : "03:45";
     }
 
 
 
     render() {
 
-        let {videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler} = this.props;
+        let {videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler, isChecked} = this.props;
         let title = videoSnippet.title;
         let iconRendering = null;
         let playlistPartStyle = null;
@@ -88,6 +90,17 @@ class PlayListPart extends Component {
         }
 
 
+        let checkIconRendering = this.checkToggle();
+        if(isChecked){
+            checkIconRendering =  <img src='./images/default/Ok-48.png'/>
+
+        }
+
+
+
+
+
+
         return (
             <div className="playListPartArea" onClick={onClick} style={playlistPartStyle}
                  onMouseEnter={this.mouseEnter}
@@ -105,8 +118,8 @@ class PlayListPart extends Component {
                     {title}
                 </div>
 
-                <div className="iconDiv playListPartDurationArea" style={playListFontStyle}>
-                    {this.checkToggle()}
+                <div className="iconDiv playListPartDurationArea" style={playListFontStyle} onClick={checkClickHandler.bind(null,videoId,idx,isChecked)}>
+                    {checkIconRendering}
                 </div>
             </div>
         );

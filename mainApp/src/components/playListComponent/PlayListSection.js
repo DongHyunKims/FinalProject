@@ -24,21 +24,32 @@ class PlayListSection extends Component {
     idx
     */
 
-    checkClickHandler(videoId, checkIdx,event) {
+    checkClickHandler(videoId, checkIdx, isChecked, event) {
 
         let {deleteVideoCheckList,checkIdxList}  = this.state;
-        let newDeleteVideoCheckList = [...deleteVideoCheckList , videoId];
-        let newCheckIdx = [...checkIdxList , checkIdx];
-        console.log("newDeleteVideoCheckList",newDeleteVideoCheckList);
-        console.log("newCheckIdx",newCheckIdx);
-        this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdx});
+
+        let newDeleteVideoCheckList = [...deleteVideoCheckList];
+        let newCheckIdxList = [...checkIdxList];
+        //check 되어있지 않으면
+        if(!isChecked){
+            newDeleteVideoCheckList.push(videoId);
+            newCheckIdxList.push(checkIdx);
+        }else{
+            //let videoIdIdx = deleteVideoCheckList.indexOf(videoId);
+            let idx =  checkIdxList.indexOf(checkIdx);
+            newCheckIdxList.splice(idx,1);
+            newDeleteVideoCheckList.slice(idx,1);
+        }
+
+        this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList});
         event.stopPropagation();
     }
 
 
 
     render(){
-        let{videoData, playListClickHandler, selectedKey} = this.props;
+        let {videoData, playListClickHandler, selectedKey} = this.props;
+        let {deleteVideoCheckList,checkIdxList} = this.state;
         //console.log("albumListClickHandler",albumListClickHandler);
 
 
@@ -48,7 +59,8 @@ class PlayListSection extends Component {
             let items = videoData.items;
             playListSection = items.map((val,idx)=>{
                 let {snippet, id} = val;
-                return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,idx)} videoId={id.videoId}  selectedKey={selectedKey} idx={idx} checkClickHandler={this.checkClickHandler}/>;
+
+                return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,idx)} videoId={id.videoId}  selectedKey={selectedKey} idx={idx} checkClickHandler={this.checkClickHandler} isChecked={checkIdxList.indexOf(idx) !== -1}/>;
             });
         }
 
