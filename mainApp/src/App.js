@@ -3,6 +3,7 @@ import './App.css';
 
 import MainList from './components/mainListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
+import PlayController from './components/playControllerComponent/PlayController';
 import utility from './utility/utility';
 
 class App extends Component {
@@ -48,6 +49,8 @@ class App extends Component {
         </div>
 
         <footer className="mainFooter">
+            <PlayController/>
+
         </footer>
 
       </div>
