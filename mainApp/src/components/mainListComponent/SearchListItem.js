@@ -6,20 +6,19 @@ class SearchListItem extends React.Component{
   }
 
   render(){
-    let snippet = this.props.data.snippet;
-    let thumb= snippet.thumbnails.default.url;
-
-    //console.log(typeof this.props.data)
+    let data = this.props.data
+    //console.log(this.props.data)
     return(
       <li>
-        <p className="thum"><img src={thumb}/></p>
+        <p className="thum"><img src={data.thumbUrl}/></p>
         <div className="itemCont">
-          <p className="title">{snippet.title}</p>
+          <p className="title">{data.title}</p>
           <p className="info">
-            <span className="date">{snippet.publishedAt}</span>
-            <span className="viewCount">1,000 Views</span>
+            <span className="duration">{data.duration}</span>
+            <span className="date">{data.publishedAt}</span>
+            <span className="viewCount">{data.viewCount} Views</span>
           </p>
-          <button className="addBtn">Add</button>
+          <button className="addBtn" onClick={this.props.clickAddButton.bind(this, this.props.index)}>Add</button>
         </div>
       </li>
     )
@@ -27,7 +26,8 @@ class SearchListItem extends React.Component{
 }
 
 SearchListItem.propTypes = {
-  data : React.PropTypes.object
+  data : React.PropTypes.object,
+  clickAddButton : React.PropTypes.func
 }
 
 export default SearchListItem;
