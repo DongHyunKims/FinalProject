@@ -18,12 +18,12 @@ class App extends Component {
     //동현 - 삭제 할것
     componentDidMount(){
 
-        //utility.runAjax(this.requestListener,"GET","./youtubeData.json")
+        utility.runAjax(this.requestListener,"GET","./youtubeData.json")
 
     }
 
     requestListener(res){
-        console.log("jsonData",res.currentTarget.responseText);
+        //console.log("jsonData",res.currentTarget.responseText);
         let jsonData = JSON.parse(res.currentTarget.responseText);
         this.setState({videoData : jsonData});
     }

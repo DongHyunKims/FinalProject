@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7013f738-5d10-4b87-8ef4-bfd64b11b3e5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mainApp/public/images/default/Ok-48.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mainApp/public/images/default/Ok-64.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mainApp/public/images/Headphones-64.png" afterPath="$PROJECT_DIR$/mainApp/public/images/default/Headphones-64.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainApp/src/App.css" afterPath="$PROJECT_DIR$/mainApp/src/App.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayList.js" afterPath="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayList.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainApp/public/youtubeData.json" afterPath="$PROJECT_DIR$/mainApp/public/youtubeData.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainApp/src/App.js" afterPath="$PROJECT_DIR$/mainApp/src/App.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js" afterPath="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListSection.js" afterPath="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListSection.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mainApp/src/components/playListComponent/playList.css" afterPath="$PROJECT_DIR$/mainApp/src/components/playListComponent/playList.css" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -34,8 +30,8 @@
       <file leaf-file-name="PlayList.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="34" column="10" lean-forward="true" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
+            <state relative-caret-position="180">
+              <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
               <folding>
                 <element signature="e#51#90#0" expanded="true" />
               </folding>
@@ -43,14 +39,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="YoutubePlayer.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="YoutubePlayer.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/YoutubePlayer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="47" column="10" lean-forward="true" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state relative-caret-position="220">
+              <caret line="35" column="42" lean-forward="true" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -58,31 +52,40 @@
       <file leaf-file-name="PlayListSection.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListSection.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="135" column="13" lean-forward="false" selection-start-line="135" selection-start-column="13" selection-end-line="135" selection-end-column="13" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
                 <element signature="e#51#90#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayListPart.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js">
+      <file leaf-file-name="youtubeData.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mainApp/public/youtubeData.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="19" column="21" lean-forward="false" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+            <state relative-caret-position="511">
+              <caret line="506" column="1" lean-forward="false" selection-start-line="506" selection-start-column="1" selection-end-line="506" selection-end-column="1" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayController.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mainApp/src/components/playControllerComponent/PlayController.js">
+      <file leaf-file-name="utility.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mainApp/src/utility/utility.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state relative-caret-position="415">
+              <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayListPart.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="21" column="10" lean-forward="true" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -91,8 +94,8 @@
       <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainApp/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+            <state relative-caret-position="285">
+              <caret line="25" column="10" lean-forward="false" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -101,38 +104,27 @@
       <file leaf-file-name="App.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainApp/src/App.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="1035">
+              <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="18" />
+              <folding>
+                <marker date="1493314868000" expanded="true" signature="881:905" ph="..." />
+              </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ok-64.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mainApp/public/images/default/Ok-64.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="playList.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/playList.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="150" column="0" lean-forward="true" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mainApp/public/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="youtubeData.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mainApp/public/youtubeData.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="54" lean-forward="true" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
+            <state relative-caret-position="315">
+              <caret line="69" column="1" lean-forward="false" selection-start-line="69" selection-start-column="1" selection-end-line="69" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -154,6 +146,9 @@
       <find>youtubePlayerArea</find>
       <find>FFBFD7</find>
       <find>img</find>
+      <find>checkClickHandler</find>
+      <find>fefdff</find>
+      <find>playlistPartStyle</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -175,19 +170,21 @@
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/youTubePlayerComponent/YoutubePlayerComponent.js" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/youTubePlayerComponent/YoutubePlayer.js" />
         <option value="$PROJECT_DIR$/mainApp/public/javascript/utility.js" />
-        <option value="$PROJECT_DIR$/mainApp/src/utility/utility.js" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayList.css" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/playListSectionComponent/PlayListSection.js" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/playListSectionComponent/PlayListSection.css" />
         <option value="$PROJECT_DIR$/mainApp/.gitignore" />
-        <option value="$PROJECT_DIR$/mainApp/src/App.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/YoutubePlayer.js" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayList.js" />
+        <option value="$PROJECT_DIR$/mainApp/src/components/playControllerComponent/PlayController.js" />
         <option value="$PROJECT_DIR$/mainApp/src/App.css" />
-        <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListSection.js" />
+        <option value="$PROJECT_DIR$/mainApp/src/utility/utility.js" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/playList.css" />
         <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js" />
+        <option value="$PROJECT_DIR$/mainApp/public/youtubeData.json" />
+        <option value="$PROJECT_DIR$/mainApp/src/App.js" />
+        <option value="$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListSection.js" />
       </list>
     </option>
   </component>
@@ -199,6 +196,7 @@
   </component>
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/mainApp/node_modules" />
+    <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
@@ -284,11 +282,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="playListComponent" />
+              <option name="myItemId" value="utility" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -314,7 +308,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="playControllerComponent" />
+              <option name="myItemId" value="playListComponent" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -396,6 +390,7 @@
     <property name="js.eslint.eslintPackage" value="$PROJECT_DIR$/node_modules/eslint" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/donghyunkim/Desktop/codesquad/jinniecast/jinniecast/mainApp/src/components/playListComponent/playList.css" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -486,11 +481,13 @@
       <workItem from="1493124074498" duration="1178000" />
       <workItem from="1493189810536" duration="386000" />
       <workItem from="1493190427036" duration="15522000" />
+      <workItem from="1493282843748" duration="15724000" />
+      <workItem from="1493344402136" duration="5674000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44092000" />
+    <option name="totallyTimeSpent" value="65490000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -502,10 +499,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="977" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="977" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19770946" sideWeight="0.49418604" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17661242" sideWeight="0.49418604" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959184" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -537,19 +534,13 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/playListSectionComponent/PlayListSection.css" />
-    <entry file="file://$PROJECT_DIR$/mainApp/src/index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mainApp/src/App.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="28" />
-          <folding />
+          <folding>
+            <marker date="1493314868000" expanded="true" signature="881:905" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -601,7 +592,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="28" />
-          <folding />
+          <folding>
+            <marker date="1493314868000" expanded="true" signature="881:905" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -645,20 +638,12 @@
     <entry file="file://$PROJECT_DIR$/src/components/playControllerComponent/PlayController.js" />
     <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/youtubePlayerComponent/YoutubePlayer.css" />
     <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/youtubePlayerComponent/YoutubePlayer.js" />
-    <entry file="file://$PROJECT_DIR$/mainApp/src/utility/utility.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/playListSectionComponent/PlayListSection.js" />
     <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/playListSectionComponent/PlayListSection.css" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="358">
           <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -666,7 +651,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -674,7 +665,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playControllerComponent/playProgressBar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playControllerComponent/PlayController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playControllerComponent/playVolumeBar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -688,50 +702,70 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mainApp/src/App.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="1035">
+          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="18" />
+          <folding>
+            <marker date="1493314868000" expanded="true" signature="881:905" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/public/youtubeData.json">
+    <entry file="file://$PROJECT_DIR$/mainApp/src/utility/utility.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="54" lean-forward="true" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playControllerComponent/PlayController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state relative-caret-position="415">
+          <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayList.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="34" column="10" lean-forward="true" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
+        <state relative-caret-position="180">
+          <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+          <folding>
+            <element signature="e#51#90#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/playList.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="69" column="1" lean-forward="false" selection-start-line="69" selection-start-column="1" selection-end-line="69" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/public/youtubeData.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="511">
+          <caret line="506" column="1" lean-forward="false" selection-start-line="506" selection-start-column="1" selection-end-line="506" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="25" column="10" lean-forward="false" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="21" column="10" lean-forward="true" selection-start-line="21" selection-start-column="10" selection-end-line="21" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListSection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="135" column="13" lean-forward="false" selection-start-line="135" selection-start-column="13" selection-end-line="135" selection-end-column="13" />
           <folding>
             <element signature="e#51#90#0" expanded="true" />
           </folding>
@@ -740,37 +774,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/YoutubePlayer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="47" column="10" lean-forward="true" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/playList.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="150" column="0" lean-forward="true" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListSection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#51#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mainApp/src/components/playListComponent/PlayListPart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="19" column="21" lean-forward="false" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+        <state relative-caret-position="220">
+          <caret line="35" column="42" lean-forward="true" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
           <folding />
         </state>
       </provider>
