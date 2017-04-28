@@ -60,3 +60,15 @@ body{
 }
 
 
+.button {
+  border: none;
+  padding: 1% 2%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+  margin: 1% 0.5%;
+  cursor: pointer;
+
+}
+

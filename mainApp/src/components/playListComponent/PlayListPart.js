@@ -4,54 +4,58 @@
 import React, {Component} from 'react';
 
 
-
+const playListPartStyle = {
+    playListPartAreaStyle : {
+        backgroundColor: "#FD0061",
+    },
+    playListPartTitleAreaFontStyle : {
+        color: "#FFFFFF"
+    }
+};
 
 class PlayListPart extends Component {
 
     constructor(props){
         super(props);
-        this.state = { flipped: null };
-        this.mouseOut = this.mouseOut.bind(this);
-        this.mouseOver = this.mouseOver.bind(this);
+        this.state = {
+            isToggled: false,
+        };
+        this.mouseLeave = this.mouseLeave.bind(this);
+        this.mouseEnter = this.mouseEnter.bind(this);
     }
 
 
 
-    mouseOut(event) {
-        console.log("Mouse out!!!");
-        this.setState({flipped: false});
+
+
+    mouseLeave() {
+        //console.log("Mouse out!!!");
+        this.setState({isToggled: false});
     }
 
-    mouseOver(event) {
-        console.log("Mouse over!!!");
-        this.setState({flipped: true});
+    mouseEnter() {
+        //console.log("Mouse over!!!");
+        this.setState({isToggled: true});
     }
 
-    flipped(){
-    if (this.state.flipped === null) {
-        return "03:45";
-    }
-        return this.state.flipped ? <img src='./images/default/Ok-64.png' /> : "03:45";
+    checkToggle(){
+        let {isToggled} = this.state;
+        return isToggled ? <img src='./images/default/Ok-64.png'/> : "03:45";
     }
 
 
 
     render() {
 
-        let {videoSnippet, selectedKey, idx, videoId, onClick} = this.props;
+        let {videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler, isChecked} = this.props;
         let title = videoSnippet.title;
         let iconRendering = null;
         let playlistPartStyle = null;
         let playListFontStyle = null;
 
         if (selectedKey === idx) {
-
-            playlistPartStyle = {
-                backgroundColor: "#FD0061",
-            };
-            playListFontStyle = {
-                color: "#FFFFFF"
-            };
+            playlistPartStyle = playListPartStyle.playListPartAreaStyle;
+            playListFontStyle = playListPartStyle.playListPartTitleAreaFontStyle;
             iconRendering = (
 
                 <div className="eq">
@@ -68,10 +72,21 @@ class PlayListPart extends Component {
         }
 
 
+        let checkIconRendering = this.checkToggle();
+        if(isChecked){
+            checkIconRendering =  <img src='./images/default/Ok-48.png'/>
+
+        }
+
+
+
+
+
+
         return (
             <div className="playListPartArea" onClick={onClick} style={playlistPartStyle}
-                 onMouseOver={this.mouseOver}
-                 onMouseOut={this.mouseOut}
+                 onMouseEnter={this.mouseEnter}
+                 onMouseLeave={this.mouseLeave}
                  >
 
                 <input type="hidden" value={videoId}/>
@@ -85,9 +100,8 @@ class PlayListPart extends Component {
                     {title}
                 </div>
 
-                <div className="iconDiv playListPartDurationArea" style={playListFontStyle}>
-
-                    {this.flipped()}
+                <div className="iconDiv playListPartDurationArea" style={playListFontStyle} onClick={checkClickHandler.bind(null,videoId,idx,isChecked)}>
+                    {checkIconRendering}
                 </div>
             </div>
         );
