@@ -3,9 +3,19 @@
  */
 import React, {Component} from 'react';
 import PlayListPart from './PlayListPart';
+import utility from '../../utility/utility';
 
+const style = {
+    sectionStyle : {
+        height: "calc(100% - 50px)"
+    },
+    menuStyle : {
+        height: "50px",
+    },
 
+};
 
+const DEFAULT_URL = "http://localhost:3000";
 
 class PlayListSection extends Component {
 
@@ -16,6 +26,8 @@ class PlayListSection extends Component {
             checkIdxList : [],
         };
         this.checkClickHandler = this.checkClickHandler.bind(this);
+        this.selectAllBtnClickHandler = this.selectAllBtnClickHandler.bind(this);
+        this.deleteBtnClickHandler = this.deleteBtnClickHandler.bind(this);
     }
 
     /*
@@ -44,6 +56,38 @@ class PlayListSection extends Component {
         event.stopPropagation();
     }
 
+    selectAllBtnClickHandler(){
+
+        let {videoData} = this.props;
+        let items = videoData.items;
+        let newDeleteVideoCheckList = [];
+        let newCheckIdxList = [];
+        items.forEach((val,idx)=>{
+            let {id} = val;
+            newDeleteVideoCheckList.push(id.videoId);
+            newCheckIdxList.push(idx);
+        });
+
+        this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList});
+
+    }
+
+    deleteBtnClickHandler(){
+
+        /*
+            DB를 통해서 데이터 삭제
+            ajax
+            utility.runAjax(this.deleteReqListener,"POST",DEFAULT_URL + "/playList/delete");
+         */
+
+        console.log("delete");
+
+
+    }
+    deleteReqListener(){
+
+    }
+
 
 
     render(){
@@ -65,13 +109,11 @@ class PlayListSection extends Component {
         let menuStyle = null;
         let sectionStyle = null;
 
+
         if(checkIdxList.length >= 1 ){
-            sectionStyle = {
-                height: "87%",
-            };
-            menuStyle = {
-                height: "13%",
-            };
+
+            menuStyle = style.menuStyle;
+            sectionStyle = style.sectionStyle;
         }
 
         return (
@@ -81,8 +123,8 @@ class PlayListSection extends Component {
                     </div>
 
                     <div className="playListSectionMenu" style={menuStyle}>
-                        <button className="button selectBtn">전체선택</button>
-                        <button className="button deleteBtn">삭제</button>
+                        <button className="button defaultButton" onClick={this.selectAllBtnClickHandler}>전체선택</button>
+                        <button className="button dangerButton" onClick={this.deleteBtnClickHandler}>삭제</button>
                     </div>
             </div>
         );
