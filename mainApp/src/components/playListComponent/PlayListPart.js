@@ -4,7 +4,14 @@
 import React, {Component} from 'react';
 
 
-
+const playListPartStyle = {
+    playListPartAreaStyle : {
+        backgroundColor: "#FD0061",
+    },
+    playListPartTitleAreaFontStyle : {
+        color: "#FFFFFF"
+    }
+};
 
 class PlayListPart extends Component {
 
@@ -18,24 +25,7 @@ class PlayListPart extends Component {
     }
 
 
-    //
-    // shouldComponentUpdate(){
-    //     let {selectedKey, idx} = this.props;
-    //     if(selectedKey !== idx){
-    //         return true;
-    //     }else {
-    //         return false;
-    //     }
-    // }
-    // componentDidMount(){
-    //     console.log("sadfasdfasdf");
-    //
-    // }
-    //
-    // componentDidUpdate(){
-    //     console.log("sadfasdfasdf12312312");
-    // }
-    //
+
 
 
     mouseLeave() {
@@ -50,9 +40,6 @@ class PlayListPart extends Component {
 
     checkToggle(){
         let {isToggled} = this.state;
-
-
-
         return isToggled ? <img src='./images/default/Ok-64.png'/> : "03:45";
     }
 
@@ -67,13 +54,8 @@ class PlayListPart extends Component {
         let playListFontStyle = null;
 
         if (selectedKey === idx) {
-
-            playlistPartStyle = {
-                backgroundColor: "#FD0061",
-            };
-            playListFontStyle = {
-                color: "#FFFFFF"
-            };
+            playlistPartStyle = playListPartStyle.playListPartAreaStyle;
+            playListFontStyle = playListPartStyle.playListPartTitleAreaFontStyle;
             iconRendering = (
 
                 <div className="eq">

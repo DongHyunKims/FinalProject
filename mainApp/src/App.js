@@ -23,7 +23,7 @@ class App extends Component {
     }
 
     requestListener(res){
-        console.log("jsonData",res.currentTarget.responseText);
+        //console.log("jsonData",res.currentTarget.responseText);
         let jsonData = JSON.parse(res.currentTarget.responseText);
         this.setState({videoData : jsonData});
     }
