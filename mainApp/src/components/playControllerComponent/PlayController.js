@@ -5,8 +5,7 @@ import React from 'react';
 import YouTube from './Youtube';
 import "./playController.css"
 
-// 이전 버튼, 이후 버튼, 플레이리스트 내 컴포넌트를 클릭할 떄마다 prev, current, next Video ID를 업데이트할 수 있는 메소드가 필요.
-
+// 이전 버튼, 이후 버튼, 플레이리스트 내 컴포넌트를 클릭할 때마다 prev, current, next Video ID를 업데이트할 수 있는 메소드가 필요.
 const selectedVideo = {id : {prev: 'XNoMw1Dmqzs', current: '-DX3vJiqxm4', next:'MmKlaGpmYig'}}
 
 function contentClass(isShow) {
@@ -23,7 +22,11 @@ class PlayController extends React.Component {
     this.state = {
       videoId: selectedVideo.id.current,
       player: null,
-      event_map: {play: false}
+      event_map: { play: false, //재생 false 일경우 play는 pause가 된다.  
+                   curTime: null, // 현재 재생 시간
+                   totalTime: null, // 전체 비디오 재생 시간 
+                   volumeChange: null // 볼륨 조절
+                  }
     };
 
     this.onReady = this.onReady.bind(this);
@@ -32,6 +35,7 @@ class PlayController extends React.Component {
     this.onPlayVideo = this.onPlayVideo.bind(this);
     this.onPauseVideo = this.onPauseVideo.bind(this);
     this.onEndVideo = this.onEndVideo.bind(this);
+    // this.onStateChange = this.onStateChange.bind(this);
   }
 
   onReady(event) {
@@ -45,10 +49,9 @@ class PlayController extends React.Component {
     this.state.player.playVideo();
     const event_map = this.state.event_map;
     event_map.play = !event_map.play; 
+    // event_map.timeupdate = this.state.player.getCurrentTime();
     this.setState({event_map});
-  }
-  componentWillUpdate(nextProps, nextState) {
-    console.log(nextProps,nextState)
+    
   }
 
   onPauseVideo() {
@@ -57,15 +60,29 @@ class PlayController extends React.Component {
     event_map.play = !event_map.play; 
     this.setState({event_map});
   }
+
   onEndVideo() {
     this.state.player.endVideo();
   }
-  // 이후 비디오로 이동
+  //--- 현재 재생 시간 입력 
+  // componentDidMount() {
+  //   setInterval( () => {
+  //     const event_map = this.state.event_map;
+  //     event_map.curTime = this.state.player.getCurrentTime();
+  //     this.setState({
+  //       event_map
+  //     })
+  //   },100);
+  //   console.log(this.state.event_map.curTime);
+  // }
+
+  // 다음 비디오로 이동
   onChangeNextVideo() {
     this.setState({
       videoId: selectedVideo.id.next,
     });
   }
+
   // 이전 비디오로 이동
   onChangePrevVideo() {
     this.setState({
@@ -87,4 +104,7 @@ class PlayController extends React.Component {
 }
 
 
+
+
 export default PlayController
+
