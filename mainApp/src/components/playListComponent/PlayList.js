@@ -13,6 +13,7 @@ class PlayList extends Component {
         this.state = {
             selectedData : null,
             selectedKey : -1,
+            intervalId : null,
         };
         this.playListClickHandler = this.playListClickHandler.bind(this);
 
@@ -20,9 +21,28 @@ class PlayList extends Component {
     }
     playListClickHandler(key){
 
-        let videoData = this.props.videoData;
+        let {videoData} = this.props;
         this.setState({selectedData : videoData.items[key], selectedKey : key});
     }
+
+
+    // componentDidUpdate() {
+    //
+    //     let {selectedKey} = this.state;
+    //     console.log("selectedKey",selectedKey);
+    //     this.timerID = setInterval(this.playListClickHandler.bind(null,selectedKey+1), 6000);
+    //
+    // }
+    //
+    // componentWillUpdate() {
+    //     clearInterval(this.timerID);
+    // }
+    //
+    //
+    //
+    //
+    //
+
 
     render(){
 

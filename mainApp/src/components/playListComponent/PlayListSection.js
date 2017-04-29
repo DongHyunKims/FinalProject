@@ -38,6 +38,7 @@ class PlayListSection extends Component {
         let {videoData} = this.props;
         let items = videoData.items;
         let currentSelectAllIsChecked = false;
+
         let newDeleteVideoCheckList = [...deleteVideoCheckList];
         let newCheckIdxList = [...checkIdxList];
         //check 되어있지 않으면
@@ -56,8 +57,6 @@ class PlayListSection extends Component {
         }
 
         console.log("currentSelectAllIsChecked",currentSelectAllIsChecked);
-
-
 
         this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList, selectAllIsChecked: currentSelectAllIsChecked});
         event.stopPropagation();
@@ -85,8 +84,6 @@ class PlayListSection extends Component {
             });
             currentSelectAllIsChecked = true;
         }
-
-
         this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList, selectAllIsChecked : currentSelectAllIsChecked});
 
     }
@@ -102,9 +99,14 @@ class PlayListSection extends Component {
          */
         console.log("delete");
     }
+
     deleteReqListener(){
 
     }
+
+
+
+
 
 
 
@@ -118,7 +120,6 @@ class PlayListSection extends Component {
            데이터 어떻게 받을지 생각 해야한다
            데이터 조작 필요
          */
-
         let playListSection = <h2>Album에 저장된 데이터가 없습니다</h2>;
         if(videoData){
             let items = videoData.items;
@@ -127,8 +128,7 @@ class PlayListSection extends Component {
                 return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,idx)} videoId={id.videoId}  selectedKey={selectedKey} idx={idx} checkClickHandler={this.checkClickHandler} isChecked={checkIdxList.indexOf(idx) !== -1}/>;
             });
         }
-
-        if(checkIdxList.length >= 1 ){
+        if(checkIdxList.length >= 1 ) {
             menuStyle = playListSectionStyle.menuStyle;
             sectionStyle = playListSectionStyle.sectionStyle;
         }
@@ -137,7 +137,6 @@ class PlayListSection extends Component {
         if(selectAllIsChecked){
             selectAllText = "전체해제";
         }
-
 
         return (
             <div className="playListSectionArea" >
