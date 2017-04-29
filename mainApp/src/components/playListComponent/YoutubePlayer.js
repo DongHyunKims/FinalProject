@@ -3,11 +3,37 @@
  */
 
 import React, {Component} from 'react';
+import load from 'load-script';
+
+
+
+const SDK_URL = 'https://www.youtube.com/iframe_api';
+const SDK_GLOBAL = 'YT';
+
+const DEFAULT_PLAYER_VARS = {
+    autoplay: 0,
+    playsinline: 1,
+    showinfo: 0,
+    rel: 0,
+    iv_load_policy: 3
+}
 
 class YoutubePlayer extends Component{
 
     constructor(props){
         super(props);
+
+
+        load(SDK_URL, function (err, script) {
+            if (err) {
+                // print useful message
+            }
+            else {
+                console.log("fasfasdfasd",script.src);// Prints 'foo'.js'
+                // use script
+                // note that in IE8 and below loading error wouldn't be reported
+            }
+        })
     }
     //youtube url 생성 메소드
     createYoutubeUrl(src){
