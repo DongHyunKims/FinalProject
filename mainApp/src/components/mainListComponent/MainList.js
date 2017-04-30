@@ -131,10 +131,21 @@ render할때 그려지지 않았다.
 
   moreVideoList(){
     const url = this.searchUrl.concat("&pageToken="+this.state.nextPageToken);
-    this.searchAgainVideo(url)
 
+    let searchList = document.querySelector(".searchList");
+    let scrollHeight  = searchList.scrollHeight;
+    let clientHeight  = searchList.clientHeight;
+    let scrollTop  = searchList.scrollTop;
 
+    if((scrollHeight - scrollTop) === clientHeight){
+      this.searchAgainVideo(url)
+    }
   }
+
+  componentDidMount(){
+  }
+
+
   render(){
     //console.log(this.state.items)
     return(
