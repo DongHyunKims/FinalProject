@@ -4,6 +4,11 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
+
+
+const dbConnection = require('./database/dbConnection');
+
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -27,12 +32,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/playList', playList);
 app.use('/mainList', mainList);
 app.use('/sign', sign);
 app.use('/albumList', albumList);
+
+
 
 
 
@@ -54,5 +63,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+// 데이터베이스 연결
+dbConnection();
 
 module.exports = app;
