@@ -30,6 +30,7 @@ class App extends Component {
 
   render() {
       let videoData = this.state.videoData;
+      (console.log(videoData));
     return (
       <div className="App">
         <header className="mainHeader">
