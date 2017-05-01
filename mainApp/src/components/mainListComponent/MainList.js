@@ -70,6 +70,7 @@ render할때 그려지지 않았다.
       let data = JSON.parse(e.target.responseText);
       this.nextPageToken = data.nextPageToken;
 
+
       this.videoArr = data.items.map((item, index) => {
         return {
           videoId : item.id.videoId,
@@ -109,7 +110,6 @@ render할때 그려지지 않았다.
         let data = JSON.parse(e.target.responseText);
         let duration = data.items[0].contentDetails.duration;
         let changedDuration = "";
-        console.log(duration)
 
         changedDuration = this.changeDuration(duration);
 

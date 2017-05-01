@@ -44,7 +44,7 @@ class App extends Component {
 
   render() {
       let videoData = this.state.videoData;
-      (console.log(videoData));
+      //(console.log(videoData));
     return (
       <div className="App">
 
@@ -73,4 +73,3 @@ class App extends Component {
 }
 
 export default App;
-
