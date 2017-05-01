@@ -24,7 +24,7 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            videoData : null,
+            albumData : null,
             isAdd : true,
         };
         this.requestListener = this.requestListener.bind(this);
@@ -35,19 +35,28 @@ class App extends Component {
         let { isAdd } = this.state;
 
         if(isAdd) {
-            utility.runAjax(this.requestListener, "GET", "/playList/getPlayList/5907141021b87ca64a4616cf")
+            utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/5907141021b87ca64a4616cf")
         }
     }
 
     requestListener(res){
-        //console.log("jsonData",res.currentTarget.responseText);
+        console.log("jsonData",res.currentTarget.responseText);
         let jsonData = JSON.parse(res.currentTarget.responseText);
         this.setState({albumData : jsonData});
     }
 
   render() {
-      let videoData = this.state.videoData;
-      (console.log(videoData));
+      let { albumData } = this.state;
+
+
+      let playList = null;
+
+      if(albumData){
+          playList = albumData.playList;
+      }
+
+
+      //(console.log(videoData));
     return (
       <div className="App">
 
@@ -57,7 +66,7 @@ class App extends Component {
 
         <div className="container">
 
-            <PlayListComponent videoData={videoData} />
+            <PlayListComponent playList={playList} />
 
             <MainList/>
 

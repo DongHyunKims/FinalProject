@@ -69,6 +69,24 @@ router.get("/getAlbum",(req,res)=>{
     })
 });
 
+router.get("/getAlbum/:albumId",(req,res)=>{
+    let { albumId }   = req.params;
+
+    //let objectAlbumId = createObjectId(albumId);
+
+    Album.findOne({ _id: albumId },(err,album)=>{
+        if(err)           return res.status(500).send(err);
+        console.log("album",album);
+        res.json(album);
+    })
+});
+
+
+
+function createObjectId(id){
+    return mongoose.Types.ObjectId(id);
+}
+
 module.exports = router;
 
 

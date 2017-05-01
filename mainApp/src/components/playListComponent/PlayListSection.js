@@ -12,10 +12,8 @@ const playListSectionStyle = {
     menuStyle : {
         height: "50px",
     },
-
 };
 
-const DEFAULT_URL = "http://localhost:3000";
 
 class PlayListSection extends Component {
 
@@ -35,8 +33,8 @@ class PlayListSection extends Component {
     checkClickHandler(videoId, checkIdx, isChecked, event) {
 
         let {deleteVideoCheckList,checkIdxList}  = this.state;
-        let {videoData} = this.props;
-        let items = videoData.items;
+        let {playList} = this.props;
+        //let items = videoData.items;
         let currentSelectAllIsChecked = false;
 
         let newDeleteVideoCheckList = [...deleteVideoCheckList];
@@ -52,7 +50,7 @@ class PlayListSection extends Component {
         }
 
 
-        if(newCheckIdxList.length === items.length){
+        if(newCheckIdxList.length === playList.length){
             currentSelectAllIsChecked = true;
         }
 
@@ -65,10 +63,10 @@ class PlayListSection extends Component {
     //전체선택 버튼 클릭 handler
     selectAllBtnClickHandler(){
 
-        let {videoData} = this.props;
+        let {playList} = this.props;
         let {selectAllIsChecked} = this.state;
         let currentSelectAllIsChecked = false;
-        let items = videoData.items;
+        //let items = videoData.items;
         let newDeleteVideoCheckList = [];
         let newCheckIdxList = [];
 
@@ -77,9 +75,9 @@ class PlayListSection extends Component {
             /*
              데이터 조작 필요
              */
-            items.forEach((val,idx)=>{
-                let {id} = val;
-                newDeleteVideoCheckList.push(id.videoId);
+            playList.forEach((val,idx)=>{
+                let {videoId} = val;
+                newDeleteVideoCheckList.push(videoId);
                 newCheckIdxList.push(idx);
             });
             currentSelectAllIsChecked = true;
@@ -111,7 +109,7 @@ class PlayListSection extends Component {
 
 
     render(){
-        let {videoData, playListClickHandler, selectedKey} = this.props;
+        let {playList, playListClickHandler, selectedKey} = this.props;
         let {checkIdxList,selectAllIsChecked} = this.state;
         let menuStyle = null;
         let sectionStyle = null;
@@ -121,11 +119,11 @@ class PlayListSection extends Component {
            데이터 조작 필요
          */
         let playListSection = <h2>Album에 저장된 데이터가 없습니다</h2>;
-        if(videoData){
-            let items = videoData.items;
-            playListSection = items.map((val,idx)=>{
-                let {snippet, id} = val;
-                return  <PlayListPart key={id.videoId} videoSnippet={snippet} onClick={playListClickHandler.bind(null,idx)} videoId={id.videoId}  selectedKey={selectedKey} idx={idx} checkClickHandler={this.checkClickHandler} isChecked={checkIdxList.indexOf(idx) !== -1}/>;
+        if(playList){
+            //let items = videoData.items;
+            playListSection = playList.map((val,idx)=>{
+                let {_id} = val;
+                return  <PlayListPart key={_id} videoSnippet={val} onClick={playListClickHandler.bind(null,idx)} videoId={val.videoId}  selectedKey={selectedKey} idx={idx} checkClickHandler={this.checkClickHandler} isChecked={checkIdxList.indexOf(idx) !== -1}/>;
             });
         }
         if(checkIdxList.length >= 1 ) {
