@@ -7,7 +7,8 @@
     "lodash.isequal": "^4.5.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
-    "react-player": "^0.16.0"
+    "react-player": "^0.16.0",
+    "youtube-player": "^4.2.3"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"

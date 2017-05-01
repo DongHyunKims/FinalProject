@@ -27,7 +27,6 @@ router.get("/insertUser",(req, res)=>{
 });
 
 router.get("/getUser",(req, res)=>{
-
     User.find((err,users)=>{
         if(err)           return res.status(500).send(err);
         if(!users.length) return res.status(404).send({ err: "User not found" });
