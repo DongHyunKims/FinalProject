@@ -24,10 +24,6 @@ class PlayListPart extends Component {
         this.mouseEnter = this.mouseEnter.bind(this);
     }
 
-
-
-
-
     mouseLeave() {
         //console.log("Mouse out!!!");
         this.setState({isToggled: false});
@@ -78,10 +74,6 @@ class PlayListPart extends Component {
             checkIconRendering =  <img src='./images/default/Ok-48.png'/>
 
         }
-
-
-
-
 
 
         return (

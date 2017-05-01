@@ -24,20 +24,25 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            videoData : null
+            videoData : null,
+            isAdd : true,
         };
         this.requestListener = this.requestListener.bind(this);
 
     }
     //동현 - 삭제 할것
     componentDidMount(){
-        utility.runAjax(this.requestListener,"GET","./youtubeData.json")
+        let { isAdd } = this.state;
+
+        if(isAdd) {
+            utility.runAjax(this.requestListener, "GET", "/playList/getPlayList/5907141021b87ca64a4616cf")
+        }
     }
 
     requestListener(res){
         //console.log("jsonData",res.currentTarget.responseText);
         let jsonData = JSON.parse(res.currentTarget.responseText);
-        this.setState({videoData : jsonData});
+        this.setState({albumData : jsonData});
     }
 
   render() {
