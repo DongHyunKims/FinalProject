@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import Header from './components/headerComponent/Header'
+import Nav from './components/navComponent/Nav'
+
 import MainList from './components/mainListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
 import PlayController from './components/playControllerComponent/samplePlayController';
@@ -42,8 +45,10 @@ class App extends Component {
       (console.log(videoData));
     return (
       <div className="App">
-        <header className="mainHeader">
-        </header>
+
+
+
+        <Header/>
 
         <div className="container">
 
@@ -51,8 +56,7 @@ class App extends Component {
 
             <MainList/>
 
-            <nav className="navArea">
-            </nav>
+            <Nav/>
 
         </div>
 
