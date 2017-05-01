@@ -28,6 +28,8 @@ class MainList extends React.Component{
     this.searchAgainVideo = this.searchAgainVideo.bind(this);
     this.getVideoDuration = this.getVideoDuration.bind(this);
     this.getVideoViewCount = this.getVideoViewCount.bind(this);
+
+    this.changeDuration = this.changeDuration.bind(this);
   }
 
   searchVideo(keyword){
@@ -54,10 +56,7 @@ hell ajax 작동방법!!
 
 1.
 문제 : viewCount 값과 duration값을 해당 videoId값으로 각각 받아와야하는데 병렬로 받아야 하나? 직렬로 받아야하나?
-해결 :
-1. 직렬 : viewCount를 먼저 받고 그다음에 duration값을 받는 방법
-2. 병렬 : 받아온 리스트 배열을 동시에 ajax로 돌린다.
-#2번 방법으로 적용하였다.
+해결 : duration을 먼저 받고 그다음에 viewCount값을 받는다.
 
 2.
 문제 : render할때 가끔 viewCount값이나 duration값이 보이지 않는다. 확인 결과 데이터에서는 정확히 값을 가져오고있었으나
@@ -66,7 +65,6 @@ render할때 그려지지 않았다.
 생긴다고 판단 하였다. 그래서 마지막 setState로 render해줄때 setTimeout을 사용하여 data가 모두 받아올 수 있는 시간을 확보하였다.
 */
 
-// 직렬
   searchAgainVideo(searchUrl){
     utility.runAjax(function(e){
       let data = JSON.parse(e.target.responseText);
@@ -80,38 +78,42 @@ render할때 그려지지 않았다.
           thumbUrl : item.snippet.thumbnails.default.url
         }
       })
-      //console.log(this.videoArr)
 
-      this.getVideoDuration();
-      //this.getVideoViewCount()
+      this.getVideoViewCount();
 
     }.bind(this), "GET", searchUrl)
   }
 
-  getVideoDuration(){
+  getVideoViewCount(){
     let count = 0;
     this.videoArr.map((item, index) => {
       let statisticsUrl = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+item.videoId+"&key="+this.UTUBEKEY+"";
       utility.runAjax(function(e){
+
         let data = JSON.parse(e.target.responseText);
         let viewCount = data.items[0].statistics.viewCount;
         this.videoArr[index].viewCount = viewCount;
         count++;
         if(count === this.videoArr.length){
-          this.getVideoViewCount();
+          this.getVideoDuration();
         }
       }.bind(this), "GET", statisticsUrl)
     })
   }
-
-  getVideoViewCount(){
+//함수형 setState, jsWeekly - redux를 써봐라, component를 가볍게 순수하게 component는 UI Render하는것에 집중, config 분리, 주석정리, 디버거사용 소스맵, map(forEach)
+  getVideoDuration(){
     let count = 0;
     this.videoArr.map((item, index) => {
       let contentDetailsUrl = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id="+item.videoId+"&key="+this.UTUBEKEY+"";
       utility.runAjax(function(e){
         let data = JSON.parse(e.target.responseText);
         let duration = data.items[0].contentDetails.duration;
-        this.videoArr[index].duration = duration;
+        let changedDuration = "";
+        console.log(duration)
+
+        changedDuration = this.changeDuration(duration);
+
+        this.videoArr[index].duration = changedDuration;
         count++;
         if(count === this.videoArr.length){
           this.setState({
@@ -121,6 +123,63 @@ render할때 그려지지 않았다.
         }
       }.bind(this), "GET", contentDetailsUrl)
     })
+  }
+
+  changeDuration(duration){
+    let hourPattern = /\d+H/
+    let minPattern = /\d+M/
+    let secPattern = /\d+S/
+    let result = "";
+
+    if(hourPattern.test(duration)){
+      let hour;
+      hour = hourPattern.exec(duration)[0];
+      hour = /\d+/.exec(hour)[0];
+
+      if(hour < 10){
+        hour = "0".concat(hour)
+      }
+      result = result.concat(hour)
+    }
+
+    if(minPattern.test(duration)){
+      let min;
+      min = minPattern.exec(duration)[0];
+      min = /\d+/.exec(min)[0];
+
+      if(min < 10){
+        min = "0".concat(min)
+      }
+
+      if(result.length > 0){
+        result = result.concat(":", min)
+      }
+      else{
+        result = result.concat(min)
+      }
+    }else{
+      if(result.length > 0){
+        result = result.concat(":00")
+      }
+      else{
+        result = result.concat("00")
+      }
+    }
+
+    if(secPattern.test(duration)){
+      let sec;
+      sec = secPattern.exec(duration)[0];
+      sec = /\d+/.exec(sec)[0];
+
+      if(sec < 10){
+        sec = "0".concat(sec)
+      }
+      result = result.concat(":", sec)
+    }else{
+      result = result.concat(":00")
+    }
+
+    return result;
   }
 
   clickAddButton(index){
@@ -141,10 +200,10 @@ render할때 그려지지 않았다.
       this.searchAgainVideo(url)
     }
   }
-
+/*
   componentDidMount(){
   }
-
+*/
 
   render(){
     //console.log(this.state.items)
