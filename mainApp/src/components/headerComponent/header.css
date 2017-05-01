@@ -1,0 +1,39 @@
+.mainHeader h1{
+  position:absolute;
+  top:30px;
+  left:30px;
+  font-weight: bold;
+  font-size:2rem;
+  color:rgb(253, 0, 97);
+}
+
+.mainHeader .albumTitle{
+  text-align: center;
+  padding:31px 0 31px 0;
+  font-size:1.5rem;
+  color:#999;
+}
+
+.mainHeader .util{
+  position:absolute;
+  top:30px;
+  right:30px;
+}
+
+.mainHeader .util:after{
+  clear:both;
+  display: block;
+  content:"";
+}
+
+.mainHeader .util .user{
+  float:left;
+  margin-right:20px;
+}
+
+.mainHeader .util .logoutBtn{
+  cursor: pointer;
+  float:left;
+  border:none;
+  background:none;
+}

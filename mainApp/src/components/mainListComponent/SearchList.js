@@ -22,10 +22,9 @@ class SearchList extends React.Component{
   render(){
     return(
       <div className="searchListWrap">
-        <ul className="searchList">
+        <ul className="searchList" onScroll={this.props.moreVideoList}>
           {this.makeListItem(this.props.items)}
         </ul>
-        <button onClick={this.props.moreVideoList} className="moreBtn">더읽어들이기</button>
       </div>
     )
   }
