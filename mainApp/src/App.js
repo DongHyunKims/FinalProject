@@ -1,10 +1,21 @@
+
 import React, { Component } from 'react';
 import './App.css';
 
 import MainList from './components/mainListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
-import PlayController from './components/playControllerComponent/PlayController';
+import PlayController from './components/playControllerComponent/samplePlayController';
 import utility from './utility/utility';
+
+
+
+//
+//
+// const SDK_URL = 'https://www.youtube.com/iframe_api';
+// const SDK_GLOBAL = 'YT';
+// const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady';
+
+
 
 class App extends Component {
     constructor(props){
@@ -58,3 +69,4 @@ class App extends Component {
 }
 
 export default App;
+

@@ -48,6 +48,7 @@ class PlayListPart extends Component {
     render() {
 
         let {videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler, isChecked} = this.props;
+
         let title = videoSnippet.title;
         let iconRendering = null;
         let playlistPartStyle = null;

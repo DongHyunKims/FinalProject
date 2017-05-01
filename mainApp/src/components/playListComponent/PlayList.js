@@ -13,6 +13,7 @@ class PlayList extends Component {
         this.state = {
             selectedData : null,
             selectedKey : -1,
+            intervalId : null,
         };
         this.playListClickHandler = this.playListClickHandler.bind(this);
 
@@ -20,34 +21,63 @@ class PlayList extends Component {
     }
     playListClickHandler(key){
 
-        let videoData = this.props.videoData;
+        let {videoData} = this.props;
         this.setState({selectedData : videoData.items[key], selectedKey : key});
     }
+
+
+    // componentDidUpdate() {
+    //
+    //     let {selectedKey} = this.state;
+    //     console.log("selectedKey",selectedKey);
+    //     this.timerID = setInterval(this.playListClickHandler.bind(null,selectedKey+1), 6000);
+    //
+    // }
+    //
+    // componentWillUpdate() {
+    //     clearInterval(this.timerID);
+    // }
+    //
+    //
+    //
+    //
+    //
+
 
     render(){
 
         let {videoData} = this.props;
         let {selectedData,selectedKey} = this.state;
 
+
         let opts = {
             controls : 1,
             autoplay : 1,
         };
+
         //console.log("selectedData",selectedData);
 
 
-        let videoId = null;
+        let youtubePlayer = <div> loading... </div>;
         if(selectedData){
-            videoId = selectedData.id.videoId;
+            let videoId = selectedData.id.videoId;
+            youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts}/>
         }
 
 
         //controls=0
         //autoplay=1
         //playlist=XGSy3_Czz8k&loop=1
+
+
+
+
         return (
           <div className="leftArea">
-              <YoutubePlayerComponent videoId={videoId} opts={opts}/>
+
+              <div className="youtubePlayerArea">
+                {youtubePlayer}
+              </div>
               <PlayListSection videoData={videoData} playListClickHandler={this.playListClickHandler} selectedKey={selectedKey} />
           </div>
         );
