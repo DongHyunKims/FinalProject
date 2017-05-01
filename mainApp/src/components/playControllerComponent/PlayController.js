@@ -42,20 +42,21 @@ class PlayController extends React.Component {
     this.onPlayVideo = this.onPlayVideo.bind(this);
     this.onPauseVideo = this.onPauseVideo.bind(this);
     this.onEndVideo = this.onEndVideo.bind(this);
-    this.getDuration = this.getDuration.bind(this);
+    this.setDuration = this.setDuration.bind(this);
   }
  
   onReady(event) {
     console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
     this.setState({ player: event.target });
-    this.state.player ? this.getDuration() : null
+    this.state.player ? this.setDuration() : null
     console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
   }
 
   setDuration() {
+    const duration = this.state.player.getDuration();
     this.setState({
       event_map: Object.assign({}, this.state.event_map, {
-        totalTime: this.state.player.getDuration()
+        totalTime: duration
       }),
     }); 
   }
@@ -67,10 +68,15 @@ class PlayController extends React.Component {
       this.setState({
          event_map: Object.assign({}, this.state.event_map, { playing: true }),
       });
-      setTimeout(() => {
+
+      while (this.state.event_map.totalTime < 1) {
         this.setDuration();
-        console.log('현재 재생시간', this.state.videoId, this.state.event_map.playing, this.state.event_map.totalTime);
-      }, 1500);
+        console.log('현재ㄴㅇㄹㅇㄴㄹ', this.state.videoId, this.state.event_map.playing, this.state.event_map.totalTime);
+      }
+      console.log('업데이트되었다');
+      console.log('현재 재생시간', this.state.videoId, this.state.event_map.playing, this.state.event_map.totalTime);
+
+     
     }
   }
 
