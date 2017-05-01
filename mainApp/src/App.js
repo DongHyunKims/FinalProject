@@ -4,7 +4,7 @@ import './App.css';
 
 import MainList from './components/mainListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
-import PlayController from './components/playControllerComponent/PlayControllerTest';
+import PlayController from './components/playControllerComponent/samplePlayController';
 import utility from './utility/utility';
 
 
@@ -41,6 +41,7 @@ class App extends Component {
 
   render() {
       let videoData = this.state.videoData;
+      (console.log(videoData));
     return (
       <div className="App">
         <header className="mainHeader">
