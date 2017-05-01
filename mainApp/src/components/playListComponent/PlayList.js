@@ -3,7 +3,10 @@
  */
 import React, {Component} from 'react';
 import "./playList.css";
-import YoutubePlayerComponent from "./YoutubePlayer";
+//import YoutubePlayerComponent from "./YoutubePlayer";
+
+
+import YoutubePlayerComponent from "./Youtube";
 import PlayListSection from "./PlayListSection";
 
 class PlayList extends Component {
@@ -51,8 +54,11 @@ class PlayList extends Component {
 
 
         let opts = {
-            controls : 1,
-            autoplay : 1,
+            height: '100%',
+            width: '100%',
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                autoplay: 1
+            }
         };
 
         //console.log("selectedData",selectedData);
