@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "load-script": "^1.0.0",
+    "lodash.isequal": "^4.5.0",
     "react": "15.5.4",
-    "react-dom": "15.5.4"
+    "react-dom": "15.5.4",
+    "react-player": "^0.16.0"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
@@ -15,6 +18,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:3001",
   "main": "index.js",
   "author": "",
   "license": "ISC",
