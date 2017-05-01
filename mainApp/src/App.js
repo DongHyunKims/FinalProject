@@ -4,7 +4,7 @@ import './App.css';
 
 import MainList from './components/mainListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
-import PlayController from './components/playControllerComponent/PlayController';
+import PlayController from './components/playControllerComponent/PlayControllerTest';
 import utility from './utility/utility';
 
 
@@ -69,32 +69,3 @@ class App extends Component {
 
 export default App;
 
-
-/* 서버 테스트
-import React, { Component } from 'react';
-import './App.css';
-
-class App extends Component {
-    state = {users: []};
-
-    componentDidMount() {
-        console.log("fsdfsdfd");
-        fetch('/users')
-            .then(res => res.json())
-            .then(users => this.setState({ users }));
-    }
-
-    render() {
-        return (
-            <div className="App">
-                <h1>Users</h1>
-                {this.state.users.map(user =>
-                    <div key={user.id}>{user.username}</div>
-                )}
-            </div>
-        );
-    }
-}
-
-export default App;
-*/

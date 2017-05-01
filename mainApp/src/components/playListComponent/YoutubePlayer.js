@@ -118,55 +118,6 @@ class YoutubePlayer extends Component{
         }
 
 
-
-        // let url = null;
-        // if(videoId) {
-        //     url = "http://www.youtube.com/v/" + videoId + "?version=3";
-        //     player.cueVideoById(videoId);
-        // }
-        //
-        //
-        // if(window[SDK_GLOBAL_READY]){
-        //     player.loadVideoById(videoId);
-        // }
-
-       // let renderingIframe = <div>Loading...</div>;
-       //  console.log("fff","3");
-       //  console.log("player",player);
-       //  if(player) {
-       //
-       //      player.loadVideoById(videoId);
-       //  }
-
-
-        //console.log("2");
-
-        // let src = "https://www.youtube.com/embed/" + videoId + "?";
-        // src = this.createYoutubeUrl(src);
-        // if(!styles){
-        //     styles = {
-        //         width: "100%",
-        //         height: "100%",
-        //     }
-        // }
-
-
-
-
-        // if(videoId){
-        //     renderingIframe =  <iframe style={styles} src={src} frameBorder="0" allowFullScreen ></iframe>;
-        // }
-
-        //{renderingIframe}
-
-        //controls=0
-        //autoplay=1
-        //playlist=XGSy3_Czz8k&loop=1
-        //?autoplay=1&rel=0&enablejsapi=1&frameborder=0&allowfullscreen
-
-
-
-
         return (
             <div ref={this.ref} />
         );
