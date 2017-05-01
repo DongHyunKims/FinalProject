@@ -125,4 +125,6 @@ class YoutubePlayer extends Component{
 
 }
 
-export default YoutubePlayer;
+export default YoutubePlayer;/**
+ * Created by donghyunkim on 2017. 5. 1..
+ */

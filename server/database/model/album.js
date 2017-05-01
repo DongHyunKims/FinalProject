@@ -23,13 +23,12 @@ const videoSchema = new Schema({
 });
 
 
-
 const albumSchema = new Schema({
     title : {type: String, required: true},
     coverImgUrl: {type: String, default: "./images/default.png"},
     totalDuration : {type: Number},
     category : [{type: Number}],
-    playList: [{type: videoSchema}],
+    playList: [videoSchema],
 });
 
 module.exports = mongoose.model("albums", albumSchema);
