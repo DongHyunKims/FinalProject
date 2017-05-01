@@ -11,6 +11,8 @@ import PlayController from './components/playControllerComponent/samplePlayContr
 import utility from './utility/utility';
 
 
+const ALBUM_ID = "59077b0150365ddced7c4ef5"
+
 
 //
 //
@@ -26,8 +28,16 @@ class App extends Component {
         this.state = {
             albumData : null,
             isAdd : true,
+            deleteVideoCheckList : [],
+            checkIdxList : [],
+            selectAllIsChecked : false,
         };
+
+        this.checkClickHandler = this.checkClickHandler.bind(this);
+        this.selectAllBtnClickHandler = this.selectAllBtnClickHandler.bind(this);
         this.requestListener = this.requestListener.bind(this);
+        this.deleteBtnClickHandler = this.deleteBtnClickHandler.bind(this);
+        this.deleteReqListener = this.deleteReqListener.bind(this);
 
     }
     //동현 - 삭제 할것
@@ -35,7 +45,7 @@ class App extends Component {
         let { isAdd } = this.state;
 
         if(isAdd) {
-            utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/5907141021b87ca64a4616cf")
+            utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID)
         }
     }
 
@@ -45,9 +55,96 @@ class App extends Component {
         this.setState({albumData : jsonData});
     }
 
-  render() {
-      let { albumData } = this.state;
 
+
+    //삭제버튼 클릭 handler
+    deleteBtnClickHandler(){
+        let { deleteVideoCheckList } = this.state;
+        let deleteData = {
+            albumId : ALBUM_ID,
+            deleteList: deleteVideoCheckList
+        };
+        let jsonData = JSON.stringify(deleteData);
+        //console.log(jsonData);
+
+        //DB를 통해서 데이터 삭제
+        //ajax
+        utility.runAjaxData(this.deleteReqListener,"POST","/playList/deletePlayList", jsonData, "application/json");
+
+
+        //console.log("delete");
+    }
+
+    deleteReqListener(res){
+        //console.log("dd",res);
+        utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID);
+    }
+
+    //check click handler
+    checkClickHandler(videoId, checkIdx, isChecked, event) {
+
+        let {deleteVideoCheckList,checkIdxList,albumData}  = this.state;
+
+        //let items = videoData.items;
+        let currentSelectAllIsChecked = false;
+
+        let newDeleteVideoCheckList = [...deleteVideoCheckList];
+        let newCheckIdxList = [...checkIdxList];
+        //check 되어있지 않으면
+        if(!isChecked){
+            newDeleteVideoCheckList.push(videoId);
+            newCheckIdxList.push(checkIdx);
+        }else{
+            let idx =  checkIdxList.indexOf(checkIdx);
+            newCheckIdxList.splice(idx,1);
+            newDeleteVideoCheckList.splice(idx,1);
+        }
+
+        let playList = null;
+
+        if(albumData){
+            playList = albumData.playList;
+            if(newCheckIdxList.length === playList.length){
+                currentSelectAllIsChecked = true;
+            }
+        }
+
+        //console.log("currentSelectAllIsChecked",currentSelectAllIsChecked);
+
+        this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList, selectAllIsChecked: currentSelectAllIsChecked});
+        event.stopPropagation();
+    }
+
+    //전체선택 버튼 클릭 handler
+    selectAllBtnClickHandler(){
+        let { albumData } = this.state;
+        let playList = null;
+
+        if(albumData) {
+            playList = albumData.playList;
+        }
+        let {selectAllIsChecked} = this.state;
+        let currentSelectAllIsChecked = false;
+        let newDeleteVideoCheckList = [];
+        let newCheckIdxList = [];
+
+
+        if(!selectAllIsChecked){
+            playList.forEach((val,idx)=>{
+                let {videoId} = val;
+                newDeleteVideoCheckList.push(videoId);
+                newCheckIdxList.push(idx);
+            });
+            currentSelectAllIsChecked = true;
+        }
+        this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList, selectAllIsChecked : currentSelectAllIsChecked});
+
+    }
+
+
+
+  render() {
+      let { albumData,checkIdxList,selectAllIsChecked } = this.state;
 
       let playList = null;
 
@@ -66,7 +163,15 @@ class App extends Component {
 
         <div className="container">
 
-            <PlayListComponent playList={playList} />
+            <PlayListComponent
+                playList={playList}
+                deleteBtnClickHandler={this.deleteBtnClickHandler}
+                checkClickHandler={this.checkClickHandler}
+                selectAllBtnClickHandler={this.selectAllBtnClickHandler}
+                checkIdxList={checkIdxList}
+                selectAllIsChecked={selectAllIsChecked}
+            />
+
 
             <MainList/>
 

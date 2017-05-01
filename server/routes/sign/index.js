@@ -39,7 +39,7 @@ router.get("/getUser",(req, res)=>{
 
 
 router.get("/updateUser",(req,res)=>{
-    User.update({ _id: mongoose.Types.ObjectId("590623623c00af647703a0ba") }, { $set: { albumList: [mongoose.Types.ObjectId("5907141021b87ca64a4616cf")]}}, (err,doc)=>{
+    User.update({ _id: mongoose.Types.ObjectId("590623623c00af647703a0ba") }, { $set: { albumList: [mongoose.Types.ObjectId("59077b0150365ddced7c4ef5")]}}, (err,doc)=>{
         if(err) return res.status(500).send(err);
         res.send(doc);
     });

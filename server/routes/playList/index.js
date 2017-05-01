@@ -1,26 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Album = require('../../database/model/album');
-/*
- title : {type: String, required: true},
- coverImgUrl: {type: String, default: "./images/default.png"},
- totalDuration : {type: Number},
- category : [{type: Number}],
- playList: [{type: videoSchema}],
+const bodyParser = require('body-parser');
 
 
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({extended : true}));
 
-
-
-
- const videoSchema = new Schema({
- title : {type: String, required: true},
- duration : {type: Number, require: true},
- videoId : {type: String, require: true},
- publishedAt : {type: Date, require: true} ,
- thumnail :  {type: String, require: true},
- });
- */
 
 router.get("/insertAlbum",(req,res)=>{
 
@@ -46,9 +32,6 @@ router.get("/insertAlbum",(req,res)=>{
                 publishedAt: new Date("2017-03-24T09:00:00.000Z"),
             }
         ]
-
-
-
     });
 
 
@@ -71,14 +54,28 @@ router.get("/getAlbum",(req,res)=>{
 
 router.get("/getAlbum/:albumId",(req,res)=>{
     let { albumId }   = req.params;
-
     //let objectAlbumId = createObjectId(albumId);
-
     Album.findOne({ _id: albumId },(err,album)=>{
-        if(err)           return res.status(500).send(err);
-        console.log("album",album);
+        if(err)  return res.status(500).send(err);
+        //console.log("album",album);
         res.json(album);
     })
+});
+
+
+router.post("/deletePlayList",(req,res)=>{
+
+
+    let { deleteList,albumId }= req.body;
+
+    //console.log("body",req.body);
+
+
+    Album.update({ _id: albumId }, { $pull: { playList:{videoId:{ $in: deleteList }}}}, (err,doc)=>{
+        if(err) return res.status(500).send(err);
+        res.status(200).send();
+    });
+
 });
 
 

@@ -33,7 +33,7 @@ class PlayList extends Component {
 
     render(){
 
-        let {playList} = this.props;
+        let {playList,deleteBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked} = this.props;
         let {selectedData,selectedKey} = this.state;
 
 
@@ -52,16 +52,22 @@ class PlayList extends Component {
         }
 
 
-
-
-
         return (
           <div className="leftArea">
-
               <div className="youtubePlayerArea">
                 {youtubePlayer}
               </div>
-              <PlayListSection playList={playList} playListClickHandler={this.playListClickHandler} selectedKey={selectedKey} />
+              <PlayListSection
+                  playList={playList}
+                  playListClickHandler={this.playListClickHandler}
+                  selectedKey={selectedKey}
+                  deleteBtnClickHandler={deleteBtnClickHandler}
+                  checkClickHandler={checkClickHandler}
+                  selectAllBtnClickHandler={selectAllBtnClickHandler}
+                  checkIdxList={checkIdxList}
+                  selectAllIsChecked={selectAllIsChecked}
+
+              />
           </div>
         );
     }
