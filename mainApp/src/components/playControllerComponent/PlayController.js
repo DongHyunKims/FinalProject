@@ -18,6 +18,7 @@ class PlayController extends React.Component {
     super();
 
     this.state = {
+      onStateChange: null,
       videoId: selectedVideo.id.current,
       player: null,
       event_map: { playing: false,
@@ -43,84 +44,88 @@ class PlayController extends React.Component {
     this.onPauseVideo = this.onPauseVideo.bind(this);
     this.onEndVideo = this.onEndVideo.bind(this);
     this.setDuration = this.setDuration.bind(this);
+    this.setCurrentTime = this.setCurrentTime.bind(this);
+    this.setStateChange = this.setStateChange.bind(this);
   }
- 
+
+  setStateChange(event) {
+    this.setState({ onStateChange: event.data });
+    this.setDuration();
+  }
+     
   onReady(event) {
-    console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
     this.setState({ player: event.target });
     this.state.player ? this.setDuration() : null
-    console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
   }
 
   setDuration() {
-    const duration = this.state.player.getDuration();
     this.setState({
       event_map: Object.assign({}, this.state.event_map, {
-        totalTime: duration
-      }),
-    }); 
+        totalTime: Math.floor(this.state.player.getDuration())
+      })
+    });
   }
 
-  onPlayVideo() {
-    this.opts.playerVars.autoplay = 1;
-    this.state.player.playVideo();
-    if(YouTube.PlayerState.PLAYING) {
-      this.setState({
-         event_map: Object.assign({}, this.state.event_map, { playing: true }),
-      });
-
-      while (this.state.event_map.totalTime < 1) {
-        this.setDuration();
-        console.log('현재ㄴㅇㄹㅇㄴㄹ', this.state.videoId, this.state.event_map.playing, this.state.event_map.totalTime);
-      }
-      console.log('업데이트되었다');
-      console.log('현재 재생시간', this.state.videoId, this.state.event_map.playing, this.state.event_map.totalTime);
-
-     
+  setCurrentTime() {
+    if (this.state.onStateChange = 1){
+      setInterval(() => { 
+        let time = this.state.player.getCurrentTime();
+        this.setState({ event_map: Object.assign({}, this.state.event_map, { curTime: time })});
+      }, 1000);
     }
   }
 
+  onPlayVideo() {
+    this.setState({
+      event_map: Object.assign({}, this.state.event_map, { playing: true }), 
+    });
+    Promise.resolve()
+      .then(this.state.player.playVideo())
+      .then(this.opts.playerVars.autoplay = 1)
+      .then(this.setCurrentTime)
+  }
+  
+  
   onPauseVideo() {
-     this.setState({
+    this.setState({
       event_map: Object.assign({}, this.state.event_map, { playing: false }),
     });
     this.state.player.pauseVideo();
-    
   }
 
   onEndVideo() {
     this.state.player.endVideo();
+    console.log('1. 현재 재생시간', this.state.videoId, this.state.event_map.playing);
   }
  
-  // 다음 비디오로 이동
   onChangeNextVideo() {
     this.setState({ videoId: selectedVideo.id.next });
-    setTimeout(() => { this.onPlayVideo(); }, 500);
+    Promise.resolve()
+      .then(this.opts.playerVars.autoplay = 1)
+      .then(this.onPlayVideo).then(this.stateChange)
   }
 
   // 이전 비디오로 이동
   onChangePrevVideo() {
     this.setState({ videoId: selectedVideo.id.prev });
-
-    setTimeout(() => {
-      this.onPlayVideo();
-}, 500);
+    Promise.resolve()
+      .then(this.opts.playerVars.autoplay = 1)
+      .then(this.onPlayVideo).then(this.stateChange)
   }
 
   render() {
     return (
       <div>
-        <YouTube videoId={this.state.videoId} opts={this.opts} onReady={this.onReady} />
+        <YouTube onStateChange={this.setStateChange} videoId={this.state.videoId} opts={this.opts} onReady={this.onReady} />
         <button onClick={this.onChangePrevVideo}>Prev</button>
         <button onClick={this.onPlayVideo} className={this.state.event_map.playing ? "invisible" : ""}>Play</button>
         <button onClick={this.onPauseVideo} className={!this.state.event_map.playing ? "invisible" : ""}>Pause</button>
         <button onClick={this.onChangeNextVideo}>Next</button>
+        <h1>{this.state.event_map.curTime} ddd / {this.state.event_map.totalTime}</h1>
       </div>
     );
   }
 }
 
 
-
 export default PlayController
-
