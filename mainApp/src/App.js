@@ -31,6 +31,7 @@ class App extends Component {
             deleteVideoCheckList : [],
             checkIdxList : [],
             selectAllIsChecked : false,
+            player: null
         };
 
         this.checkClickHandler = this.checkClickHandler.bind(this);
