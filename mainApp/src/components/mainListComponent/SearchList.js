@@ -3,7 +3,8 @@ import SearchListItem from "./SearchListItem"
 
 class SearchList extends React.Component{
   constructor(){
-    super()
+    super();
+
     this.makeListItem = this.makeListItem.bind(this);
   }
 
@@ -11,20 +12,26 @@ class SearchList extends React.Component{
     return items.map((data, index) => {
       //console.log(data)
       return <SearchListItem
-              data={data}
-              key={data.videoId}
-              index={index}
-              clickAddButton={this.props.clickAddButton}
+              data = {data}
+              key = {index}
+              index = {index}
+              addSelectedVideo = {this.props.addSelectedVideo}
+              delSelectedVideo = {this.props.delSelectedVideo}
+
             />
     })
   }
 
   render(){
+    //console.log("list")
     return(
       <div className="searchListWrap">
         <ul className="searchList" onScroll={this.props.moreVideoList}>
           {this.makeListItem(this.props.items)}
         </ul>
+        <div className={this.props.isSelectedArr ? "utilLayer show" : "utilLayer"}>
+          <button className="btnAddAlbum" onClick={this.props.addSelectedVideoToAlbum}>앨범추가</button>
+        </div>
       </div>
     )
   }
@@ -32,7 +39,9 @@ class SearchList extends React.Component{
 
 SearchList.propTypes = {
   items : React.PropTypes.array,
-  clickAddButton : React.PropTypes.func,
+  addSelectedVideo : React.PropTypes.func,
+  delSelectedVideo : React.PropTypes.func,
+  addSelectedVideoToAlbum : React.PropTypes.func,
   moreVideoList : React.PropTypes.func
 }
 
