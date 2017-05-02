@@ -3,7 +3,7 @@ import SearchListItem from "./SearchListItem"
 
 class SearchList extends React.Component{
   constructor(){
-    super()
+    super();
     this.makeListItem = this.makeListItem.bind(this);
   }
 
@@ -34,6 +34,6 @@ SearchList.propTypes = {
   items : React.PropTypes.array,
   clickAddButton : React.PropTypes.func,
   moreVideoList : React.PropTypes.func
-}
+};
 
 export default SearchList;

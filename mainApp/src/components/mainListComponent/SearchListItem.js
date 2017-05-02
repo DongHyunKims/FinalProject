@@ -28,6 +28,6 @@ class SearchListItem extends React.Component{
 SearchListItem.propTypes = {
   data : React.PropTypes.object,
   clickAddButton : React.PropTypes.func
-}
+};
 
 export default SearchListItem;

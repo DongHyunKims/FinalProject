@@ -12,15 +12,14 @@ class MainList extends React.Component{
     this.state = {
       items : [],
       nextPageToken : ""
-    }
+    };
 
-    this.UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
+
     this.searchUrl = "";
 
     this.videoArr = [];
     this.nextPageToken = "";
 
-    this.selectedVideoArr = [];
 
     this.searchVideo = this.searchVideo.bind(this);
     this.clickAddButton = this.clickAddButton.bind(this);
@@ -204,6 +203,8 @@ render할때 그려지지 않았다.
   componentDidMount(){
   }
 */
+
+
 
   render(){
     //console.log(this.state.items)

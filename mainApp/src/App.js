@@ -5,7 +5,8 @@ import './App.css';
 import Header from './components/headerComponent/Header'
 import Nav from './components/navComponent/Nav'
 
-import MainList from './components/mainListComponent/MainList'
+//import MainList from './components/mainListComponent/MainList'
+import MainList from './components/mainListComponent/albumListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
 import PlayController from './components/playControllerComponent/samplePlayController';
 import utility from './utility/utility';
@@ -39,12 +40,12 @@ class App extends Component {
     componentDidMount(){
         let { isAdd } = this.state;
         if(isAdd) {
-            utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID)
+            utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID);
         }
     }
 
     requestListener(res){
-        console.log("jsonData",res.currentTarget.responseText);
+        //console.log("jsonData",res.currentTarget.responseText);
         let jsonData = JSON.parse(res.currentTarget.responseText);
         this.setState({albumData : jsonData});
     }
@@ -134,7 +135,7 @@ class App extends Component {
 
     onReady(event) {
         //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
-        console.log(event.target);
+        //console.log(event.target);
         this.setState({ player: event.target });
         //this.state.player ? this.getDuration() : null
         //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
@@ -144,7 +145,7 @@ class App extends Component {
 
   render() {
       let { albumData,checkIdxList,selectAllIsChecked,player } = this.state;
-      console.log("player1",player);
+      //console.log("player1",player);
       let playList = null;
 
       if(albumData){

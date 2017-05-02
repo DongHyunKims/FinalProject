@@ -1,0 +1,43 @@
+.searchTextInput {
+    width:calc(100% - 20px);
+    padding:10px;
+    border:none;
+}
+
+.searchTextInput::-webkit-input-placeholder {
+    color:#d9d9d9;
+}
+
+.searchTextInput::-ms-input-placeholder {
+    color:#d9d9d9;
+}
+
+.searchTextInput::-moz-placeholder {
+    color:#d9d9d9;
+}
+
+.albumListWrap{
+    position: relative;
+    height:100%;
+}
+
+.albumList{
+    overflow: auto;
+    height: 100%;
+    border-top:1px solid #d9d9d9;
+    /*background-color: darkcyan;*/
+}
+
+.albumList li {
+    width: 30%;
+    height: 240px;
+    float:left;
+    background-color: #f745ff;
+    margin: 20px 0 0 2.5%;
+}
+
+#defaultItem{
+    background-color: #ff5366;
+}
+
+
