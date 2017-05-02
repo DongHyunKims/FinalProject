@@ -39,8 +39,10 @@ class PlayList extends Component {
         };
 
         let youtubePlayer = <div> loading... </div>;
+
+
         if(selectedData){
-            let videoId = selectedData.videoId;
+            let {videoId} = selectedData;
             youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}/>
         }
 

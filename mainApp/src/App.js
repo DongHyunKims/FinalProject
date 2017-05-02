@@ -11,7 +11,7 @@ import PlayController from './components/playControllerComponent/samplePlayContr
 import utility from './utility/utility';
 
 //임시 데이터
-const ALBUM_ID = "5907f898f91d33f1d974f254"
+const ALBUM_ID = "5907f898f91d33f1d974f254";
 
 
 
@@ -24,7 +24,8 @@ class App extends Component {
             deleteVideoCheckList : [],
             checkIdxList : [],
             selectAllIsChecked : false,
-            player: null
+            player: null,
+            currentAlbumId:null
         };
 
         this.checkClickHandler = this.checkClickHandler.bind(this);
@@ -37,7 +38,6 @@ class App extends Component {
     //동현 - 삭제 할것
     componentDidMount(){
         let { isAdd } = this.state;
-
         if(isAdd) {
             utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID)
         }
@@ -181,7 +181,6 @@ class App extends Component {
 
         <footer className="mainFooter">
             <PlayController player={player}/>
-
         </footer>
 
       </div>

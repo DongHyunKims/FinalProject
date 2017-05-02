@@ -20,8 +20,6 @@ class PlayListSection extends Component {
     constructor(props){
         super(props);
 
-
-
     }
 
 
@@ -38,19 +36,23 @@ class PlayListSection extends Component {
            데이터 조작 필요
          */
         let playListSection = <h2>Album에 저장된 데이터가 없습니다</h2>;
+
+
         if(playList){
-            //let items = videoData.items;
-            playListSection = playList.map((val,idx)=>{
-                let {_id} = val;
-                return  <PlayListPart
-                    key={_id}
-                    videoSnippet={val}
-                    onClick={playListClickHandler.bind(null,idx)}
-                    videoId={val.videoId}  selectedKey={selectedKey}
-                    idx={idx}
-                    checkClickHandler={checkClickHandler}
-                    isChecked={checkIdxList.indexOf(idx) !== -1}/>;
-            });
+            if(playList.length!==0) {
+                //let items = videoData.items;
+                playListSection = playList.map((val, idx) => {
+                    let {_id} = val;
+                    return <PlayListPart
+                        key={_id}
+                        videoSnippet={val}
+                        onClick={playListClickHandler.bind(null, idx)}
+                        videoId={val.videoId} selectedKey={selectedKey}
+                        idx={idx}
+                        checkClickHandler={checkClickHandler}
+                        isChecked={checkIdxList.indexOf(idx) !== -1}/>;
+                });
+            }
         }
         if(checkIdxList.length >= 1 ) {
             menuStyle = playListSectionStyle.menuStyle;
