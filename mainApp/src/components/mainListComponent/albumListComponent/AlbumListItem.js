@@ -11,14 +11,17 @@ class AlbumListItem extends Component{
 
     render(){
         let { data } = this.props;
+        let { coverImgUrl,title, totalDuration } = data;
         //console.log(this.props.data)
         return(
             <li>
-                <p>
-
-                </p>
+                <div className="albumThum">
+                    <img src={coverImgUrl} className="albumImg"/>
+                </div>
                 <div className="albumItemCont">
-                    content
+                    <div className="albumTitle">{title}</div>
+                    <div className="albumTotDuration">{totalDuration}</div>
+                    <div className="albumMenu"><img src="./images/default/menu.png" /></div>
                 </div>
             </li>
         )

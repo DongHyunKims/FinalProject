@@ -31,6 +31,7 @@ class AlbumList extends Component {
             <div className="albumListWrap">
                 <ul className="albumList">
                     {renderingAlbumList}
+
                     <li id="defaultItem">
 
                     </li>

@@ -36,7 +36,7 @@ class MainList extends React.Component{
     this.setState({
       items : [],
       nextPageToken : ""
-    })
+    });
 
     let encodedKeword = encodeURI(keyword);
     this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"

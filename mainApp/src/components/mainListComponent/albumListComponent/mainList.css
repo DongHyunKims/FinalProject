@@ -32,9 +32,63 @@
     width: 30%;
     height: 240px;
     float:left;
-    background-color: #f745ff;
+    /*background-color: #f745ff;*/
     margin: 20px 0 0 2.5%;
+    border:1px solid #d9d9d9;
 }
+
+.albumList li .albumThum {
+    width: 100%;
+    height: 88%;
+}
+.albumList li .albumThum img {
+    width: 100%;
+    height: 100%;
+}
+
+.albumList li .albumItemCont {
+    width: 100%;
+    height: 12%;
+    /*background-color: #d0d0d0;*/
+}
+
+.albumList li .albumItemCont div {
+    float: left;
+    position: relative;
+}
+
+
+.albumList li .albumItemCont div:nth-child(1) {
+    width: 70%;
+    height: 100%;
+    line-height: 2;
+}
+
+
+.albumList li .albumItemCont div:nth-child(2) {
+    width: 20%;
+    height: 100%;
+    line-height: 2;
+    text-align: right;
+}
+
+
+.albumList li .albumItemCont div:nth-child(3) {
+    text-align: right;
+    width: 10%;
+    height: 100%;
+}
+
+
+
+.albumList li .albumItemCont div:nth-child(3) img{
+    width: 80%;
+    height: 70%;
+
+}
+
+
+
 
 #defaultItem{
     background-color: #ff5366;

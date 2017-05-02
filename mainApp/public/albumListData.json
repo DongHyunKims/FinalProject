@@ -46,14 +46,14 @@
   {
     "title": "아이돌",
     "coverImgUrl": "http://www.inewspeople.co.kr/news/photo/201610/10844_19001_4121.jpg",
-    "totalDuration": 6,
+    "totalDuration": 0,
     "category": [1,4,2],
     "playList": []
   },
   {
     "title": "음악대장",
-    "coverImgUrl": "/images/default/default-thumbnail.png",
-    "totalDuration": 6,
+    "coverImgUrl": "./images/default/default-thumbnail.jpg",
+    "totalDuration": 0,
     "category": [1,4,2],
     "playList": []
   }
