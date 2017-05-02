@@ -10,15 +10,8 @@ import PlayListComponent from './components/playListComponent/PlayList';
 import PlayController from './components/playControllerComponent/samplePlayController';
 import utility from './utility/utility';
 
-
-const ALBUM_ID = "59077b0150365ddced7c4ef5"
-
-
-//
-//
-// const SDK_URL = 'https://www.youtube.com/iframe_api';
-// const SDK_GLOBAL = 'YT';
-// const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady';
+//임시 데이터
+const ALBUM_ID = "5907f898f91d33f1d974f254"
 
 
 
@@ -39,7 +32,7 @@ class App extends Component {
         this.requestListener = this.requestListener.bind(this);
         this.deleteBtnClickHandler = this.deleteBtnClickHandler.bind(this);
         this.deleteReqListener = this.deleteReqListener.bind(this);
-
+        this.onReady = this.onReady.bind(this);
     }
     //동현 - 삭제 할것
     componentDidMount(){
@@ -71,13 +64,9 @@ class App extends Component {
         //DB를 통해서 데이터 삭제
         //ajax
         utility.runAjaxData(this.deleteReqListener,"POST","/playList/deletePlayList", jsonData, "application/json");
-
-
-        //console.log("delete");
     }
 
     deleteReqListener(res){
-        //console.log("dd",res);
         utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID);
     }
 
@@ -143,10 +132,19 @@ class App extends Component {
     }
 
 
+    onReady(event) {
+        //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
+        console.log(event.target);
+        this.setState({ player: event.target });
+        //this.state.player ? this.getDuration() : null
+        //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
+    }
+
+
 
   render() {
-      let { albumData,checkIdxList,selectAllIsChecked } = this.state;
-
+      let { albumData,checkIdxList,selectAllIsChecked,player } = this.state;
+      console.log("player1",player);
       let playList = null;
 
       if(albumData){
@@ -171,6 +169,7 @@ class App extends Component {
                 selectAllBtnClickHandler={this.selectAllBtnClickHandler}
                 checkIdxList={checkIdxList}
                 selectAllIsChecked={selectAllIsChecked}
+                onReady={this.onReady}
             />
 
 
@@ -181,7 +180,7 @@ class App extends Component {
         </div>
 
         <footer className="mainFooter">
-            <PlayController/>
+            <PlayController player={player}/>
 
         </footer>
 

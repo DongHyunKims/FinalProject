@@ -19,23 +19,16 @@ class PlayList extends Component {
             intervalId : null,
         };
         this.playListClickHandler = this.playListClickHandler.bind(this);
-
-
     }
     playListClickHandler(key){
-
         let {playList} = this.props;
         this.setState({selectedData : playList[key], selectedKey : key});
     }
 
-
-
-
     render(){
 
-        let {playList,deleteBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked} = this.props;
+        let {playList,deleteBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady} = this.props;
         let {selectedData,selectedKey} = this.state;
-
 
         let opts = {
             height: '100%',
@@ -48,7 +41,7 @@ class PlayList extends Component {
         let youtubePlayer = <div> loading... </div>;
         if(selectedData){
             let videoId = selectedData.videoId;
-            youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts}/>
+            youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}/>
         }
 
 
@@ -66,7 +59,6 @@ class PlayList extends Component {
                   selectAllBtnClickHandler={selectAllBtnClickHandler}
                   checkIdxList={checkIdxList}
                   selectAllIsChecked={selectAllIsChecked}
-
               />
           </div>
         );
