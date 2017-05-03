@@ -10,20 +10,19 @@ class SearchList extends React.Component{
 
   makeListItem(items){
     return items.map((data, index) => {
-      //console.log(data)
       return <SearchListItem
               data = {data}
               key = {index}
               index = {index}
               addSelectedVideo = {this.props.addSelectedVideo}
               delSelectedVideo = {this.props.delSelectedVideo}
-
+              isAllClearAddBtn = {this.props.isAllClearAddBtn}
+              changeIsAllClearAddBtn = {this.props.changeIsAllClearAddBtn}
             />
     })
   }
 
   render(){
-    //console.log("list")
     return(
       <div className="searchListWrap">
         <ul className="searchList" onScroll={this.props.moreVideoList}>
@@ -42,7 +41,10 @@ SearchList.propTypes = {
   addSelectedVideo : React.PropTypes.func,
   delSelectedVideo : React.PropTypes.func,
   addSelectedVideoToAlbum : React.PropTypes.func,
-  moreVideoList : React.PropTypes.func
+  moreVideoList : React.PropTypes.func,
+  isSelectedArr : React.PropTypes.bool,
+  isAllClearAddBtn : React.PropTypes.bool,
+  changeIsAllClearAddBtn : React.PropTypes.func
 }
 
 export default SearchList;

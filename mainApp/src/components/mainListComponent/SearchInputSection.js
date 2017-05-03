@@ -8,7 +8,6 @@ class SearchInputSection extends React.Component{
 
   handleKeyPress(e){
     if(e.charCode===13){
-      //console.log(e.target.value);
       this.props.searchVideo(e.target.value);
     }
   }

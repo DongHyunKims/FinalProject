@@ -5,13 +5,14 @@ import timeago from 'timeago.js';
 class SearchListItem extends React.Component{
   constructor(){
     super()
-
     this.state = {
-      isClicked : false
+      isClickedAddBtn : false
     }
 
     this.changePublishedAtData = this.changePublishedAtData.bind(this);
     this.clickAddButton = this.clickAddButton.bind(this);
+
+    this.changeDuration = this.changeDuration.bind(this);
   }
 
   changePublishedAtData(publishedAt){
@@ -19,21 +20,30 @@ class SearchListItem extends React.Component{
   }
 
   clickAddButton(index, videoId){
-
-    if(!this.state.isClicked){
+    if(!this.state.isClickedAddBtn){
       this.props.addSelectedVideo(index);
     }else{
       this.props.delSelectedVideo(videoId);
     }
+    this.setState({isClickedAddBtn : !this.state.isClickedAddBtn});
+  }
 
-    this.setState({isClicked : !this.state.isClicked});
+  changeDuration(duration){
 
   }
+//
+  componentWillReceiveProps(nextProps){
+    if(nextProps.isAllClearAddBtn){
+      this.setState({
+        isClickedAddBtn : false
+      })
+      this.props.changeIsAllClearAddBtn()
+    }
+  }
+
 
   render(){
     let data = this.props.data;
-
-    //console.log("item")
 
     return(
       <li>
@@ -45,8 +55,11 @@ class SearchListItem extends React.Component{
             <span className="date">{this.changePublishedAtData(data.publishedAt)}</span>
             <span className="viewCount">{data.viewCount} Views</span>
           </p>
-          <button className={this.state.isClicked ? "addBtn add" : "addBtn"} onClick={this.clickAddButton.bind(this, this.props.index, data.videoId)}>Add</button>
-
+          <button
+            className={this.state.isClickedAddBtn ? "addBtn add" : "addBtn"}
+            onClick={this.clickAddButton.bind(this, this.props.index, data.videoId)}>
+            Add
+          </button>
         </div>
       </li>
     )
@@ -56,7 +69,8 @@ class SearchListItem extends React.Component{
 SearchListItem.propTypes = {
   data : React.PropTypes.object,
   addSelectedVideo : React.PropTypes.func,
-  delSelectedVideo : React.PropTypes.func
+  delSelectedVideo : React.PropTypes.func,
+  index : React.PropTypes.number
 }
 
 export default SearchListItem;
