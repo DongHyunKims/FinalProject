@@ -36,13 +36,23 @@ class App extends Component {
         this.deleteReqListener = this.deleteReqListener.bind(this);
         this.onReady = this.onReady.bind(this);
     }
-    //동현 - 삭제 할것
+
+
+
+
+    //app의 componentDid mount로 빠야 함
     componentDidMount(){
-        let { isAdd } = this.state;
-        if(isAdd) {
-            utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID);
-        }
+        utility.runAjax(this.requestListener,"GET","/albumListData.json");
     }
+
+
+    // //동현 - 삭제 할것
+    // componentDidMount(){
+    //     let { isAdd } = this.state;
+    //     if(isAdd) {
+    //         utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID);
+    //     }
+    // }
 
     requestListener(res){
         //console.log("jsonData",res.currentTarget.responseText);
