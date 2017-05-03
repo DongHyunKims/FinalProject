@@ -111,4 +111,16 @@ router.get("/getAlbum/:albumId",(req,res)=>{
     })
 });
 
+
+
+
+
+
+
+
+
 module.exports = router;
+
+
+
+

@@ -36,6 +36,8 @@ class App extends Component {
         this.deleteReqListener = this.deleteReqListener.bind(this);
         this.onReady = this.onReady.bind(this);
         this.getAllAlbumreqListener = this.getAllAlbumreqListener.bind(this);
+
+        this.albumClickHandler = this.albumClickHandler.bind(this);
     }
 
 
@@ -56,13 +58,9 @@ class App extends Component {
     }
 
 
-    // //동현 - 삭제 할것
-    // componentDidMount(){
-    //     let { isAdd } = this.state;
-    //     if(isAdd) {
-    //         utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID);
-    //     }
-    // }
+    albumClickHandler(_id,event){
+        utility.runAjax(this.getAlbumreqListener, "GET", "/albumList/getAlbum/"+_id);
+    }
 
     getAlbumreqListener(res){
         //console.log("jsonData",res.currentTarget.responseText);
@@ -98,6 +96,7 @@ class App extends Component {
 
         let {deleteVideoCheckList,checkIdxList,currentAlbum}  = this.state;
 
+
         //let items = videoData.items;
         let currentSelectAllIsChecked = false;
 
@@ -113,8 +112,8 @@ class App extends Component {
             newDeleteVideoCheckList.splice(idx,1);
         }
 
-        let playList = null;
 
+        let playList = null;
         if(currentAlbum){
             playList = currentAlbum.playList;
             if(newCheckIdxList.length === playList.length){
@@ -171,8 +170,9 @@ class App extends Component {
       let { albumList,checkIdxList,selectAllIsChecked,player,currentAlbum } = this.state;
       //console.log("albumData",albumData);
       let playList = null;
-
+      let albumTitle = null;
       if(currentAlbum){
+          albumTitle = currentAlbum.title;
           playList = currentAlbum.playList;
       }
       //(console.log(videoData));
@@ -181,7 +181,7 @@ class App extends Component {
 
 
 
-        <Header/>
+        <Header albumTitle={albumTitle}/>
 
         <div className="container">
 
@@ -196,7 +196,7 @@ class App extends Component {
             />
 
 
-            <MainList albumList={albumList} />
+            <MainList albumList={albumList} albumClickHandler={this.albumClickHandler}/>
 
             <Nav/>
 

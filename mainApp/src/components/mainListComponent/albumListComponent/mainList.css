@@ -31,60 +31,92 @@
     float:left;
     /*background-color: #f745ff;*/
     margin: 20px 0 5px 2.5%;
+    cursor: pointer;
+    position: relative;
     /*border:1px solid #d9d9d9;*/
 }
 
 .albumList li .albumThum {
     width: 100%;
-    height: 88%;
+    height: 100%;
+
 }
+
+
 .albumList li .albumThum img {
     width: 100%;
     height: 100%;
+
 }
 
 .albumList li .albumItemCont {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 12%;
-    /*background-color: #d0d0d0;*/
+    height: 15%;
+    background-color: black;
+    opacity: 0.7;
+    -webkit-transition: height 0.5s; /* For Safari 3.1 to 6.0 */
+    transition: height 0.5s;
 }
 
 .albumList li .albumItemCont div {
-    float: left;
+    color: white;
 }
+
 
 
 .albumList li .albumItemCont div:nth-child(1) {
-    width: 70%;
-    height: 100%;
-    line-height: 2;
+    width: 100%;
+    height: 20%;
     font-size: 1.1em;
+    line-height: 2.7;
+    text-align: center;
 }
-
 
 .albumList li .albumItemCont div:nth-child(2) {
-    width: 23%;
-    height: 100%;
-    line-height: 2;
-    text-align: right;
-    font-size: 1.1em;
-}
-
-
-.albumList li .albumItemCont div:nth-child(3) {
-    width: 7%;
-    height: 100%;
-    /*background-color: #ff5366;*/
-
-}
-
-
-
-
-.albumList li .albumItemCont div:nth-child(3) img {
     width: 100%;
-    height: 60%;
+    height: 20%;
+    font-size: 1.1em;
+    background-color: #2590ff;
+    text-align: center;
+    visibility: hidden;
 }
+.albumList li .albumItemCont div:nth-child(3) {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20%;
+    /*background-color: firebrick;*/
+    visibility: hidden;
+
+}
+
+.albumList li .albumItemCont div:nth-child(3)  img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15%;
+    height: 70%;
+
+}
+
+.albumList li:hover  > .albumItemCont  {
+    height: 100%;
+    opacity: 0.8;
+
+
+}
+
+.albumList li:hover > .albumItemCont > div:nth-child(2)  {
+    visibility: visible;
+}
+
+
+.albumList li:hover > .albumItemCont > div:nth-child(3){
+    visibility: visible;
+}
+
 
 
 

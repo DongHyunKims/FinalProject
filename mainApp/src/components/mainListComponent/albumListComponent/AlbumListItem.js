@@ -3,29 +3,39 @@
  */
 import React,{Component} from "react"
 
+
+
 class AlbumListItem extends Component{
-    constructor(props){
+    constructor(props) {
         super(props);
+        this.state = {
+            isToggled: false,
+        };
+
+
     }
 
 
     render(){
-        let { data } = this.props;
-        let { coverImgUrl,title, totalDuration } = data;
-        //console.log(this.props.data)
+        let { data, onClick } = this.props;
+        let { coverImgUrl,title, totalDuration, _id } = data;
+
+
         return(
-            <li>
+            <li onClick={onClick.bind(null,_id)}>
                 <div className="albumThum">
                     <img src={coverImgUrl} className="albumImg"/>
                 </div>
-                <div className="albumItemCont">
-                    <div className="albumTitle">{title}</div>
-                    <div className="albumTotDuration">{totalDuration}</div>
 
-                    <div className="albumMenu">
-                        <img src="./images/default/menu.png" />
-                    </div>
+                <div className="albumItemCont" >
+                    <div className="albumTitle">{title}</div>
+                     <div className="albumTotDuration"> {totalDuration} </div>
+                     <div className="albumMenu" >
+                         <img src="./images/default/menu.png" />
+                     </div>
+
                 </div>
+
             </li>
         )
     }

@@ -18,16 +18,16 @@ class MainList extends Component {
         super(props);
         // this.requestListener = this.requestListener.bind(this)
     }
-    
+
 
     render(){
-        let { albumList } = this.props;
+        let { albumList, albumClickHandler } = this.props;
         return(
             <div className="rightArea">
                 <SearchInputBox
                     searchVideo = {this.searchVideo}
                 />
-                <AlbumList items={albumList} />
+                <AlbumList items={albumList} albumClickHandler={albumClickHandler}/>
             </div>
         )
     }

@@ -11,20 +11,20 @@ class AlbumList extends Component {
         super(props);
     }
 
-    makeListItem(items){
+    makeListItem(items,albumClickHandler){
 
         return items.map((data, index) => {
             //console.log(data)
-            return <AlbumListItem data={data}/>
+            return <AlbumListItem key={data._id} data={data} onClick={albumClickHandler} />
         })
     }
 
     render(){
-        let { items }= this.props;
+        let { items,albumClickHandler }= this.props;
         let renderingAlbumList = null;
         if(items){
             //console.log("items12321",typeof newItems);
-            renderingAlbumList = this.makeListItem(items);
+            renderingAlbumList = this.makeListItem(items,albumClickHandler);
         }
 
         return (
