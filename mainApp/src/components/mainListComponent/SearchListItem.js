@@ -31,7 +31,7 @@ class SearchListItem extends React.Component{
   changeDuration(duration){
 
   }
-//
+// 상위 콤포넌트에서 setState호출로 하위콤포넌트의 props값이 변경되었을때 하위콤포넌트의 값을 setState해주기 위해
   componentWillReceiveProps(nextProps){
     if(nextProps.isAllClearAddBtn){
       this.setState({

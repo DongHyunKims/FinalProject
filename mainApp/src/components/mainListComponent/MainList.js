@@ -165,6 +165,7 @@ render할때 그려지지 않았다.
   addSelectedVideoToAlbum(){
     let utilLayer = document.querySelector(".utilLayer");
     utilLayer.classList.remove("show");
+
     this.setState({
       selectedVideoArr : [],
       isSelectedArr : false,
