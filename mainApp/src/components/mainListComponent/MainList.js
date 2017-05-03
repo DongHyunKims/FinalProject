@@ -3,6 +3,9 @@ import "./mainList.css"
 
 import utility from "../../utility/utility"
 
+import moment from 'moment'
+
+
 import SearchInputBox from "./SearchInputSection"
 import SearchList from "./SearchList"
 
@@ -11,32 +14,35 @@ class MainList extends React.Component{
     super()
     this.state = {
       items : [],
-      nextPageToken : ""
+      nextPageToken : "",
+      selectedVideoArr : [],
+      isSelectedArr : false,
+      isAllClearAddBtn : false
     };
 
 
+    this.UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
     this.searchUrl = "";
-
     this.videoArr = [];
     this.nextPageToken = "";
-
-
     this.searchVideo = this.searchVideo.bind(this);
-    this.clickAddButton = this.clickAddButton.bind(this);
+    this.addSelectedVideo = this.addSelectedVideo.bind(this);
+    this.delSelectedVideo = this.delSelectedVideo.bind(this);
+    this.addSelectedVideoToAlbum = this.addSelectedVideoToAlbum.bind(this);
     this.moreVideoList = this.moreVideoList.bind(this);
     this.searchAgainVideo = this.searchAgainVideo.bind(this);
     this.getVideoDuration = this.getVideoDuration.bind(this);
     this.getVideoViewCount = this.getVideoViewCount.bind(this);
-
-    this.changeDuration = this.changeDuration.bind(this);
+    this.changeIsAllClearAddBtn = this.changeIsAllClearAddBtn.bind(this);
   }
 
   searchVideo(keyword){
-
     this.setState({
       items : [],
-      nextPageToken : ""
+      nextPageToken : "",
+      selectedVideoArr : []
     });
+
 
     let encodedKeword = encodeURI(keyword);
     this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"
@@ -68,6 +74,7 @@ render할때 그려지지 않았다.
     utility.runAjax(function(e){
       let data = JSON.parse(e.target.responseText);
       this.nextPageToken = data.nextPageToken;
+
 
       this.videoArr = data.items.map((item, index) => {
         return {
@@ -108,11 +115,10 @@ render할때 그려지지 않았다.
         let data = JSON.parse(e.target.responseText);
         let duration = data.items[0].contentDetails.duration;
         let changedDuration = "";
-        console.log(duration)
 
-        changedDuration = this.changeDuration(duration);
+        changedDuration = moment.duration(duration, moment.ISO_8601)
+        this.videoArr[index].duration = changedDuration._milliseconds;
 
-        this.videoArr[index].duration = changedDuration;
         count++;
         if(count === this.videoArr.length){
           this.setState({
@@ -124,66 +130,51 @@ render할때 그려지지 않았다.
     })
   }
 
-  changeDuration(duration){
-    let hourPattern = /\d+H/
-    let minPattern = /\d+M/
-    let secPattern = /\d+S/
-    let result = "";
 
-    if(hourPattern.test(duration)){
-      let hour;
-      hour = hourPattern.exec(duration)[0];
-      hour = /\d+/.exec(hour)[0];
-
-      if(hour < 10){
-        hour = "0".concat(hour)
-      }
-      result = result.concat(hour)
-    }
-
-    if(minPattern.test(duration)){
-      let min;
-      min = minPattern.exec(duration)[0];
-      min = /\d+/.exec(min)[0];
-
-      if(min < 10){
-        min = "0".concat(min)
-      }
-
-      if(result.length > 0){
-        result = result.concat(":", min)
-      }
-      else{
-        result = result.concat(min)
-      }
-    }else{
-      if(result.length > 0){
-        result = result.concat(":00")
-      }
-      else{
-        result = result.concat("00")
-      }
-    }
-
-    if(secPattern.test(duration)){
-      let sec;
-      sec = secPattern.exec(duration)[0];
-      sec = /\d+/.exec(sec)[0];
-
-      if(sec < 10){
-        sec = "0".concat(sec)
-      }
-      result = result.concat(":", sec)
-    }else{
-      result = result.concat(":00")
-    }
-
-    return result;
+  addSelectedVideo(index){
+    this.setState({
+      selectedVideoArr : this.state.selectedVideoArr.concat(this.state.items[index]),
+      isSelectedArr : true
+    })
   }
 
-  clickAddButton(index){
-    //console.log(this.state.items[index])
-    this.selectedVideo.push()
+  delSelectedVideo(videoId){
+    let selectedVideoArr = [];
+    let isSelectedArr = false;
+
+    selectedVideoArr = [...this.state.selectedVideoArr];
+
+    selectedVideoArr.forEach((data, index)=>{
+      if(data.videoId === videoId){
+        selectedVideoArr.splice(index, 1);
+      }
+    })
+
+    if(selectedVideoArr.length !== 0){
+      isSelectedArr = true;
+    }
+
+    this.setState({
+      selectedVideoArr : [...selectedVideoArr],
+      isSelectedArr : isSelectedArr
+    })
+  }
+
+  addSelectedVideoToAlbum(){
+    let utilLayer = document.querySelector(".utilLayer");
+    utilLayer.classList.remove("show");
+
+    this.setState({
+      selectedVideoArr : [],
+      isSelectedArr : false,
+      isAllClearAddBtn : true
+    })
+  }
+
+  changeIsAllClearAddBtn(){
+    this.setState({
+      isAllClearAddBtn : false
+    })
   }
 
 
@@ -199,15 +190,12 @@ render할때 그려지지 않았다.
       this.searchAgainVideo(url)
     }
   }
-/*
-  componentDidMount(){
-  }
-*/
 
 
 
   render(){
-    //console.log(this.state.items)
+    console.log(this.state.selectedVideoArr)
+
     return(
       <div className="rightArea">
         <SearchInputBox
@@ -215,8 +203,13 @@ render할때 그려지지 않았다.
         />
         <SearchList
           items = {this.state.items}
-          clickAddButton = {this.clickAddButton}
+          addSelectedVideo = {this.addSelectedVideo}
+          delSelectedVideo = {this.delSelectedVideo}
+          addSelectedVideoToAlbum = {this.addSelectedVideoToAlbum}
           moreVideoList = {this.moreVideoList}
+          isSelectedArr = {this.state.isSelectedArr}
+          isAllClearAddBtn = {this.state.isAllClearAddBtn}
+          changeIsAllClearAddBtn = {this.changeIsAllClearAddBtn}
         />
       </div>
     )

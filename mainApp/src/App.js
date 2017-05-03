@@ -144,6 +144,9 @@ class App extends Component {
 
 
   render() {
+
+      let videoData = this.state.videoData;
+
       let { albumData,checkIdxList,selectAllIsChecked,player } = this.state;
       //console.log("player1",player);
       let playList = null;
@@ -151,8 +154,6 @@ class App extends Component {
       if(albumData){
           playList = albumData.playList;
       }
-
-
       //(console.log(videoData));
     return (
       <div className="App">
@@ -190,4 +191,3 @@ class App extends Component {
 }
 
 export default App;
-
