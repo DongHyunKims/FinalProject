@@ -8,17 +8,14 @@
     color:#d9d9d9;
 }
 
-.searchTextInput::-ms-input-placeholder {
-    color:#d9d9d9;
-}
+
 
 .searchTextInput::-moz-placeholder {
     color:#d9d9d9;
 }
 
 .albumListWrap{
-    position: relative;
-    height:100%;
+    height: calc(100% - 38px);
 }
 
 .albumList{
@@ -33,8 +30,8 @@
     height: 240px;
     float:left;
     /*background-color: #f745ff;*/
-    margin: 20px 0 0 2.5%;
-    border:1px solid #d9d9d9;
+    margin: 20px 0 5px 2.5%;
+    /*border:1px solid #d9d9d9;*/
 }
 
 .albumList li .albumThum {
@@ -54,7 +51,6 @@
 
 .albumList li .albumItemCont div {
     float: left;
-    position: relative;
 }
 
 
@@ -62,29 +58,32 @@
     width: 70%;
     height: 100%;
     line-height: 2;
+    font-size: 1.1em;
 }
 
 
 .albumList li .albumItemCont div:nth-child(2) {
-    width: 20%;
+    width: 23%;
     height: 100%;
     line-height: 2;
     text-align: right;
+    font-size: 1.1em;
 }
 
 
 .albumList li .albumItemCont div:nth-child(3) {
-    text-align: right;
-    width: 10%;
+    width: 7%;
     height: 100%;
+    /*background-color: #ff5366;*/
+
 }
 
 
 
-.albumList li .albumItemCont div:nth-child(3) img{
-    width: 80%;
-    height: 70%;
 
+.albumList li .albumItemCont div:nth-child(3) img {
+    width: 100%;
+    height: 60%;
 }
 
 

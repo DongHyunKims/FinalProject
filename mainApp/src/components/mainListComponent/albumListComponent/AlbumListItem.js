@@ -21,7 +21,10 @@ class AlbumListItem extends Component{
                 <div className="albumItemCont">
                     <div className="albumTitle">{title}</div>
                     <div className="albumTotDuration">{totalDuration}</div>
-                    <div className="albumMenu"><img src="./images/default/menu.png" /></div>
+
+                    <div className="albumMenu">
+                        <img src="./images/default/menu.png" />
+                    </div>
                 </div>
             </li>
         )
