@@ -74,6 +74,7 @@ class PlayController extends React.Component {
         }
         this.setState(config)
     };
+
     renderLoadButton = (url, label) => {
         return (
             <button onClick={() => this.load(url)}>
@@ -82,8 +83,12 @@ class PlayController extends React.Component {
         )
     };
 
-  render(){
+  render() {
 
+
+      let {player} = this.props;
+
+      console.log("player2",player);
 
       const {
           url, playing, volume,
