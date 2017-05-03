@@ -16,32 +16,18 @@ class MainList extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            items: null,
-        };
-        this.requestListener = this.requestListener.bind(this)
+        // this.requestListener = this.requestListener.bind(this)
     }
-
-
-    // //app의 componentDid mount로 빠야 함
-    // componentDidMount(){
-    //     utility.runAjax(this.requestListener,"GET","/albumListData.json");
-    // }
-
-    requestListener(res){
-        let items = res.currentTarget.responseText;
-        items = JSON.parse(items);
-        this.setState({items: items});
-    }
+    
 
     render(){
-        let { items } = this.state;
+        let { albumList } = this.props;
         return(
             <div className="rightArea">
                 <SearchInputBox
                     searchVideo = {this.searchVideo}
                 />
-                <AlbumList items={items} />
+                <AlbumList items={albumList} />
             </div>
         )
     }

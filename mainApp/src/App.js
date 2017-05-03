@@ -12,7 +12,7 @@ import PlayController from './components/playControllerComponent/samplePlayContr
 import utility from './utility/utility';
 
 //임시 데이터
-const ALBUM_ID = "5907f898f91d33f1d974f254";
+//const ALBUM_ID = "5907f898f91d33f1d974f254";
 
 
 
@@ -20,21 +20,22 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            albumData : null,
+            albumList : null,
+            currentAlbum: null,
             isAdd : true,
             deleteVideoCheckList : [],
             checkIdxList : [],
             selectAllIsChecked : false,
             player: null,
-            currentAlbumId:null
         };
 
         this.checkClickHandler = this.checkClickHandler.bind(this);
         this.selectAllBtnClickHandler = this.selectAllBtnClickHandler.bind(this);
-        this.requestListener = this.requestListener.bind(this);
+        this.getAlbumreqListener = this.getAlbumreqListener.bind(this);
         this.deleteBtnClickHandler = this.deleteBtnClickHandler.bind(this);
         this.deleteReqListener = this.deleteReqListener.bind(this);
         this.onReady = this.onReady.bind(this);
+        this.getAllAlbumreqListener = this.getAllAlbumreqListener.bind(this);
     }
 
 
@@ -42,7 +43,16 @@ class App extends Component {
 
     //app의 componentDid mount로 빠야 함
     componentDidMount(){
-        utility.runAjax(this.requestListener,"GET","/albumListData.json");
+        utility.runAjax(this.getAllAlbumreqListener,"GET","/albumList/getAllAlbumList");
+    }
+
+    getAllAlbumreqListener(res){
+        // console.log(res.currentTarget);
+        // console.log(this);
+        let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
+        //console.log("jsonAlbumList",jsonAlbumList);
+        this.setState({albumList: jsonAlbumList,currentAlbum:jsonAlbumList[0]});
+
     }
 
 
@@ -54,19 +64,21 @@ class App extends Component {
     //     }
     // }
 
-    requestListener(res){
+    getAlbumreqListener(res){
         //console.log("jsonData",res.currentTarget.responseText);
         let jsonData = JSON.parse(res.currentTarget.responseText);
-        this.setState({albumData : jsonData});
+        this.setState({currentAlbum : jsonData});
     }
 
 
 
     //삭제버튼 클릭 handler
     deleteBtnClickHandler(){
-        let { deleteVideoCheckList } = this.state;
+        let { deleteVideoCheckList,currentAlbum } = this.state;
+
+        let { _id } = currentAlbum;
         let deleteData = {
-            albumId : ALBUM_ID,
+            albumId : _id,
             deleteList: deleteVideoCheckList
         };
         let jsonData = JSON.stringify(deleteData);
@@ -74,17 +86,17 @@ class App extends Component {
 
         //DB를 통해서 데이터 삭제
         //ajax
-        utility.runAjaxData(this.deleteReqListener,"POST","/playList/deletePlayList", jsonData, "application/json");
+        utility.runAjaxData(this.deleteReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
     }
 
-    deleteReqListener(res){
-        utility.runAjax(this.requestListener, "GET", "/playList/getAlbum/"+ALBUM_ID);
+    deleteReqListener(res , _id){
+        utility.runAjax(this.getAlbumreqListener, "GET", "/albumList/getAlbum/"+_id);
     }
 
     //check click handler
     checkClickHandler(videoId, checkIdx, isChecked, event) {
 
-        let {deleteVideoCheckList,checkIdxList,albumData}  = this.state;
+        let {deleteVideoCheckList,checkIdxList,currentAlbum}  = this.state;
 
         //let items = videoData.items;
         let currentSelectAllIsChecked = false;
@@ -103,8 +115,8 @@ class App extends Component {
 
         let playList = null;
 
-        if(albumData){
-            playList = albumData.playList;
+        if(currentAlbum){
+            playList = currentAlbum.playList;
             if(newCheckIdxList.length === playList.length){
                 currentSelectAllIsChecked = true;
             }
@@ -118,11 +130,11 @@ class App extends Component {
 
     //전체선택 버튼 클릭 handler
     selectAllBtnClickHandler(){
-        let { albumData } = this.state;
+        let { currentAlbum } = this.state;
         let playList = null;
 
-        if(albumData) {
-            playList = albumData.playList;
+        if(currentAlbum) {
+            playList = currentAlbum.playList;
         }
         let {selectAllIsChecked} = this.state;
         let currentSelectAllIsChecked = false;
@@ -155,14 +167,13 @@ class App extends Component {
 
   render() {
 
-      let videoData = this.state.videoData;
 
-      let { albumData,checkIdxList,selectAllIsChecked,player } = this.state;
-      //console.log("player1",player);
+      let { albumList,checkIdxList,selectAllIsChecked,player,currentAlbum } = this.state;
+      //console.log("albumData",albumData);
       let playList = null;
 
-      if(albumData){
-          playList = albumData.playList;
+      if(currentAlbum){
+          playList = currentAlbum.playList;
       }
       //(console.log(videoData));
     return (
@@ -185,7 +196,7 @@ class App extends Component {
             />
 
 
-            <MainList/>
+            <MainList albumList={albumList} />
 
             <Nav/>
 
