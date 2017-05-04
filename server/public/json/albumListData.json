@@ -1,0 +1,60 @@
+[
+  {
+    "title": "OST",
+    "coverImgUrl": "http://img.maniadb.com/images/album/602/602602_1_f.jpg",
+    "totalDuration": 4,
+    "category": [1,2,3],
+    "playList": [
+      {
+        "title":  "[MV] HIGH4, IU(하이포, 아이유) _ Not Spring, Love, or Cherry Blossoms(봄,사랑,벚꽃 말고)",
+        "thumnail": "https://i.ytimg.com/vi/ouR4nn1G9r4/default.jpg",
+        "duration": 1,
+        "videoId": "ouR4nn1G9r4",
+        "publishedAt": "2014-04-08T03:00:00.000Z"
+      },
+      {
+        "title":  "[MV] IU(아이유) _ Through the Night(밤편지)",
+        "thumnail": "https://i.ytimg.com/vi/BzYnNdJhZQw/default.jpg",
+        "duration" : 3,
+        "videoId": "BzYnNdJhZQw",
+        "publishedAt": "2017-03-24T09:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "title": "아이유",
+    "coverImgUrl": "http://orig09.deviantart.net/5498/f/2012/016/2/8/iu___last_fantasy_by_j_beom-d4mk23f.png",
+    "totalDuration": 6,
+    "category": [1,4,2],
+    "playList": [
+      {
+        "title":  "[MV] HIGH4, IU(하이포, 아이유) _ Not Spring, Love, or Cherry Blossoms(봄,사랑,벚꽃 말고)",
+        "thumnail": "https://i.ytimg.com/vi/ouR4nn1G9r4/default.jpg",
+        "duration": 4,
+        "videoId": "ouR4nn1G9r4",
+        "publishedAt": "2014-04-08T03:00:00.000Z"
+      },
+      {
+        "title":  "[MV] IU(아이유) _ Through the Night(밤편지)",
+        "thumnail": "https://i.ytimg.com/vi/BzYnNdJhZQw/default.jpg",
+        "duration" : 2,
+        "videoId": "BzYnNdJhZQw",
+        "publishedAt": "2017-03-24T09:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "title": "아이돌",
+    "coverImgUrl": "http://www.inewspeople.co.kr/news/photo/201610/10844_19001_4121.jpg",
+    "totalDuration": 0,
+    "category": [1,4,2],
+    "playList": []
+  },
+  {
+    "title": "음악대장",
+    "coverImgUrl": "./images/default/default-thumbnail.jpg",
+    "totalDuration": 0,
+    "category": [1,4,2],
+    "playList": []
+  }
+]

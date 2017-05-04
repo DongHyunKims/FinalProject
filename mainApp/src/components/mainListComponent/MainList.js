@@ -17,17 +17,14 @@ class MainList extends React.Component{
       nextPageToken : "",
       selectedVideoArr : [],
       isSelectedArr : false,
-
       isAllClearAddBtn : false
-    }
+    };
 
 
     this.UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
     this.searchUrl = "";
-
     this.videoArr = [];
     this.nextPageToken = "";
-
     this.searchVideo = this.searchVideo.bind(this);
     this.addSelectedVideo = this.addSelectedVideo.bind(this);
     this.delSelectedVideo = this.delSelectedVideo.bind(this);
@@ -44,7 +41,8 @@ class MainList extends React.Component{
       items : [],
       nextPageToken : "",
       selectedVideoArr : []
-    })
+    });
+
 
     let encodedKeword = encodeURI(keyword);
     this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"
@@ -211,6 +209,8 @@ render할때 그려지지 않았다.
       this.searchAgainVideo(url)
     }
   }
+
+
 
   render(){
     console.log(this.state.selectedVideoArr)

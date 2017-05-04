@@ -5,6 +5,7 @@ class SearchList extends React.Component{
   constructor(){
     super();
 
+
     this.makeListItem = this.makeListItem.bind(this);
   }
 
@@ -38,6 +39,7 @@ class SearchList extends React.Component{
 
 SearchList.propTypes = {
   items : React.PropTypes.array,
+  clickAddButton : React.PropTypes.func,
   addSelectedVideo : React.PropTypes.func,
   delSelectedVideo : React.PropTypes.func,
   addSelectedVideoToAlbum : React.PropTypes.func,
@@ -46,5 +48,6 @@ SearchList.propTypes = {
   isAllClearAddBtn : React.PropTypes.bool,
   changeIsAllClearAddBtn : React.PropTypes.func
 }
+
 
 export default SearchList;

@@ -3,10 +3,16 @@ import "./header.css"
 
 class Header extends React.Component{
   render(){
+
+      let {albumTitle} = this.props;
+      if(!albumTitle){
+          albumTitle = "Wellcome Jinniecast";
+      }
+
     return(
       <header className="mainHeader">
         <h1>JinnieCast</h1>
-        <h2 className="albumTitle">Wellcome Album</h2>
+        <h2 className="albumTitle">{albumTitle}</h2>
         <div className="util">
           <p className="user">
             <span className="name">Jinny</span> 님 안녕하세요
