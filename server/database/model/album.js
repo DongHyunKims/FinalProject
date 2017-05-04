@@ -31,4 +31,4 @@ const albumSchema = new Schema({
     playList: [videoSchema],
 });
 
-module.exports = mongoose.model("albums", albumSchema);
+module.exports =  mongoose.model("albums", albumSchema);
