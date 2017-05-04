@@ -5,8 +5,8 @@ import './App.css';
 import Header from './components/headerComponent/Header'
 import Nav from './components/navComponent/Nav'
 
-//import MainList from './components/mainListComponent/MainList'
-import MainList from './components/mainListComponent/albumListComponent/MainList'
+import MainList from './components/mainListComponent/MainList'
+//import MainList from './components/mainListComponent/albumListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
 import PlayController from './components/playControllerComponent/samplePlayController';
 import utility from './utility/utility';
