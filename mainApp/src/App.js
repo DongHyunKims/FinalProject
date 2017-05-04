@@ -156,19 +156,23 @@ class App extends Component {
             case ACTION_CONFIG.resetPlayList : this.setState((state,props)=>{
                 // let preCurrentAlbum = pre.currentAlbum;
                 //
-                let { selectedData,selectedKey ,playingState}  = state;
-
+                let { playingState}  = state;
                 let currentAlbum = jsonData;
-                let preAlbum = state.currentAlbum;
+                // console.log("currentAlbum",currentAlbum);
+                // console.log("preAlbum",preAlbum);
 
 
+                //무언가 play 되고있다
                 if(playingState) {
                     let { playingAlbum, playingData, playingKey  } = playingState;
                     if (currentAlbum._id !== playingAlbum._id) {
                         // console.log("currentAlbum",currentAlbum._id);
                         // console.log("playingAlbum",playingAlbum._id);
+                        // console.log("playingData",playingData);
+                        // console.log("playingKey",playingKey);
+
                         return {
-                            selectedData: selectedData,
+                            selectedData:  playingData,
                             selectedKey: -1,
                             deleteVideoCheckList: [],
                             checkIdxList: [],
@@ -177,10 +181,11 @@ class App extends Component {
                         };
                     }
 
-
+                    // console.log("다시 원래 대로 돌아왔다!");
                     return {
                         selectedData: playingData,
                         selectedKey: playingKey,
+                        currentAlbum: jsonData
                     };
                 }
 
@@ -304,11 +309,13 @@ class App extends Component {
         this.setState((state)=>{
 
                 let {currentAlbum, selectedData, selectedKey } = state;
+
+
                 return {
                     playingState : {
                         playingAlbum :  currentAlbum,
-                        playingData :  selectedData,
-                        playingKey : selectedKey,
+                        playingData :  playList[key],
+                        playingKey : key,
                     },
                     selectedData : playList[key],
                     selectedKey : key
@@ -459,7 +466,7 @@ class App extends Component {
         let scrollTop  = searchList.scrollTop;
 
         if((scrollHeight - scrollTop) === clientHeight){
-            this.searchAgainVideo(url)
+            this._searchAgainVideo(url)
         }
     }
 
