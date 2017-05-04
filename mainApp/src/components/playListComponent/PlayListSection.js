@@ -47,7 +47,8 @@ class PlayListSection extends Component {
                         key={_id}
                         videoSnippet={val}
                         onClick={playListClickHandler.bind(null, idx)}
-                        videoId={val.videoId} selectedKey={selectedKey}
+                        videoId={val.videoId}
+                        selectedKey={selectedKey}
                         idx={idx}
                         checkClickHandler={checkClickHandler}
                         isChecked={checkIdxList.indexOf(idx) !== -1}/>;
