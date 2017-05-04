@@ -1,3 +1,7 @@
+/*.searchListSection{*/
+  /*height:100%;*/
+/*}*/
+
 .searchTextInput {
   width:calc(100% - 20px);
   padding:10px;

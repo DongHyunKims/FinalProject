@@ -12,7 +12,6 @@ const dbConnection = require('./database/db');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const playList = require('./routes/playList/index');
-const mainList = require('./routes/mainList/index');
 const sign = require('./routes/sign/index');
 const albumList = require('./routes/albumList/index');
 
@@ -36,7 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/playList', playList);
-app.use('/mainList', mainList);
 app.use('/sign', sign);
 app.use('/albumList', albumList);
 

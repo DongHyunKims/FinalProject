@@ -12,13 +12,13 @@ class SearchList extends React.Component{
   makeListItem(items){
     return items.map((data, index) => {
       return <SearchListItem
-              data = {data}
-              key = {index}
-              index = {index}
-              addSelectedVideo = {this.props.addSelectedVideo}
-              delSelectedVideo = {this.props.delSelectedVideo}
-              isAllClearAddBtn = {this.props.isAllClearAddBtn}
-              changeIsAllClearAddBtn = {this.props.changeIsAllClearAddBtn}
+              data={data}
+              key={index}
+              index={index}
+              addSelectedVideo={this.props.addSelectedVideo}
+              delSelectedVideo={this.props.delSelectedVideo}
+              isAllClearAddBtn={this.props.isAllClearAddBtn}
+              changeIsAllClearAddBtn={this.props.changeIsAllClearAddBtn}
             />
     })
   }

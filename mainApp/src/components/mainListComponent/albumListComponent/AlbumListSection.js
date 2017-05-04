@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import SearchInputBox from "./SearchInputSection";
 import AlbumList from "./AlbumList";
-import "./mainList.css";
+import "./albumListSection.css";
 import utility from '../../../utility/utility';
 
 
@@ -23,11 +23,14 @@ class MainList extends Component {
     render(){
         let { albumList, albumClickHandler } = this.props;
         return(
-            <div className="rightArea">
+            <div>
                 <SearchInputBox
                     searchVideo = {this.searchVideo}
                 />
-                <AlbumList items={albumList} albumClickHandler={albumClickHandler}/>
+                <AlbumList
+                    items={albumList}
+                    albumClickHandler={albumClickHandler}
+                />
             </div>
         )
     }

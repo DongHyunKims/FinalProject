@@ -21,12 +21,12 @@ class AlbumListItem extends Component{
     }
 
     render(){
-        let { data, onClick } = this.props;
+        let { data, onClick,idx } = this.props;
         let { coverImgUrl,title, totalDuration, _id } = data;
 
 
         return(
-            <li onClick={onClick.bind(null,_id)}>
+            <li onClick={onClick.bind(null,_id,idx)}>
                 <div className="albumThum">
                     <img src={coverImgUrl} className="albumImg"/>
                 </div>
@@ -36,7 +36,6 @@ class AlbumListItem extends Component{
                     <div className="albumTotDuration">08:43</div>
                      <div className="albumMenu" >
                          <img src="./images/default/menu.png" onClick={this.menuClickHandler} />
-
                      </div>
 
                 </div>
