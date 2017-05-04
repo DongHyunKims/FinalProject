@@ -25,6 +25,19 @@ router.post("/deletePlayList",(req,res)=>{
 
 });
 
+router.post("/videos", (req, res)=>{
+  let { albumId, selectedVideoArr } = req.body;
+  Album.update(
+    {_id:albumId}, {$push:{playList:{$each:selectedVideoArr}}}, (err, doc) => {
+      if(err) {
+        console.log("err",err);
+        return res.status(500).send(err);
+      }
+      res.status(200).send();
+    }
+  )
+});
+
 
 
 function createObjectId(id){
@@ -32,5 +45,3 @@ function createObjectId(id){
 }
 
 module.exports = router;
-
-

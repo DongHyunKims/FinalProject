@@ -47,7 +47,7 @@ class SearchListItem extends React.Component{
 
     return(
       <li>
-        <p className="thum"><img src={data.thumbUrl}/></p>
+        <p className="thum"><img src={data.thumnail}/></p>
         <div className="itemCont">
           <p className="title">{data.title}</p>
           <p className="info">
