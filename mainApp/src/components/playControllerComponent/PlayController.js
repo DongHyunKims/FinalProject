@@ -13,6 +13,12 @@ function contentClass(isShow) {
   isShow ? "invisible" : "visible"
 }
 
+function toTimeString(seconds) {
+  let time = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+	time = time.replace(/00:/, "");
+	return time
+}
+
 class PlayController extends React.Component {
   constructor() {
     super();
@@ -22,8 +28,8 @@ class PlayController extends React.Component {
       videoId: selectedVideo.id.current,
       player: null,
       event_map: { playing: false,
-                   curTime: null, // 현재 재생 시간
-                   totalTime: null, // 전체 비디오 재생 시간 
+                   curTime: '0:00', // 현재 재생 시간
+                   totalTime: '0:00', // 전체 비디오 재생 시간 
                    volumeChange: null // 볼륨 조절
                   }
     };
@@ -59,9 +65,10 @@ class PlayController extends React.Component {
   }
 
   setDuration() {
+    let time = toTimeString(this.state.player.getDuration());
     this.setState({
       event_map: Object.assign({}, this.state.event_map, {
-        totalTime: Math.floor(this.state.player.getDuration())
+        totalTime: time
       })
     });
   }
@@ -69,7 +76,7 @@ class PlayController extends React.Component {
   setCurrentTime() {
     if (this.state.onStateChange = 1){
       setInterval(() => { 
-        let time = this.state.player.getCurrentTime();
+        let time = toTimeString(this.state.player.getCurrentTime());
         this.setState({ event_map: Object.assign({}, this.state.event_map, { curTime: time })});
       }, 1000);
     }
@@ -121,7 +128,7 @@ class PlayController extends React.Component {
         <button onClick={this.onPlayVideo} className={this.state.event_map.playing ? "invisible" : ""}>Play</button>
         <button onClick={this.onPauseVideo} className={!this.state.event_map.playing ? "invisible" : ""}>Pause</button>
         <button onClick={this.onChangeNextVideo}>Next</button>
-        <h1>{this.state.event_map.curTime} ddd / {this.state.event_map.totalTime}</h1>
+        <h1>{this.state.event_map.curTime} / {this.state.event_map.totalTime}</h1>
       </div>
     );
   }
