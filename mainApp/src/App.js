@@ -35,10 +35,13 @@ class App extends Component {
         this.deleteBtnClickHandler = this.deleteBtnClickHandler.bind(this);
         this.deleteReqListener = this.deleteReqListener.bind(this);
         this.onReady = this.onReady.bind(this);
-        this.getAllAlbumreqListener = this.getAllAlbumreqListener.bind(this);
 
+       //앨범
+        this.getAllAlbumreqListener = this.getAllAlbumreqListener.bind(this);
         this.albumClickHandler = this.albumClickHandler.bind(this);
+
     }
+
 
 
 

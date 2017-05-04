@@ -11,10 +11,14 @@ class AlbumListItem extends Component{
         this.state = {
             isToggled: false,
         };
-
+        this.menuClickHandler = this.menuClickHandler.bind(this);
 
     }
 
+    menuClickHandler(event){
+        console.log("ffff");
+        event.stopPropagation();
+    }
 
     render(){
         let { data, onClick } = this.props;
@@ -28,10 +32,11 @@ class AlbumListItem extends Component{
                 </div>
 
                 <div className="albumItemCont" >
-                    <div className="albumTitle">{title}</div>
-                     <div className="albumTotDuration"> {totalDuration} </div>
+                    <div className="albumTitle"> {title}</div>
+                    <div className="albumTotDuration">08:43</div>
                      <div className="albumMenu" >
-                         <img src="./images/default/menu.png" />
+                         <img src="./images/default/menu.png" onClick={this.menuClickHandler} />
+
                      </div>
 
                 </div>
