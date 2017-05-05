@@ -30,9 +30,7 @@ class App extends Component {
 
             //albumList
             albumList : null,
-            albumIdx : -1,
             currentAlbum: null,
-
 
             //playList,
             deleteVideoCheckList : [],
@@ -73,6 +71,8 @@ class App extends Component {
         this.getAllAlbumreqListener = this.getAllAlbumreqListener.bind(this);
         this.albumClickHandler = this.albumClickHandler.bind(this);
 
+
+
         //searchList
         this.UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
         this.searchUrl = "";
@@ -111,7 +111,6 @@ class App extends Component {
         //console.log("jsonAlbumList",jsonAlbumList);
         this.setState({
             albumList: jsonAlbumList,
-            albumIdx: 0,
             currentAlbum:jsonAlbumList[0]
         });
 
@@ -119,14 +118,6 @@ class App extends Component {
 
 
     albumClickHandler(_id,idx,event){
-
-        // this.setState((state)=>{
-        //         let {albumList}  = state;
-        //         return {
-        //             currentAlbum: albumList[idx],
-        //         }
-        //     });
-
         utility.runAjax(this.getAlbumreqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
     }
 
@@ -146,31 +137,74 @@ class App extends Component {
                 currentAlbum: jsonData
             });
             break;
-            case ACTION_CONFIG.deletePlayList  : this.setState({
-                deleteVideoCheckList : [],
-                checkIdxList : [],
-                selectAllIsChecked: false,
-                currentAlbum : jsonData
+            case ACTION_CONFIG.deletePlayList  : this.setState((state)=>{
+
+                let currentAlbum = jsonData;
+                let { playingState, checkIdxList, selectAllIsChecked}  = state;
+
+                //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
+                if(playingState && !selectAllIsChecked){
+                    let { playingKey } = playingState;
+                    let { playList } = currentAlbum;
+
+                    let length = checkIdxList.filter((val)=>{
+                        return val < playingKey;
+                    }).length;
+
+                    //삭제 리스트에 있는 경우
+                    if(checkIdxList.indexOf(playingKey) !== -1){
+                        return {
+                            playingState : {
+                                playingAlbum :  currentAlbum,
+                                playingData :  playList[0],
+                                playingKey : 0,
+                            },
+                            selectedData : playList[0],
+                            selectedKey : 0,
+                            deleteVideoCheckList: [],
+                            checkIdxList: [],
+                            selectAllIsChecked: false,
+                            currentAlbum: jsonData
+                        }
+                    }
+
+                      return {
+                          playingState : {
+                              playingAlbum :  currentAlbum,
+                              playingData :  playList[playingKey-length],
+                              playingKey : playingKey-length,
+                          },
+                          selectedData : playList[playingKey-length],
+                          selectedKey : playingKey-length,
+                          deleteVideoCheckList: [],
+                          checkIdxList: [],
+                          selectAllIsChecked: false,
+                          currentAlbum: jsonData
+                    }
+
+                }
+
+                return {
+                    selectedData: null,
+                    selectedKey: -1,
+                    deleteVideoCheckList: [],
+                    checkIdxList: [],
+                    selectAllIsChecked: false,
+                    currentAlbum: jsonData
+                };
+
+
             });
             break;
             case ACTION_CONFIG.resetPlayList : this.setState((state,props)=>{
-                // let preCurrentAlbum = pre.currentAlbum;
-                //
+
                 let { playingState}  = state;
                 let currentAlbum = jsonData;
-                // console.log("currentAlbum",currentAlbum);
-                // console.log("preAlbum",preAlbum);
-
 
                 //무언가 play 되고있다
                 if(playingState) {
                     let { playingAlbum, playingData, playingKey  } = playingState;
                     if (currentAlbum._id !== playingAlbum._id) {
-                        // console.log("currentAlbum",currentAlbum._id);
-                        // console.log("playingAlbum",playingAlbum._id);
-                        // console.log("playingData",playingData);
-                        // console.log("playingKey",playingKey);
-
                         return {
                             selectedData:  playingData,
                             selectedKey: -1,
@@ -180,7 +214,6 @@ class App extends Component {
                             currentAlbum: jsonData
                         };
                     }
-
                     // console.log("다시 원래 대로 돌아왔다!");
                     return {
                         selectedData: playingData,
@@ -188,7 +221,6 @@ class App extends Component {
                         currentAlbum: jsonData
                     };
                 }
-
 
                 return {
                     selectedData: null,
@@ -211,16 +243,12 @@ class App extends Component {
     //삭제버튼 클릭 handler
     deleteBtnClickHandler(){
         let { deleteVideoCheckList,currentAlbum } = this.state;
-
         let { _id } = currentAlbum;
         let deleteData = {
             albumId : _id,
             deleteList: deleteVideoCheckList
         };
         let jsonData = JSON.stringify(deleteData);
-        //console.log(jsonData);
-        //DB를 통해서 데이터 삭제
-        //ajax
         utility.runAjaxData(this.deleteReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
     }
 
@@ -307,10 +335,7 @@ class App extends Component {
     //playList
     playListClickHandler(playList,key){
         this.setState((state)=>{
-
-                let {currentAlbum, selectedData, selectedKey } = state;
-
-
+                let { currentAlbum } = state;
                 return {
                     playingState : {
                         playingAlbum :  currentAlbum,
@@ -388,8 +413,6 @@ class App extends Component {
             nextPageToken : "",
             selectedVideoArr : []
         });
-
-
         let encodedKeword = encodeURI(keyword);
         this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"
 
