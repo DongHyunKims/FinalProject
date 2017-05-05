@@ -3,15 +3,12 @@
  */
 import React from 'react';
 import YouTube from './Youtube';
-import ReactDOM from 'react-dom';
 import "./playController.css"
+import utility from '../../utility/utility';
 
 // 이전 버튼, 이후 버튼, 플레이리스트 내 컴포넌트를 클릭할 때마다 prev, current, next Video ID를 업데이트할 수 있는 메소드가 필요.
 const selectedVideo = {id : {prev: 'XNoMw1Dmqzs', current: '-DX3vJiqxm4', next:'MmKlaGpmYig'}}
 
-function contentClass(isShow) {
-  isShow ? "invisible" : "visible"
-}
 
 function toTimeString(seconds) {
   let time = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
@@ -20,9 +17,8 @@ function toTimeString(seconds) {
 }
 
 class PlayController extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       onStateChange: null,
       videoId: selectedVideo.id.current,
@@ -30,6 +26,8 @@ class PlayController extends React.Component {
       event_map: { playing: false,
                    curTime: '0:00', // 현재 재생 시간
                    totalTime: '0:00', // 전체 비디오 재생 시간 
+                   curProgressBar: 0,
+                   maxProgressBar: 0,
                    volumeChange: null // 볼륨 조절
                   }
     };
@@ -52,12 +50,10 @@ class PlayController extends React.Component {
     this.setDuration = this.setDuration.bind(this);
     this.setCurrentTime = this.setCurrentTime.bind(this);
     this.setStateChange = this.setStateChange.bind(this);
+    this.moveSeekBar = this.moveSeekBar.bind(this);
   }
 
-  setStateChange(event) {
-    this.setState({ onStateChange: event.data });
-    this.setDuration();
-  }
+  
      
   onReady(event) {
     this.setState({ player: event.target });
@@ -65,24 +61,35 @@ class PlayController extends React.Component {
   }
 
   setDuration() {
-    let time = toTimeString(this.state.player.getDuration());
+    let time = this.state.player.getDuration();
     this.setState({
       event_map: Object.assign({}, this.state.event_map, {
-        totalTime: time
+        totalTime: toTimeString(time),
+        maxProgressBar: time
       })
     });
   }
 
+  setStateChange(event) {
+    this.setState({ onStateChange: event.data });
+    this.setDuration();
+  }
+
   setCurrentTime() {
-    if (this.state.onStateChange = 1){
-      setInterval(() => { 
-        let time = toTimeString(this.state.player.getCurrentTime());
-        this.setState({ event_map: Object.assign({}, this.state.event_map, { curTime: time })});
-      }, 1000);
+    if (!this.state.onStateChange === 1){
+      return
     }
+    const bar = utility.$selector("#seekBar");
+    setInterval(() => { 
+      let time = this.state.player.getCurrentTime();
+      this.setState({ event_map: Object.assign({}, this.state.event_map, { curTime: toTimeString(time), curProgressBar: time })});
+    }, 1000);
+  
+    
   }
 
   onPlayVideo() {
+    console.log(this.state.onStateChange);
     this.setState({
       event_map: Object.assign({}, this.state.event_map, { playing: true }), 
     });
@@ -102,9 +109,8 @@ class PlayController extends React.Component {
 
   onEndVideo() {
     this.state.player.endVideo();
-    console.log('1. 현재 재생시간', this.state.videoId, this.state.event_map.playing);
   }
- 
+  
   onChangeNextVideo() {
     this.setState({ videoId: selectedVideo.id.next });
     Promise.resolve()
@@ -119,6 +125,18 @@ class PlayController extends React.Component {
       .then(this.opts.playerVars.autoplay = 1)
       .then(this.onPlayVideo).then(this.stateChange)
   }
+  
+  moveSeekBar(event){
+    const bar = utility.$selector("#seekBar");
+    // play버튼을 눌러야 seekBar 이동이 가능
+    if (!this.state.event_map.playing) {
+      return
+    }
+
+    let curTime = bar.value;
+    this.state.player.seekTo(curTime, true);
+  }
+
 
   render() {
     return (
@@ -128,6 +146,7 @@ class PlayController extends React.Component {
         <button onClick={this.onPlayVideo} className={this.state.event_map.playing ? "invisible" : ""}>Play</button>
         <button onClick={this.onPauseVideo} className={!this.state.event_map.playing ? "invisible" : ""}>Pause</button>
         <button onClick={this.onChangeNextVideo}>Next</button>
+        <input id="seekBar" type="range" min="0" max={this.state.event_map.maxProgressBar} value={this.state.event_map.curProgressBar} step="0.1" onChange={this.moveSeekBar}></input>
         <h1>{this.state.event_map.curTime} / {this.state.event_map.totalTime}</h1>
       </div>
     );

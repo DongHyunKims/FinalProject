@@ -1,2 +1,6 @@
 .invisible {display: none;}
 .visible {display: block;}
+
+#seekBar {
+    width: 100%;
+}
