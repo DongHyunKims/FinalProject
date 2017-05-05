@@ -14,21 +14,17 @@ class PlayList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selectedData : null,
-            selectedKey : -1,
-            intervalId : null,
         };
-        this.playListClickHandler = this.playListClickHandler.bind(this);
+        // this.playListClickHandler = this.playListClickHandler.bind(this);
     }
-    playListClickHandler(key){
-        let {playList} = this.props;
-        this.setState({selectedData : playList[key], selectedKey : key});
-    }
+
+    // playListClickHandler(key){
+    //     let {playList} = this.props;
+    //     this.setState({selectedData : playList[key], selectedKey : key});
+    // }
 
     render(){
-
-        let {playList,deleteBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady} = this.props;
-        let {selectedData,selectedKey} = this.state;
+        let {playList,deleteBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady,playListClickHandler,selectedData,selectedKey} = this.props;
 
         let opts = {
             height: '100%',
@@ -43,9 +39,10 @@ class PlayList extends Component {
 
         if(selectedData){
             let {videoId} = selectedData;
+
+
             youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}/>
         }
-
 
         return (
           <div className="leftArea">
@@ -54,7 +51,7 @@ class PlayList extends Component {
               </div>
               <PlayListSection
                   playList={playList}
-                  playListClickHandler={this.playListClickHandler}
+                  playListClickHandler={playListClickHandler}
                   selectedKey={selectedKey}
                   deleteBtnClickHandler={deleteBtnClickHandler}
                   checkClickHandler={checkClickHandler}

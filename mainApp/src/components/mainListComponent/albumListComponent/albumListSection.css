@@ -27,7 +27,7 @@
 
 .albumList li {
     width: 30%;
-    height: 260px;
+    height: 230px;
     float:left;
     /*background-color: #f745ff;*/
     margin: 20px 0 5px 2.5%;
@@ -54,13 +54,14 @@
     bottom: 0;
     width: 100%;
     height: 15%;
-    background-color: black;
-    opacity: 0.7;
+    background: rgba(0, 0, 0, 0.7);
+    /*background-color: black;*/
+    /*opacity: 0.7;*/
     -webkit-transition: height 0.5s; /* For Safari 3.1 to 6.0 */
     transition: height 0.5s;
 }
 
-.albumList li .albumItemCont div {
+.albumList li .albumItemCont div{
     color: white;
 }
 
@@ -68,17 +69,17 @@
 
 .albumList li .albumItemCont div:nth-child(1) {
     width: 100%;
-    height: 20%;
     font-size: 1.1em;
-    line-height: 2.7;
+    font-weight: bold;
+    line-height: 2.3;
     text-align: center;
+    /*background-color: #ff4983;*/
 }
 
 .albumList li .albumItemCont div:nth-child(2) {
     width: 100%;
-    height: 20%;
     font-size: 1.1em;
-    background-color: #2590ff;
+    /*background-color: #2590ff;*/
     text-align: center;
     visibility: hidden;
 }
@@ -90,25 +91,38 @@
     /*background-color: firebrick;*/
     visibility: hidden;
 
+
 }
 
 .albumList li .albumItemCont div:nth-child(3)  img{
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 5px;
+    right: 3px;
     width: 15%;
-    height: 70%;
+    height: 80%;
 
 }
 
 .albumList li:hover  > .albumItemCont  {
     height: 100%;
-    opacity: 0.8;
-
-
+    background: rgba(0, 0, 0, 0.8);
 }
 
+
+
+.albumList li:hover > .albumItemCont > div:nth-child(1){
+    position: absolute;
+    top: 40%;
+    font-size: 1.3em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+
+
 .albumList li:hover > .albumItemCont > div:nth-child(2)  {
+    position: absolute;
+    top: 50%;
     visibility: visible;
 }
 
@@ -116,8 +130,6 @@
 .albumList li:hover > .albumItemCont > div:nth-child(3){
     visibility: visible;
 }
-
-
 
 
 

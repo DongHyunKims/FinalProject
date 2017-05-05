@@ -7,11 +7,10 @@ class SearchListItem extends React.Component{
     super()
     this.state = {
       isClickedAddBtn : false
-    }
+    };
 
     this.changePublishedAtData = this.changePublishedAtData.bind(this);
     this.clickAddButton = this.clickAddButton.bind(this);
-
     this.changeDuration = this.changeDuration.bind(this);
   }
 
@@ -36,7 +35,7 @@ class SearchListItem extends React.Component{
     if(nextProps.isAllClearAddBtn){
       this.setState({
         isClickedAddBtn : false
-      })
+      });
       this.props.changeIsAllClearAddBtn()
     }
   }

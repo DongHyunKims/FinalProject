@@ -13,9 +13,9 @@ class AlbumList extends Component {
 
     makeListItem(items,albumClickHandler){
 
-        return items.map((data, index) => {
+        return items.map((data, idx) => {
             //console.log(data)
-            return <AlbumListItem key={data._id} data={data} onClick={albumClickHandler} />
+            return <AlbumListItem key={data._id} data={data} onClick={albumClickHandler} idx={idx} />
         })
     }
 
