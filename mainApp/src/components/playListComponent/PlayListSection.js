@@ -41,12 +41,12 @@ class PlayListSection extends Component {
         if(playList){
             if(playList.length!==0) {
                 //let items = videoData.items;
-                playListSection = playList.map((val, idx) => {
+                playListSection = playList.map((val, idx, arr) => {
                     let {_id} = val;
                     return <PlayListPart
                         key={_id}
                         videoSnippet={val}
-                        onClick={playListClickHandler.bind(null, idx)}
+                        onClick={playListClickHandler.bind(null,arr,idx)}
                         videoId={val.videoId}
                         selectedKey={selectedKey}
                         idx={idx}

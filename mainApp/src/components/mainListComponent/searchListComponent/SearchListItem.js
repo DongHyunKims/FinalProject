@@ -7,11 +7,10 @@ class SearchListItem extends React.Component{
     super()
     this.state = {
       isClickedAddBtn : false
-    }
+    };
 
     this.changePublishedAtData = this.changePublishedAtData.bind(this);
     this.clickAddButton = this.clickAddButton.bind(this);
-
     this.changeDuration = this.changeDuration.bind(this);
   }
 
@@ -29,14 +28,56 @@ class SearchListItem extends React.Component{
   }
 
   changeDuration(duration){
+    let sec = 0,
+        min = 0,
+        hour = 0,
+        time = 0,
+        str = "";
+//hour
+    time = duration / 1000;
+    if(time / 3600 >= 1){
+      hour = Math.floor(time / 3600);
+      if(hour < 10){
+        str = str.concat("0"+hour+":");
+      }else{
+        str = str.concat(hour+":");
+      }
+    }else{
+      hour = 0;
+      str = str.concat("00:")
+    }
+//min
+    time = time % 3600;
+    if(time / 60  >= 1){
+      min = Math.floor(time / 60);
+      if(min < 10){
+        str = str.concat("0"+min+":");
+      }else{
+        str = str.concat(min+":");
+      }
+    }else{
+      min = 0;
+      str = str.concat("00:")
+    }
+//sec
+    sec = time % 60;
+    if(sec < 10){
+      str = str.concat("0"+sec);
+    }else{
+      str = str.concat(sec);
+    }
 
+    //console.log(str)
+    //console.log("hour = "+hour+" min = "+min+" sec = "+sec)
+    return str
   }
+
 // 상위 콤포넌트에서 setState호출로 하위콤포넌트의 props값이 변경되었을때 하위콤포넌트의 값을 setState해주기 위해
   componentWillReceiveProps(nextProps){
     if(nextProps.isAllClearAddBtn){
       this.setState({
         isClickedAddBtn : false
-      })
+      });
       this.props.changeIsAllClearAddBtn()
     }
   }
@@ -51,7 +92,7 @@ class SearchListItem extends React.Component{
         <div className="itemCont">
           <p className="title">{data.title}</p>
           <p className="info">
-            <span className="duration">{data.duration}</span>
+            <span className="duration">{this.changeDuration(data.duration)}</span>
             <span className="date">{this.changePublishedAtData(data.publishedAt)}</span>
             <span className="viewCount">{data.viewCount} Views</span>
           </p>

@@ -2,13 +2,17 @@ import React from "react"
 import "./nav.css"
 
 class Nav extends React.Component{
+
+
   render(){
-    return(
-      <nav className="navArea">
+      let { navClickHandler } = this.props;
+
+      return(
+      <nav className="navArea" onClick={navClickHandler}>
         <ul>
-          <li>SEARCH</li>
-          <li>MY ALBUM</li>
-          <li>POPULAR</li>
+          <li id="1">SEARCH</li>
+          <li id="2">MY ALBUM</li>
+          <li id="3">POPULAR</li>
         </ul>
       </nav>
     )
