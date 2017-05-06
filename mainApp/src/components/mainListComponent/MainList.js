@@ -164,7 +164,6 @@ render할때 그려지지 않았다.
     let utilLayer = document.querySelector(".utilLayer");
     utilLayer.classList.remove("show");
 
-
     const ALBUM_ID = "590a93b2e6f6532999fc6c67";
 
     let insertData = {
@@ -174,16 +173,14 @@ render할때 그려지지 않았다.
 
 
     let jsonData = JSON.stringify(insertData);
-    //console.log(jsonData)
 
     utility.runAjaxData(function(e){
-      console.log(e)
       this.setState({
         selectedVideoArr : [],
         isSelectedArr : false,
         isAllClearAddBtn : true
       })
-    }.bind(this), "POST", "/mainList/videos", jsonData, "application/json")
+    }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
   }
 
   changeIsAllClearAddBtn(){
@@ -191,11 +188,6 @@ render할때 그려지지 않았다.
       isAllClearAddBtn : false
     })
   }
-
-
-
-  //utility.runAjaxData(this.deleteReqListener,"POST","/playList/deletePlayList", jsonData, "application/json");
-
 
   moreVideoList(){
     const url = this.searchUrl.concat("&pageToken="+this.state.nextPageToken);
@@ -222,6 +214,7 @@ render할때 그려지지 않았다.
         />
         <SearchList
           items = {this.state.items}
+
           addSelectedVideo = {this.addSelectedVideo}
           delSelectedVideo = {this.delSelectedVideo}
           addSelectedVideoToAlbum = {this.addSelectedVideoToAlbum}
