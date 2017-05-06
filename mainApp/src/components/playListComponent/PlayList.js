@@ -24,7 +24,7 @@ class PlayList extends Component {
     // }
 
     render(){
-        let {playList,deleteBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady,playListClickHandler,selectedData,selectedKey} = this.props;
+        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady,playListClickHandler,selectedData,selectedKey} = this.props;
 
         let opts = {
             height: '100%',
@@ -53,7 +53,7 @@ class PlayList extends Component {
                   playList={playList}
                   playListClickHandler={playListClickHandler}
                   selectedKey={selectedKey}
-                  deleteBtnClickHandler={deleteBtnClickHandler}
+                  deletePlayListBtnClickHandler={deletePlayListBtnClickHandler}
                   checkClickHandler={checkClickHandler}
                   selectAllBtnClickHandler={selectAllBtnClickHandler}
                   checkIdxList={checkIdxList}

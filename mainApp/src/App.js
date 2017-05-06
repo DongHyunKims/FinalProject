@@ -17,9 +17,11 @@ import moment from 'moment'
 
 
 const ACTION_CONFIG = {
-    addPlayList : "1",
-    deletePlayList : "2",
-    resetPlayList : "3",
+    addPlayList : "addPlayList",
+    deletePlayList : "deletePlayList",
+    resetPlayList : "resetPlayList",
+    deleteAlbum : "deleteAlbum",
+    getAllAlbum : "getAllAlbum"
 };
 
 
@@ -56,20 +58,23 @@ class App extends Component {
 
 
 
+
         this.checkClickHandler = this.checkClickHandler.bind(this);
         this.selectAllBtnClickHandler = this.selectAllBtnClickHandler.bind(this);
-        this.getAlbumreqListener = this.getAlbumreqListener.bind(this);
-        this.deleteBtnClickHandler = this.deleteBtnClickHandler.bind(this);
-        this.deleteReqListener = this.deleteReqListener.bind(this);
+        this._getAlbumReqListener = this._getAlbumReqListener.bind(this);
+        this.deletePlayListBtnClickHandler = this.deletePlayListBtnClickHandler.bind(this);
+        this._deletePlayListReqListener = this._deletePlayListReqListener.bind(this);
         this.onReady = this.onReady.bind(this);
 
 
         //playList
         this.playListClickHandler = this.playListClickHandler.bind(this);
 
-       //앨범
-        this.getAllAlbumreqListener = this.getAllAlbumreqListener.bind(this);
+       //albumList
+        this._getAllAlbumReqListener = this._getAllAlbumReqListener.bind(this);
         this.albumClickHandler = this.albumClickHandler.bind(this);
+        this.deleteAlbumClickHandler = this.deleteAlbumClickHandler.bind(this);
+        this._deleteAlbumReqListener = this._deleteAlbumReqListener.bind(this);
 
 
 
@@ -101,29 +106,80 @@ class App extends Component {
 
     //app의 componentDid mount로 빠야 함
     componentDidMount(){
-        utility.runAjax(this.getAllAlbumreqListener,"GET","/albumList/getAllAlbumList");
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
-    getAllAlbumreqListener(res){
-        // console.log(res.currentTarget);
-        // console.log(this);
+
+
+    //albumList
+    deleteAlbumClickHandler(albumId,event){
+        utility.runAjax(this._deleteAlbumReqListener, "GET", "/albumList/deleteAlbum/"+albumId);
+        event.stopPropagation();
+    }
+
+    _deleteAlbumReqListener(res){
+        console.log(res);
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.deleteAlbum),"GET","/albumList/getAllAlbumList");
+    }
+
+
+
+
+    _getAllAlbumReqListener(action,res){
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
-        //console.log("jsonAlbumList",jsonAlbumList);
-        this.setState({
-            albumList: jsonAlbumList,
-            currentAlbum:jsonAlbumList[0]
-        });
+
+        switch (action){
+            case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
+                console.log(jsonAlbumList);
+                if(jsonAlbumList.err){
+                    return {
+                        albumList : null,
+                        currentAlbum: null,
+                        deleteVideoCheckList : [],
+                        checkIdxList : [],
+                        selectAllIsChecked : false,
+                        player: null,
+                        selectedData : null,
+                        selectedKey : -1,
+                        playingState : null,
+                    }
+
+                }
+
+
+                return {
+                    albumList : jsonAlbumList,
+                    currentAlbum: jsonAlbumList[0],
+                    deleteVideoCheckList : [],
+                    checkIdxList : [],
+                    selectAllIsChecked : false,
+                    player: null,
+                    selectedData : null,
+                    selectedKey : -1,
+                    playingState : null,
+                }
+            });
+            break;
+            case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
+                return {
+                    albumList : jsonAlbumList,
+                    currentAlbum: jsonAlbumList[0],
+                }
+            });
+            break;
+            default: break;
+
+        }
+
 
     }
 
 
     albumClickHandler(_id,idx,event){
-        utility.runAjax(this.getAlbumreqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
+        utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
     }
 
-    getAlbumreqListener(action,res){
-
-
+    _getAlbumReqListener(action,res){
         //
         // console.log("jsonData",res.currentTarget.responseText);
 
@@ -199,7 +255,6 @@ class App extends Component {
             });
             break;
             case ACTION_CONFIG.resetPlayList : this.setState((state,props)=>{
-
                 let { playingState}  = state;
                 //무언가 play 되고있다
                 if(playingState) {
@@ -214,14 +269,12 @@ class App extends Component {
                             currentAlbum: jsonData
                         };
                     }
-                    // console.log("다시 원래 대로 돌아왔다!");
                     return {
                         selectedData: playingData,
                         selectedKey: playingKey,
                         currentAlbum: jsonData
                     };
                 }
-
                 return {
                     selectedData: null,
                     selectedKey: -1,
@@ -241,7 +294,7 @@ class App extends Component {
 
 
     //삭제버튼 클릭 handler
-    deleteBtnClickHandler(){
+    deletePlayListBtnClickHandler(){
         let { deleteVideoCheckList,currentAlbum } = this.state;
         let { _id } = currentAlbum;
         let deleteData = {
@@ -249,23 +302,18 @@ class App extends Component {
             deleteList: deleteVideoCheckList
         };
         let jsonData = JSON.stringify(deleteData);
-        utility.runAjaxData(this.deleteReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
+        utility.runAjaxData(this._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
     }
 
 
 
-
-
-    deleteReqListener(_id,res){
-        utility.runAjax(this.getAlbumreqListener.bind(null,ACTION_CONFIG.deletePlayList), "GET", "/albumList/getAlbum/"+_id);
+    _deletePlayListReqListener(_id,res){
+        utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.deletePlayList), "GET", "/albumList/getAlbum/"+_id);
     }
 
     //check click handler
     checkClickHandler(videoId, checkIdx, isChecked, event) {
-
         let {deleteVideoCheckList,checkIdxList,currentAlbum}  = this.state;
-
-
         //let items = videoData.items;
         let currentSelectAllIsChecked = false;
 
@@ -401,7 +449,7 @@ class App extends Component {
         utility.runAjaxData(function(e){
             //console.log(e);
 
-            utility.runAjax(this.getAlbumreqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
+            utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
 
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     }
@@ -517,7 +565,7 @@ class App extends Component {
           albumTitle = currentAlbum.title;
           playList = currentAlbum.playList;
       }
-      //(console.log(videoData));
+
     return (
       <div className="App">
 
@@ -529,15 +577,15 @@ class App extends Component {
 
             <PlayListComponent
                 playList={playList}
-                deleteBtnClickHandler={this.deleteBtnClickHandler}
-                checkClickHandler={this.checkClickHandler}
-                selectAllBtnClickHandler={this.selectAllBtnClickHandler}
+                selectedData={selectedData}
+                selectedKey={selectedKey}
                 checkIdxList={checkIdxList}
                 selectAllIsChecked={selectAllIsChecked}
                 onReady={this.onReady}
                 playListClickHandler={this.playListClickHandler}
-                selectedData={selectedData}
-                selectedKey={selectedKey}
+                deletePlayListBtnClickHandler={this.deletePlayListBtnClickHandler}
+                selectAllBtnClickHandler={this.selectAllBtnClickHandler}
+                checkClickHandler={this.checkClickHandler}
             />
 
 
@@ -548,6 +596,7 @@ class App extends Component {
                 //albumList
                 albumList={albumList}
                 albumClickHandler={this.albumClickHandler}
+                deleteAlbumClickHandler = {this.deleteAlbumClickHandler}
 
                 //searchList
                 items={items}

@@ -26,10 +26,10 @@ class PlayListSection extends Component {
 
 
     render(){
-        let {playList, playListClickHandler, selectedKey, deleteBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked} = this.props;
-
+        let {playList, playListClickHandler, selectedKey, deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked} = this.props;
         let menuStyle = null;
         let sectionStyle = null;
+
 
         /*
            데이터 어떻게 받을지 생각 해야한다
@@ -73,7 +73,7 @@ class PlayListSection extends Component {
 
                     <div className="playListSectionMenu" style={menuStyle}>
                         <button className="button defaultButton" onClick={selectAllBtnClickHandler}>{selectAllText}</button>
-                        <button className="button dangerButton" onClick={deleteBtnClickHandler}>삭제</button>
+                        <button className="button dangerButton" onClick={deletePlayListBtnClickHandler}>삭제</button>
                     </div>
             </div>
         );

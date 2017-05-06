@@ -21,7 +21,7 @@ class MainList extends Component {
 
 
     render(){
-        let { albumList, albumClickHandler } = this.props;
+        let { albumList, albumClickHandler, deleteAlbumClickHandler } = this.props;
         return(
             <div>
                 <SearchInputBox
@@ -30,6 +30,7 @@ class MainList extends Component {
                 <AlbumList
                     items={albumList}
                     albumClickHandler={albumClickHandler}
+                    deleteAlbumClickHandler={deleteAlbumClickHandler}
                 />
             </div>
         )
