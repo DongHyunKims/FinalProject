@@ -49,7 +49,7 @@ class PlayController extends React.Component {
     this.onEndVideo = this.onEndVideo.bind(this);
     this.setDuration = this.setDuration.bind(this);
     this.setCurrentTime = this.setCurrentTime.bind(this);
-    this.setVideoState = this.setVideoState.bind(this);
+    this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
     this.moveSeekBar = this.moveSeekBar.bind(this);
   }
 
@@ -60,9 +60,14 @@ class PlayController extends React.Component {
     this.state.player ? this.setDuration() : null
   }
 
-  setVideoState(event) {
-    this.setState({ videoState: event.data });
-    this.setDuration();
+  onPlayerStateChange(event) {
+    if (!(event === undefined)){
+      this.setState({ videoState: event.data });
+      this.setDuration();
+      if(event.data === 0) {          
+        this.onPauseVideo();
+      }
+    }
   }
 
   setDuration() {
@@ -77,19 +82,19 @@ class PlayController extends React.Component {
 
 
   setCurrentTime() {
-    if (!this.state.videoState === 1){
-      return
+    if (this.state.event_map.playing){
+      setInterval(() => { 
+        let time = Math.floor(this.state.player.getCurrentTime());
+        this.setState({ event_map: Object.assign({}, this.state.event_map, { curTime: toTimeString(time), curProgressBar: time })});
+      }, 1000);
     }
-    setInterval(() => { 
-      let time = Math.floor(this.state.player.getCurrentTime());
-      this.setState({ event_map: Object.assign({}, this.state.event_map, { curTime: toTimeString(time), curProgressBar: time })});
-    }, 1000);    
   }
 
   onPlayVideo() {
     this.setState({
       event_map: Object.assign({}, this.state.event_map, { playing: true }), 
     });
+    if (this.state.videoState !=0)
     Promise.resolve()
       .then(this.state.player.playVideo())
       .then(this.opts.playerVars.autoplay = 1)
@@ -97,53 +102,61 @@ class PlayController extends React.Component {
   }
   
   
+  
   onPauseVideo() {
     this.setState({
       event_map: Object.assign({}, this.state.event_map, { playing: false }),
     });
     this.state.player.pauseVideo();
+    if (this.state.videoState === 0 && (this.state.event_map.curProgressBar === this.state.event_map.maxProgressBar)){
+      Promise.resolve()
+        .then(this.onChangeNextVideo());
+    }
   }
 
   onEndVideo() {
+    this.setState({
+      event_map: Object.assign({}, this.state.event_map, { playing: false }),
+    });
     this.state.player.endVideo();
+    this.onChangeNextVideo();
   }
   
   onChangeNextVideo() {
     this.setState({ videoId: selectedVideo.id.next });
     Promise.resolve()
       .then(this.opts.playerVars.autoplay = 1)
-      .then(this.onPlayVideo).then(this.stateChange)
+      .then(this.onPlayVideo).then(this.onPlayerStateChange)
   }
 
-  // 이전 비디오로 이동
   onChangePrevVideo() {
     this.setState({ videoId: selectedVideo.id.prev });
     Promise.resolve()
       .then(this.opts.playerVars.autoplay = 1)
-      .then(this.onPlayVideo).then(this.stateChange)
+      .then(this.onPlayVideo).then(this.onPlayerStateChange)
   }
   
   moveSeekBar(event){
     let bar = utility.$selector("#seekBar");
     let time = bar.value;
-    console.log(time);
     // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
-   if (!this.state.event_map.playing) {
-     return
-    }
     // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
-   this.state.player.seekTo(time, true);
-  }
-
+   Promise.resolve()
+    .then(this.state.player.seekTo(time, true))
+    .then(this.onPlayVideo)
+   
+  } 
+  
   render() {
     return (
       <div>
-        <YouTube videoState={this.setVideoState} videoId={this.state.videoId} opts={this.opts} onReady={this.onReady} />
+        <YouTube onStateChange={this.onPlayerStateChange} videoId={this.state.videoId} opts={this.opts} onReady={this.onReady} />
         <button onClick={this.onChangePrevVideo}>Prev</button>
         <button onClick={this.onPlayVideo} className={this.state.event_map.playing ? "invisible" : ""}>Play</button>
         <button onClick={this.onPauseVideo} className={!this.state.event_map.playing ? "invisible" : ""}>Pause</button>
         <button onClick={this.onChangeNextVideo}>Next</button>
-        <input id="seekBar" type="range" min="0" max={this.state.event_map.maxProgressBar} defaultValue={this.state.event_map.curProgressBar} step="0.1" onChange={this.moveSeekBar}></input>
+        <input id="seekBar" type="range" min="0" max={this.state.event_map.maxProgressBar} value={this.state.event_map.curProgressBar} step="0.1" onChange={this.moveSeekBar}
+        orient="horizontal"></input>
         <h1>{this.state.event_map.curTime} / {this.state.event_map.totalTime}</h1>
       </div>
     );
