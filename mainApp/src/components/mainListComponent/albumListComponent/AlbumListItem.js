@@ -35,17 +35,11 @@ class AlbumListItem extends Component{
                     <div className="albumTitle"> {title}</div>
                     <div className="albumTotDuration">{totalDuration}</div>
                      <div className="albumMenu" >
-
-                         <div className="dropDown">
                             <img src="./images/default/menu.png" />
-
-                            <ul className="dropDownContent">
-                                <li>a1</li>
-                                <li>a2</li>
-                                <li>a3</li>
-                            </ul>
-                         </div>
-
+                            <div className="albumMenuBtn">
+                                <button>앨범 삭제</button>
+                                <button>앨범 수정</button>
+                            </div>
                      </div>
 
                 </div>

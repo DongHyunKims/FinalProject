@@ -25,7 +25,7 @@
     /*background-color: darkcyan;*/
 }
 
-.albumList li {
+.albumList > li {
     width: 30%;
     height: 230px;
     float:left;
@@ -36,20 +36,20 @@
     /*border:1px solid #d9d9d9;*/
 }
 
-.albumList li .albumThum {
+.albumList > li > .albumThum {
     width: 100%;
     height: 100%;
 
 }
 
 
-.albumList li .albumThum img {
+.albumList > li > .albumThum > img {
     width: 100%;
     height: 100%;
 
 }
 
-.albumList li .albumItemCont {
+.albumList li > .albumItemCont {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -61,13 +61,13 @@
     transition: height 0.5s;
 }
 
-.albumList li .albumItemCont div{
+.albumList li > .albumItemCont div{
     color: white;
 }
 
 
 
-.albumList li .albumItemCont div:nth-child(1) {
+.albumList > li > .albumItemCont > div:nth-child(1) {
     width: 100%;
     font-size: 1.1em;
     font-weight: bold;
@@ -76,46 +76,55 @@
     /*background-color: #ff4983;*/
 }
 
-.albumList li .albumItemCont div:nth-child(2) {
+.albumList > li > .albumItemCont > div:nth-child(2) {
     width: 100%;
     font-size: 1.1em;
     /*background-color: #2590ff;*/
     text-align: center;
     visibility: hidden;
 }
-.albumList li .albumItemCont div:nth-child(3) {
+.albumList > li > .albumItemCont > div:nth-child(3) {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    right: 0;
+    width: 20%;
     height: 20%;
     /*background-color: firebrick;*/
     visibility: hidden;
-
-
-}
-
-.albumList li .albumItemCont div:nth-child(3) .dropDown {
-    width: 20%;
-    height: 100%;
-    float: right;
-
 }
 
 
-.albumList li .albumItemCont div:nth-child(3) .dropDown > img{
+.albumList > li > .albumItemCont > div:nth-child(3) > img{
     width: 100%;
     height: 100%;
-
+    /*background-color: firebrick;*/
 }
 
-.albumList li:hover  > .albumItemCont  {
+.albumMenuBtn {
+    width: 0;
+    height: 100%;
+    /*background-color: #ff7064;*/
+    float: left;
+    visibility: hidden;
+}
+
+.albumMenuBtn button{
+    width: 40%;
+    height: 60%;
+}
+
+
+
+
+
+
+.albumList > li:hover > .albumItemCont  {
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
 }
 
 
-
-.albumList li:hover > .albumItemCont > div:nth-child(1){
+.albumList > li:hover > .albumItemCont > div:nth-child(1){
     position: absolute;
     top: 40%;
     font-size: 1.3em;
@@ -124,18 +133,29 @@
 }
 
 
-
-.albumList li:hover > .albumItemCont > div:nth-child(2)  {
+.albumList > li:hover > .albumItemCont > div:nth-child(2)  {
     position: absolute;
     top: 50%;
     visibility: visible;
 }
 
 
-.albumList li:hover > .albumItemCont > div:nth-child(3){
+.albumList > li:hover > .albumItemCont > div:nth-child(3){
     visibility: visible;
 }
 
+.albumList > li:hover > .albumItemCont > div:nth-child(3):hover{
+    width: 100%;
+}
+
+.albumList > li:hover > .albumItemCont > div:nth-child(3):hover > img{
+    width: 20%;
+}
+
+.albumList > li:hover > .albumItemCont > div:nth-child(3):hover  > .albumMenuBtn{
+    width: 80%;
+    visibility: visible;
+}
 
 
 #defaultItem{
@@ -144,24 +164,24 @@
 
 
 /*dropdown*/
-.albumList li:hover > .albumItemCont > div:nth-child(3) > .dropDown:hover > .dropDownContent{
-    display: block;
-}
+/*.albumList li:hover > .albumItemCont > div:nth-child(3) > .dropDown:hover > .dropDownContent{*/
+    /*display: block;*/
+/*}*/
 
 
-.dropDownContent {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    min-width: 80px;
-    height: 100px;
-    border: none;
-    display: none;
-    z-index: 5;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    background-color: #f9f9f9;
+/*.dropDownContent {*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 100%;*/
+    /*min-width: 80px;*/
+    /*height: 100px;*/
+    /*border: none;*/
+    /*display: none;*/
+    /*z-index: 5;*/
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    /*background-color: #f9f9f9;*/
 
-}
+/*}*/
 
 
 

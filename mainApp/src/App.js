@@ -141,6 +141,7 @@ class App extends Component {
 
                 let currentAlbum = jsonData;
                 let { playingState, checkIdxList, selectAllIsChecked}  = state;
+                console.log("selectAllIsChecked",selectAllIsChecked);
 
                 //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
                 if(playingState && !selectAllIsChecked){
@@ -167,15 +168,15 @@ class App extends Component {
                             currentAlbum: jsonData
                         }
                     }
-
+                     let currentPlayingKey = playingKey-length;
                       return {
                           playingState : {
                               playingAlbum :  currentAlbum,
-                              playingData :  playList[playingKey-length],
-                              playingKey : playingKey-length,
+                              playingData :  playList[currentPlayingKey],
+                              playingKey : currentPlayingKey,
                           },
-                          selectedData : playList[playingKey-length],
-                          selectedKey : playingKey-length,
+                          selectedData : playList[currentPlayingKey],
+                          selectedKey : currentPlayingKey,
                           deleteVideoCheckList: [],
                           checkIdxList: [],
                           selectAllIsChecked: false,
@@ -185,6 +186,7 @@ class App extends Component {
                 }
 
                 return {
+                    playingState : null,
                     selectedData: null,
                     selectedKey: -1,
                     deleteVideoCheckList: [],
@@ -199,12 +201,10 @@ class App extends Component {
             case ACTION_CONFIG.resetPlayList : this.setState((state,props)=>{
 
                 let { playingState}  = state;
-                let currentAlbum = jsonData;
-
                 //무언가 play 되고있다
                 if(playingState) {
                     let { playingAlbum, playingData, playingKey  } = playingState;
-                    if (currentAlbum._id !== playingAlbum._id) {
+                    if (jsonData._id !== playingAlbum._id) {
                         return {
                             selectedData:  playingData,
                             selectedKey: -1,
