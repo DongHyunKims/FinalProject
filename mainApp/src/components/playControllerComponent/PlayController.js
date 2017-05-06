@@ -28,7 +28,8 @@ class PlayController extends React.Component {
                    totalTime: '0:00', // 전체 비디오 재생 시간 
                    curProgressBar: 0,
                    maxProgressBar: 0,
-                   volumeChange: null // 볼륨 조절
+                   volume: 50, // 볼륨 조절
+                   soundOn: true
                   }
     };
 
@@ -51,6 +52,12 @@ class PlayController extends React.Component {
     this.setCurrentTime = this.setCurrentTime.bind(this);
     this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
     this.moveSeekBar = this.moveSeekBar.bind(this);
+
+    //sound
+    this.moveVolumeBar = this.moveVolumeBar.bind(this);
+    this.onSound = this.onSound.bind(this);
+    this.offSound = this.offSound.bind(this);
+
   }
 
   
@@ -94,14 +101,12 @@ class PlayController extends React.Component {
     this.setState({
       event_map: Object.assign({}, this.state.event_map, { playing: true }), 
     });
-    if (this.state.videoState !=0)
+    if (this.state.videoState !== 0)
     Promise.resolve()
       .then(this.state.player.playVideo())
       .then(this.opts.playerVars.autoplay = 1)
       .then(this.setCurrentTime)
   }
-  
-  
   
   onPauseVideo() {
     this.setState({
@@ -144,8 +149,40 @@ class PlayController extends React.Component {
    Promise.resolve()
     .then(this.state.player.seekTo(time, true))
     .then(this.onPlayVideo)
-   
   } 
+
+  moveVolumeBar(event){
+    let bar = utility.$selector("#volumeBar");
+    let volumeVal = bar.value;
+    this.setState({
+      event_map: Object.assign({}, this.state.event_map, { volume: volumeVal }),
+    });
+    
+    this.state.player.setVolume(volumeVal);
+    console.log(volumeVal, this.state.event_map.volume);
+    if (this.state.event_map.volume <= 1){
+      Promise.resolve()
+        .then(this.offSound)
+    }
+    else {
+      Promise.resolve()
+        .then(this.onSound)
+    }
+  }
+
+  onSound(){
+    this.setState({
+      event_map: Object.assign({}, this.state.event_map, { soundOn: true })
+    });
+    this.state.player.unMute();
+  }
+
+  offSound(){
+    this.setState({
+      event_map: Object.assign({}, this.state.event_map, { soundOn: false })
+    });
+    this.state.player.mute();
+  }
   
   render() {
     return (
@@ -155,9 +192,14 @@ class PlayController extends React.Component {
         <button onClick={this.onPlayVideo} className={this.state.event_map.playing ? "invisible" : ""}>Play</button>
         <button onClick={this.onPauseVideo} className={!this.state.event_map.playing ? "invisible" : ""}>Pause</button>
         <button onClick={this.onChangeNextVideo}>Next</button>
-        <input id="seekBar" type="range" min="0" max={this.state.event_map.maxProgressBar} value={this.state.event_map.curProgressBar} step="0.1" onChange={this.moveSeekBar}
-        orient="horizontal"></input>
+        <input id="seekBar" orient="horizontal" type="range" min="0" max={this.state.event_map.maxProgressBar}
+         value={this.state.event_map.curProgressBar} step="0.1" onChange={this.moveSeekBar} />
+        <button onClick={this.onSound} className={this.state.event_map.soundOn ? "invisible" : ""}>soundON</button>
+        <button onClick={this.offSound} className={!this.state.event_map.soundOn ? "invisible" : ""}>soundOFF</button>
+        <input id="volumeBar" orient="vertical" type="range" min="0" 
+        max="100" defaultValue={this.state.event_map.volume} step="1" onChange={this.moveVolumeBar} />
         <h1>{this.state.event_map.curTime} / {this.state.event_map.totalTime}</h1>
+        
       </div>
     );
   }
