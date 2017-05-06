@@ -27,6 +27,8 @@ class MainList extends React.Component{
             isAllClearAddBtn,
             searchVideo,
 
+            isSearched,
+
             //albumList
             albumList,
             albumClickHandler,
@@ -50,6 +52,8 @@ class MainList extends React.Component{
                 addSelectedVideoToAlbum={addSelectedVideoToAlbum}
                 searchVideo={searchVideo}
                 moreVideoList={moreVideoList}
+
+                isSearched={isSearched}
 
             />;
             break;

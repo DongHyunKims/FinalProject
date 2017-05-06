@@ -51,6 +51,7 @@ class App extends Component {
             isAllClearAddBtn : false,
             items : [],
             nextPageToken : "",
+            isSearched : false,
 
             //mainList
             navIdx: "2",
@@ -387,7 +388,10 @@ class App extends Component {
         this.setState({
             items : [],
             nextPageToken : "",
-            selectedVideoArr : []
+            selectedVideoArr : [],
+
+            isSearched : true
+
         });
 
 
@@ -484,7 +488,7 @@ class App extends Component {
     render() {
 
 
-      let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey } = this.state;
+      let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched } = this.state;
       //console.log("albumData",albumData);
 
       let playList = null;
@@ -537,6 +541,8 @@ class App extends Component {
                 addSelectedVideoToAlbum={this.addSelectedVideoToAlbum.bind(null,_id)}
                 searchVideo={this.searchVideo}
                 moreVideoList={this.moreVideoList}
+
+                isSearched = {isSearched}
             />
 
 
