@@ -74,7 +74,8 @@ class App extends Component {
         this._getAllAlbumReqListener = this._getAllAlbumReqListener.bind(this);
         this.albumClickHandler = this.albumClickHandler.bind(this);
         this.deleteAlbumClickHandler = this.deleteAlbumClickHandler.bind(this);
-        this._deleteAlbumReqListener = this._deleteAlbumReqListener.bind(this);
+        this._albumReqListener = this._albumReqListener.bind(this);
+        this.addAlbumSubmitHandler = this.addAlbumSubmitHandler.bind(this);
 
 
 
@@ -112,13 +113,33 @@ class App extends Component {
 
 
     //albumList
+
+    addAlbumSubmitHandler(data,event){
+
+        let formData = new FormData();
+        //FormData 에 파일과 이메일을 append 메소드를 통해 등록
+
+        for(let key in data){
+            let inputData = data[key];
+            if(key === "category"){
+                inputData = JSON.stringify(inputData);
+            }
+            formData.append(key, inputData);
+        }
+
+
+        //formData.append("coverImgUrl",data.coverImgUrl);
+        utility.runAjaxData(this._albumReqListener,"POST","/albumList/addAlbum",formData,"multipart/form-data");
+
+    }
+
     deleteAlbumClickHandler(albumId,event){
-        utility.runAjax(this._deleteAlbumReqListener, "GET", "/albumList/deleteAlbum/"+albumId);
+        utility.runAjax(this._albumReqListener, "GET", "/albumList/deleteAlbum/"+albumId);
         event.stopPropagation();
     }
 
-    _deleteAlbumReqListener(res){
-        console.log(res);
+    _albumReqListener(res){
+        //console.log(res);
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.deleteAlbum),"GET","/albumList/getAllAlbumList");
     }
 
@@ -597,6 +618,7 @@ class App extends Component {
                 albumList={albumList}
                 albumClickHandler={this.albumClickHandler}
                 deleteAlbumClickHandler = {this.deleteAlbumClickHandler}
+                addAlbumSubmitHandler = {this.addAlbumSubmitHandler}
 
                 //searchList
                 items={items}

@@ -17,7 +17,6 @@ class AlbumListItem extends Component{
 
     render(){
         let { data, albumClickHandler,idx,deleteAlbumClickHandler } = this.props;
-        console.log("deleteAlbumClickHandler",deleteAlbumClickHandler);
         let { coverImgUrl,title, totalDuration, _id } = data;
 
 

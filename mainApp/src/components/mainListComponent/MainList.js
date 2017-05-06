@@ -30,6 +30,7 @@ class MainList extends React.Component{
             albumList,
             albumClickHandler,
             deleteAlbumClickHandler,
+            addAlbumSubmitHandler,
 
             navIdx
 
@@ -55,6 +56,7 @@ class MainList extends React.Component{
                 albumList={albumList}
                 albumClickHandler={albumClickHandler}
                 deleteAlbumClickHandler={deleteAlbumClickHandler}
+                addAlbumSubmitHandler={addAlbumSubmitHandler}
             />;
             break;
             default : break;

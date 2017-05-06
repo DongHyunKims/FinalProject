@@ -4,8 +4,19 @@ const Album = require('../../database/model/album');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const multer = require("multer");
 
 
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, 'public/images/uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname+ '-' + Date.now() + "." +file.mimetype.split("/")[1])
+    }
+});
+
+const upload = multer({ storage: storage });
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
@@ -73,10 +84,7 @@ router.get("/insertAllAlbum",(req,res)=>{
 
 });
 
-
-
 // 실제 사용 라우팅
-
 // 전체 AlbumList 가져오는 라우터
 router.get("/getAllAlbumList",(req,res)=>{
     Album.find((err,albums)=>{
@@ -112,9 +120,32 @@ router.get("/getAlbum/:albumId",(req,res)=>{
 });
 
 
+router.get("/deleteAlbum/:albumId",(req,res)=>{
+    let { albumId }   = req.params;
+    //console.log("albumId",albumId)
+    //let objectAlbumId = createObjectId(albumId);
+    Album.findByIdAndRemove( albumId,(err,doc)=>{
+        if(err)  return res.status(500).send(err);
+        //console.log("album",album);
+        res.json(doc);
+    })
+});
 
 
 
+
+
+
+
+router.post("/addAlbum",upload.single('coverUrlImg'),function(req,res){
+    let data = req.body;
+    // 전송된 파일 데이터 확인
+    let inputFileUrl = req.file.path;
+
+    console.log("data",data);
+    console.log("inputFileUrl",inputFileUrl);
+
+});
 
 
 

@@ -33,7 +33,6 @@ router.post("/videos", (req, res)=>{
         console.log("err",err);
         return res.status(500).send(err);
       }
-
       res.status(200).send();
     }
   )

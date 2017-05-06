@@ -158,32 +158,143 @@
 }
 
 
-#defaultItem{
+#addItem{
     background-color: #ff5366;
 }
 
 
-/*dropdown*/
-/*.albumList li:hover > .albumItemCont > div:nth-child(3) > .dropDown:hover > .dropDownContent{*/
-    /*display: block;*/
-/*}*/
 
 
-/*.dropDownContent {*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 100%;*/
-    /*min-width: 80px;*/
-    /*height: 100px;*/
-    /*border: none;*/
-    /*display: none;*/
-    /*z-index: 5;*/
-    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
-    /*background-color: #f9f9f9;*/
-
-/*}*/
 
 
+/*Modal (background) */
+.modal {
+    /*display: none; !* Hidden by default *!*/
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modalContent {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    /*border: 1px solid #888;*/
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modalHeader {
+    padding: 0.3%;
+    background-color: rgb(253,0,97); /* Fallback color */
+    color: white;
+    text-align: center;
+
+}
+
+.modalBody {padding: 2px 16px;}
+
+.modalFooter {
+    padding: 0.3%;
+
+    background-color: rgba(0,0,0,0.8); /* Fallback color */
+    color: white;
+
+}
+
+
+
+/* Add padding to container elements */
+.modalFormContainer {
+    padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+
+/*form*/
+
+/* Full-width input fields */
+.modalFormContainer > input[type=text], input[type=file] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.modalFormCheckContainer{
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 12px 0;
+    margin: 8px 0;
+}
+
+.modalFormCheckContainer > span{
+    padding: 12px 20px;
+}
+
+
+
+.modalFooter > .button {
+    border: none;
+    color: white;
+    padding: 1.5% 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    /*margin: 0.5% 0.5%;*/
+    cursor: pointer;
+}
+.modalFooter > input[type=submit]:nth-child(1){background-color: #e7e7e7; color: black; margin: 0 0 0 80%; } /* Green */
+.modalFooter > input[type=button]:nth-child(2){background-color: #f44336; } /* Green */
 
 
 
