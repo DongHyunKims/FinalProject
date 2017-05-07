@@ -21,7 +21,7 @@ const ACTION_CONFIG = {
     deletePlayList : "deletePlayList",
     resetPlayList : "resetPlayList",
     deleteAlbum : "deleteAlbum",
-    getAllAlbum : "getAllAlbum"
+    getAllAlbum : "getAllAlbum",
 };
 
 
@@ -110,26 +110,25 @@ class App extends Component {
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
-
-
     //albumList
-
     addAlbumSubmitHandler(data,event){
+        // let formData = new FormData();
+        // //FormData 에 파일과 이메일을 append 메소드를 통해 등록
+        //
+        // for(let key in data){
+        //     let inputData = data[key];
+        //     if(key === "category"){
+        //         inputData = JSON.stringify(inputData);
+        //     }
+        //     formData.append(key, inputData);
+        // }
 
-        let formData = new FormData();
-        //FormData 에 파일과 이메일을 append 메소드를 통해 등록
 
-        for(let key in data){
-            let inputData = data[key];
-            if(key === "category"){
-                inputData = JSON.stringify(inputData);
-            }
-            formData.append(key, inputData);
-        }
-
+        console.log("asfasdfasdfasdf");
+        event.preventDefault();
 
         //formData.append("coverImgUrl",data.coverImgUrl);
-        utility.runAjaxData(this._albumReqListener,"POST","/albumList/addAlbum",formData,"multipart/form-data");
+        //utility.runAjaxData(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"post","/albumList/addAlbum",formData);
 
     }
 

@@ -75,6 +75,7 @@ class Modal extends Component{
                         <span className="close"  onClick={addItemCancelClickHandler}>&times;</span>
                         <h3>Add Album</h3>
                     </div>
+                    <form action="/albumList/addAlbum" method="post" encType="multipart/form-data">
                         <div className="modalBody">
                             <div className="modalFormContainer">
                                 <label><b>Title</b></label>
@@ -91,9 +92,10 @@ class Modal extends Component{
                             </div>
                         </div>
                         <div className="modalFooter">
-                            <input type="submit" className="button" onClick={addAlbumSubmitHandler.bind(null,this.state)} value="앨범 생성" />
+                            <input type="submit" className="button"  value="앨범 생성" />
                             <input type="button" className="button" onClick={addItemCancelClickHandler} value="취소" />
                         </div>
+                </form>
                 </div>
             </div>
 
@@ -102,5 +104,5 @@ class Modal extends Component{
     }
 }
 
-
+//onSubmit={addAlbumSubmitHandler.bind(null,this.state)}
 export default Modal;

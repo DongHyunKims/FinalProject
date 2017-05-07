@@ -293,7 +293,7 @@
     /*margin: 0.5% 0.5%;*/
     cursor: pointer;
 }
-.modalFooter > input[type=submit]:nth-child(1){background-color: #e7e7e7; color: black; margin: 0 0 0 80%; } /* Green */
+.modalFooter > input[type=button]:nth-child(1){background-color: #e7e7e7; color: black; margin: 0 0 0 80%; } /* Green */
 .modalFooter > input[type=button]:nth-child(2){background-color: #f44336; } /* Green */
 
 
