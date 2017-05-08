@@ -57,6 +57,28 @@ class App extends Component {
 
             //mainList
             navIdx: "2",
+
+
+
+
+            //video controller
+            videoState: null,
+            // videoId: selectedVideo.id.current,
+            //player: null,
+            eventMap: { playing: false,
+                curTime: '0:00', // 현재 재생 시간
+                totalTime: '0:00', // 전체 비디오 재생 시간
+                curProgressBar: 0,
+                maxProgressBar: 0,
+                volume: 50, // 볼륨 조절
+                soundOn: true
+            },
+
+
+
+
+
+
         };
 
 
@@ -102,6 +124,24 @@ class App extends Component {
 
         //nav
         this.navClickHandler = this.navClickHandler.bind(this);
+
+
+        //playController
+        this.opts = {
+            videoId: this.state.videoId,
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                autoplay: 0
+            }
+        };
+
+        this.onChangePrevVideo = this.onChangePrevVideo.bind(this);
+        this.onChangeNextVideo = this.onChangeNextVideo.bind(this);
+        this.onPlayVideo = this.onPlayVideo.bind(this);
+        this.onPauseVideo = this.onPauseVideo.bind(this);
+        this._setCurrentTime = this._setCurrentTime.bind(this);
+        this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
+        this._setDuration = this._setDuration.bind(this);
+        this.moveSeekBar = this.moveSeekBar.bind(this);
 
     }
 
@@ -404,7 +444,13 @@ class App extends Component {
     onReady(event) {
         //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
         //console.log(event.target);
-        this.setState({ player: event.target });
+        this.setState(()=>{
+            return { player: event.target }
+        });
+        // this.state.player ? this._setDuration() : null;
+
+
+
         //this.state.player ? this.getDuration() : null
         //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
     }
@@ -412,19 +458,24 @@ class App extends Component {
 
     //playList
     playListClickHandler(playList,key){
-        this.setState((state)=>{
-                let { currentAlbum } = state;
+        
+            this.setState((state) => {
+                let {currentAlbum} = state;
                 return {
-                    playingState : {
-                        playingAlbum :  currentAlbum,
-                        playingData :  playList[key],
-                        playingKey : key,
+                    playingState: {
+                        playingAlbum: currentAlbum,
+                        playingData: playList[key],
+                        playingKey: key,
                     },
-                    selectedData : playList[key],
-                    selectedKey : key
+                    selectedData: playList[key],
+                    selectedKey: key,
                 }
-            }
-        );
+            });
+
+
+
+
+
     }
 
 
@@ -600,12 +651,162 @@ class App extends Component {
 
 
 
+
+
+    //playController
+    _toTimeString(seconds) {
+        let time = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+        time = time.replace(/00:/, "");
+        return time
+    }
+
+    _setCurrentTime(player,eventMap) {
+        console.log("player.getCurrentTime()",player.getCurrentTime());
+        if (eventMap.playing){
+            setInterval(() => {
+                let time = Math.floor(player.getCurrentTime());
+                this.setState({ eventMap: Object.assign({}, eventMap, { curTime: this._toTimeString(time), curProgressBar: time })});
+            }, 1000);
+        }
+    }
+
+    onPlayVideo(player,eventMap) {
+        this.setState({
+            eventMap: Object.assign({}, eventMap, { playing: true }),
+        });
+
+
+        let { videoState } = this.state;
+
+            if (videoState !== 0)
+                Promise.resolve()
+                    .then(player.playVideo())
+                    .then(this.opts.playerVars.autoplay = 1)
+                    .then(this._setCurrentTime.bind(null, player, eventMap));
+
+    }
+
+    onPauseVideo(player,eventMap) {
+        this.setState({
+            eventMap: Object.assign({}, eventMap, { playing: false }),
+        });
+        player.pauseVideo();
+        if (this.state.videoState === 0 && (eventMap.curProgressBar === eventMap.maxProgressBar)){
+            Promise.resolve()
+                .then(this.onChangeNextVideo(player,eventMap));
+        }
+    }
+
+    onChangeNextVideo(player,eventMap) {
+        // this.setState({ videoId: selectedVideo.id.next });
+
+        this.setState((state)=>{
+                let { currentAlbum,selectedKey } = state;
+
+                let currentKey = selectedKey+1;
+                let { playList } = currentAlbum;
+                return {
+                    playingState : {
+                        playingAlbum :  currentAlbum,
+                        playingData :  playList[currentKey],
+                        playingKey : currentKey,
+                    },
+                    selectedData : playList[currentKey],
+                    selectedKey : currentKey
+                }
+            }
+        );
+
+
+        Promise.resolve()
+            .then(this.opts.playerVars.autoplay = 1)
+            .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player,eventMap))
+    }
+
+    onChangePrevVideo(player,eventMap) {
+        // this.setState({ videoId: selectedVideo.id.prev });
+
+        this.setState((state)=>{
+                let { currentAlbum,selectedKey } = state;
+                let currentKey = selectedKey-1;
+                let { playList } = currentAlbum;
+                return {
+                    playingState : {
+                        playingAlbum :  currentAlbum,
+                        playingData :  playList[currentKey],
+                        playingKey : currentKey,
+                    },
+                    selectedData : playList[currentKey],
+                    selectedKey : currentKey
+                }
+            }
+        );
+
+
+
+        Promise.resolve()
+            .then(this.opts.playerVars.autoplay = 1)
+            .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player,eventMap))
+    }
+
+
+
+    onPlayerStateChange(player,eventMap,event) {
+
+
+
+
+
+
+
+        if (event !== undefined){
+            console.log("event.data",event.data);
+            this.setState({ videoState: event.data });
+            this._setDuration(player,eventMap);
+            if(event.data === 0) {
+                this.onPauseVideo(player,eventMap);
+            }
+        }
+
+
+
+
+
+    }
+
+
+   _setDuration(player,eventMap) {
+        //console.log("player",player);
+        let time = Math.floor(player.getDuration());
+        this.setState({
+            eventMap: Object.assign({}, eventMap, {
+                totalTime: this._toTimeString(time),
+                maxProgressBar: time
+            })
+        });
+    }
+
+    moveSeekBar(player,eventMap,event){
+        let bar = utility.$selector("#seekBar");
+        let time = bar.value;
+        // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
+        // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
+        Promise.resolve()
+            .then(player.seekTo(time, true))
+            .then(this.onPlayVideo.bind(null,player,eventMap))
+    }
+
+
+
+
+
+
+
     render() {
-      console.log(this.state.totalDuration)
-
-
-      let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched } = this.state;
+      //console.log(this.state.totalDuration)
+      let { albumList, checkIdxList, selectAllIsChecked, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched, player,eventMap,playingState } = this.state;
       //console.log("albumData",albumData);
+
 
       let playList = null;
       let albumTitle = null;
@@ -614,6 +815,12 @@ class App extends Component {
           _id = currentAlbum._id;
           albumTitle = currentAlbum.title;
           playList = currentAlbum.playList;
+      }
+
+      let playingData = null;
+
+      if(playingState) {
+          playingData = playingState.playingData;
       }
 
     return (
@@ -631,6 +838,7 @@ class App extends Component {
                 selectedKey={selectedKey}
                 checkIdxList={checkIdxList}
                 selectAllIsChecked={selectAllIsChecked}
+                onPlayerStateChange={this.onPlayerStateChange.bind(null,player,eventMap)}
                 onReady={this.onReady}
                 playListClickHandler={this.playListClickHandler}
                 deletePlayListBtnClickHandler={this.deletePlayListBtnClickHandler}
@@ -670,12 +878,31 @@ class App extends Component {
         </div>
 
         <footer className="mainFooter">
-            <PlayController player={player}/>
+            <PlayController
+
+                eventMap={eventMap}
+                playingData={playingData}
+                onChangePrevVideo={this.onChangePrevVideo.bind(null,player,eventMap)}
+                onChangeNextVideo={this.onChangeNextVideo.bind(null,player,eventMap)}
+                onPlayVideo={this.onPlayVideo.bind(null,player,eventMap)}
+                onPauseVideo={this.onPauseVideo.bind(null,player,eventMap)}
+                onPlayerStateChange={this.onPlayerStateChange.bind(null,player,eventMap)}
+                moveSeekBar={this.moveSeekBar.bind(null,player,eventMap)}
+            />
         </footer>
 
       </div>
     );
   }
 }
+
+
+
+// this.onChangePrevVideo = this.onChangePrevVideo.bind(this);
+// this.onChangeNextVideo = this.onChangeNextVideo.bind(this);
+// this.onPlayVideo = this.onPlayVideo.bind(this);
+// this.onPauseVideo = this.onPauseVideo.bind(this);
+// this.setCurrentTime = this.setCurrentTime.bind(this);
+// this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
 
 export default App;

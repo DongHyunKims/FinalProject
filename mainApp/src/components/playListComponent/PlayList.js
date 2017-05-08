@@ -24,7 +24,7 @@ class PlayList extends Component {
     // }
 
     render(){
-        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady,playListClickHandler,selectedData,selectedKey} = this.props;
+        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady,playListClickHandler,selectedData,selectedKey,onPlayerStateChange} = this.props;
 
         let opts = {
             height: '100%',
@@ -41,7 +41,7 @@ class PlayList extends Component {
             let {videoId} = selectedData;
 
 
-            youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}/>
+            youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady} onStateChange={onPlayerStateChange}/>
         }
 
         return (
