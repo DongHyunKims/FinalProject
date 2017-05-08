@@ -4,11 +4,27 @@ const Album = require('../../database/model/album');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const multer = require("multer");
 
-
-
+router.use(express.static('public'));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
+
+const DEFAULT_IMG_URL = "http://localhost:3001";
+const DEFAULT_URL = "http://localhost:3000/";
+
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, 'public/images/uploads/coverImg');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname+ '-' + Date.now() + "." +file.mimetype.split("/")[1])
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
 
 
 
@@ -73,10 +89,7 @@ router.get("/insertAllAlbum",(req,res)=>{
 
 });
 
-
-
 // 실제 사용 라우팅
-
 // 전체 AlbumList 가져오는 라우터
 router.get("/getAllAlbumList",(req,res)=>{
     Album.find((err,albums)=>{
@@ -112,9 +125,60 @@ router.get("/getAlbum/:albumId",(req,res)=>{
 });
 
 
+router.get("/deleteAlbum/:albumId",(req,res)=>{
+    let { albumId }   = req.params;
+    //console.log("albumId",albumId)
+    //let objectAlbumId = createObjectId(albumId);
+    Album.findByIdAndRemove( albumId,(err,doc)=>{
+        if(err)  return res.status(500).send(err);
+        //console.log("album",album);
+        res.json(doc);
+    })
+});
 
 
 
+
+
+
+
+router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
+
+    // console.log("ffffffffff");
+    let {title,category} = req.body;
+    // // 전송된 파일 데이터 확인
+    let {path} = req.file;
+
+
+    if(path === null || path === undefined){
+        path = DEFAULT_IMG_URL+"/images/default/default-thumbnail.jpg";
+        console.log("inputFileUrl1",path);
+    }
+    path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
+
+
+    // console.log("data",JSON.parse(category));
+    // console.log("inputFileUrl2",path);
+
+
+    let album = new Album({
+        title: title,
+        coverImgUrl: path,
+        totalDuration: 0,
+        category: JSON.parse(category),
+        playList: []
+    });
+
+
+    album.save((err,doc)=>{
+        if(err) return res.status(500).send(err);
+        res.redirect(DEFAULT_URL);
+    });
+
+
+
+
+});
 
 
 
