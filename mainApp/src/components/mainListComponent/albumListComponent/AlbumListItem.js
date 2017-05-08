@@ -11,31 +11,30 @@ class AlbumListItem extends Component{
         this.state = {
             isToggled: false,
         };
-        this.menuClickHandler = this.menuClickHandler.bind(this);
 
     }
 
-    menuClickHandler(event){
-        console.log("ffff");
-        event.stopPropagation();
-    }
 
     render(){
-        let { data, onClick,idx } = this.props;
+        let { data, albumClickHandler,idx,deleteAlbumClickHandler } = this.props;
         let { coverImgUrl,title, totalDuration, _id } = data;
 
 
         return(
-            <li onClick={onClick.bind(null,_id,idx)}>
+            <li onClick={albumClickHandler.bind(null,_id,idx)}>
                 <div className="albumThum">
                     <img src={coverImgUrl} className="albumImg"/>
                 </div>
 
                 <div className="albumItemCont" >
                     <div className="albumTitle"> {title}</div>
-                    <div className="albumTotDuration">08:43</div>
+                    <div className="albumTotDuration">{totalDuration}</div>
                      <div className="albumMenu" >
-                         <img src="./images/default/menu.png" onClick={this.menuClickHandler} />
+                            <img src="./images/default/menu.png" />
+                            <div className="albumMenuBtn">
+                                <button onClick={deleteAlbumClickHandler.bind(null,_id)}>앨범 삭제</button>
+                                <button>앨범 수정</button>
+                            </div>
                      </div>
 
                 </div>
