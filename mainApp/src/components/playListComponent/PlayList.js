@@ -3,7 +3,10 @@
  */
 import React, {Component} from 'react';
 import "./playList.css";
-import YoutubePlayerComponent from "./YoutubePlayer";
+//import YoutubePlayerComponent from "./YoutubePlayer";
+
+
+import YoutubePlayerComponent from "./Youtube";
 import PlayListSection from "./PlayListSection";
 
 class PlayList extends Component {
@@ -11,44 +14,51 @@ class PlayList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selectedData : null,
-            selectedKey : -1,
         };
-        this.playListClickHandler = this.playListClickHandler.bind(this);
-
-
+        // this.playListClickHandler = this.playListClickHandler.bind(this);
     }
-    playListClickHandler(key){
 
-        let videoData = this.props.videoData;
-        this.setState({selectedData : videoData.items[key], selectedKey : key});
-    }
+    // playListClickHandler(key){
+    //     let {playList} = this.props;
+    //     this.setState({selectedData : playList[key], selectedKey : key});
+    // }
 
     render(){
-
-        let {videoData} = this.props;
-        let {selectedData,selectedKey} = this.state;
+        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady,playListClickHandler,selectedData,selectedKey} = this.props;
 
         let opts = {
-            controls : 1,
-            autoplay : 1,
+            height: '100%',
+            width: '100%',
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                autoplay: 1
+            }
         };
-        //console.log("selectedData",selectedData);
+
+        let youtubePlayer = <div> loading... </div>;
 
 
-        let videoId = null;
         if(selectedData){
-            videoId = selectedData.id.videoId;
+            let {videoId} = selectedData;
+
+
+            youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}/>
         }
 
-
-        //controls=0
-        //autoplay=1
-        //playlist=XGSy3_Czz8k&loop=1
         return (
           <div className="leftArea">
-              <YoutubePlayerComponent videoId={videoId} opts={opts}/>
-              <PlayListSection videoData={videoData} playListClickHandler={this.playListClickHandler} selectedKey={selectedKey} />
+              <div className="youtubePlayerArea">
+                {youtubePlayer}
+              </div>
+              <PlayListSection
+                  playList={playList}
+                  playListClickHandler={playListClickHandler}
+                  selectedKey={selectedKey}
+                  deletePlayListBtnClickHandler={deletePlayListBtnClickHandler}
+                  checkClickHandler={checkClickHandler}
+                  selectAllBtnClickHandler={selectAllBtnClickHandler}
+                  checkIdxList={checkIdxList}
+                  selectAllIsChecked={selectAllIsChecked}
+              />
           </div>
         );
     }

@@ -1,3 +1,11 @@
+/*.searchListSection{*/
+  /*height:100%;*/
+/*}*/
+
+.searchInputWrap{
+  border-bottom:1px solid #d9d9d9;
+}
+
 .searchTextInput {
   width:calc(100% - 20px);
   padding:10px;
@@ -21,23 +29,24 @@
   height:100%;
 }
 
-.searchListWrap .moreBtn{
-  position:absolute;
-  top:10px;
-  right:100px;
+.beforeSearchList{
+  text-align: center;
+  padding-top:200px;
 }
-/*   */
 
 .searchList{
   overflow: auto;
   height:calc(100% - 38px);
-  border-top:1px solid #d9d9d9;
 }
 
 .searchList li{
   position: relative;
   padding:10px;
-  border-bottom:1px solid #d9d9d9;
+  border-top:1px solid #d9d9d9;
+}
+
+.searchList li:first-child{
+  border-top:none;
 }
 
 .searchList li .thum{
@@ -53,7 +62,7 @@
 }
 
 .searchList li .itemCont{
-  width:450px;
+  width:400px;
   padding-left:55px;
 }
 
@@ -65,6 +74,7 @@
 
 .searchList li .itemCont .info span{
   font-size:0.8rem;
+  color:#999;
 }
 
 .searchList li .itemCont .info span.duration{
@@ -80,6 +90,38 @@
   position: absolute;
   top:15px;
   right:20px;
+  padding:5px;
+  border-radius: 5px;
+  border:1px solid #d9d9d9;
+  background-color: #fff;
+}
+
+.searchList li .itemCont .addBtn.add{
+  color:#fff;
+  border:1px solid #d9d9d9;
+  background-color:#d9d9d9;
+}
+
+.searchListWrap .utilLayer{
+  text-align: right;
+  position:absolute;
+  bottom:-11px;
+  left:0;
+  width:calc(100% - 20px);
+  padding:10px;
+  border-top:1px solid #d9d9d9;
+  background-color: #fff;
+  transition-property: bottom;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-out;
+}
+
+.searchListWrap .utilLayer.show{
+  bottom:39px;
+}
+
+.searchListWrap .utilLayer .btnAddAlbum{
+  cursor: pointer;
   padding:5px;
   border-radius: 5px;
   border:1px solid #d9d9d9;

@@ -10,14 +10,14 @@
 
 .youtubePlayerArea {
     /*background-color: bisque;*/
-    height: 50%;
+    height: 55%;
     border-bottom: 1px solid lightgray;
 }
 
 
 .playListSectionArea {
     /*background-color: #ff5644;*/
-    height: 50%;
+    height: 45%;
     position: relative;
 }
 
@@ -60,8 +60,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 88%;
-    height:100%;
+    width: 87%;
+    height: 100%;
     float: left;
     font-size: 11px;
     line-height: 4;
@@ -80,6 +80,7 @@
     font-size: 11px;
     text-align: center;
     line-height: 4;
+    padding: 0 0.5% 0 0.5% ;
     /*background-color: #2590ff;*/
     /*display: table-cell;*/
     /*vertical-align: middle;*/

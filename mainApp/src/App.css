@@ -10,8 +10,7 @@ body{
 .mainHeader{
   z-index:100;
   position:relative;
-  background-color: aquamarine;
-  height: 80px;
+  border-bottom:1px solid #d9d9d9
 }
 
 .container{
@@ -22,7 +21,6 @@ body{
   clear:both;
   display: block;
   content:"";
-
 }
 
 .mainFooter{
@@ -52,11 +50,16 @@ body{
   height: 100%;
 }
 
+.container .rightArea > div:nth-child(1){
+
+  height: 100%;
+}
+
 .container .navArea{
   float: left;
-  background-color: #fff384;
-  width: 8%;
+  width: calc(8% - 1px);
   height: 100%;
+  border-left:1px solid #d9d9d9;
 }
 
 
@@ -71,4 +74,3 @@ body{
   cursor: pointer;
 
 }
-

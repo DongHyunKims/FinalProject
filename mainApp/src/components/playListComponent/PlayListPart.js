@@ -14,7 +14,6 @@ const playListPartStyle = {
 };
 
 class PlayListPart extends Component {
-
     constructor(props){
         super(props);
         this.state = {
@@ -23,10 +22,6 @@ class PlayListPart extends Component {
         this.mouseLeave = this.mouseLeave.bind(this);
         this.mouseEnter = this.mouseEnter.bind(this);
     }
-
-
-
-
 
     mouseLeave() {
         //console.log("Mouse out!!!");
@@ -40,15 +35,18 @@ class PlayListPart extends Component {
 
     checkToggle(){
         let {isToggled} = this.state;
-        return isToggled ? <img src='./images/default/Ok-64.png'/> : "03:45";
+        let { videoSnippet } = this.props;
+
+        return isToggled ? <img src='./images/default/Ok-64.png'/> : videoSnippet.duration;
     }
 
 
 
     render() {
 
-        let {videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler, isChecked} = this.props;
-        let title = videoSnippet.title;
+        let { videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler, isChecked } = this.props;
+
+        let { title } = videoSnippet;
         let iconRendering = null;
         let playlistPartStyle = null;
         let playListFontStyle = null;
@@ -79,10 +77,6 @@ class PlayListPart extends Component {
         }
 
 
-
-
-
-
         return (
             <div className="playListPartArea" onClick={onClick} style={playlistPartStyle}
                  onMouseEnter={this.mouseEnter}
@@ -96,6 +90,7 @@ class PlayListPart extends Component {
                         {iconRendering}
                     </div>
                 </div>
+
                 <div className="playListPartTitleArea" style={playListFontStyle}>
                     {title}
                 </div>

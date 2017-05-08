@@ -125,6 +125,7 @@ class YouTube extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.container = null;
     this.internalPlayer = null;
   }
