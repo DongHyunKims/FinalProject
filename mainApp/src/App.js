@@ -150,6 +150,7 @@ class App extends Component {
 
     _getAllAlbumReqListener(action,res){
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
+        console.log("jsonAlbumList",jsonAlbumList)
 
         switch (action){
             case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
@@ -184,9 +185,11 @@ class App extends Component {
             });
             break;
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
-                return {
-                    albumList : jsonAlbumList,
-                    currentAlbum: jsonAlbumList[0],
+                if(!jsonAlbumList.err){
+                    return {
+                        albumList : jsonAlbumList,
+                        currentAlbum: jsonAlbumList[0],
+                    }
                 }
             });
             break;
