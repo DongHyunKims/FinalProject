@@ -199,7 +199,7 @@ class PlayController extends React.Component {
     return (
       <div>
         <div>
-          <YouTube onStateChange={this.onPlayerStateChange} videoId={this.state.videoId} opts={this.opts} onReady={this.onReady} />
+          {/*<YouTube onStateChange={this.onPlayerStateChange} videoId={this.state.videoId} opts={this.opts} onReady={this.onReady} />*/}
         </div>
         <div className="ap">
           <div className="ap__inner">

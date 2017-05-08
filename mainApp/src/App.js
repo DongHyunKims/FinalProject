@@ -9,7 +9,7 @@ import Nav from './components/navComponent/Nav'
 import MainList from './components/mainListComponent/MainList'
 
 import PlayListComponent from './components/playListComponent/PlayList';
-import PlayController from './components/playControllerComponent/samplePlayController';
+import PlayController from './components/playControllerComponent/PlayController';
 import utility from './utility/utility';
 import moment from 'moment'
 
