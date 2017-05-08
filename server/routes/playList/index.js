@@ -26,16 +26,26 @@ router.post("/deletePlayList",(req,res)=>{
 });
 
 router.post("/videos", (req, res)=>{
-  let { albumId, selectedVideoArr } = req.body;
-  Album.update(
-    {_id:albumId}, {$push:{playList:{$each:selectedVideoArr}}}, (err, doc) => {
-      if(err) {
-        console.log("err",err);
-        return res.status(500).send(err);
-      }
-      res.status(200).send();
+  let { albumId, selectedVideoArr, totalDuration } = req.body;
+
+  Album.find({_id:albumId}, (err, doc)=>{
+    if(err) {
+      console.log("err",err);
+      return res.status(500).send(err);
     }
-  )
+
+    let totalDurationSum = doc[0].totalDuration + totalDuration;
+    Album.update(
+      {_id:albumId}, {$push:{playList:{$each:selectedVideoArr}}, totalDuration:totalDurationSum }, (err, doc)=>{
+        if(err) {
+          console.log("err",err);
+          return res.status(500).send(err);
+        }
+        res.status(200).send();
+      }
+    )
+
+  })
 });
 
 
