@@ -6,12 +6,14 @@ const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
 
+
+
 router.use(express.static('public'));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
 
 const DEFAULT_IMG_URL = "http://localhost:3001";
-const DEFAULT_URL = "http://localhost:3000/";
+const DEFAULT_URL = "http://localhost:3000";
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -149,6 +151,9 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
     // // 전송된 파일 데이터 확인
     let {path} = req.file;
 
+    //console.log("category",category);
+
+
 
     if(path === null || path === undefined){
         path = DEFAULT_IMG_URL+"/images/default/default-thumbnail.jpg";
@@ -157,22 +162,19 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
     path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
 
 
-    // console.log("data",JSON.parse(category));
-    // console.log("inputFileUrl2",path);
-
-
     let album = new Album({
         title: title,
         coverImgUrl: path,
         totalDuration: 0,
-        category: JSON.parse(category),
+        category: category,
         playList: []
     });
 
 
     album.save((err,doc)=>{
         if(err) return res.status(500).send(err);
-        res.redirect(DEFAULT_URL);
+        res.redirect(DEFAULT_URL + "/");
+
     });
 
 

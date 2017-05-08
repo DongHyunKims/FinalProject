@@ -123,7 +123,6 @@ class App extends Component {
         //     formData.append(key, inputData);
         // }
 
-
         console.log("asfasdfasdfasdf");
         event.preventDefault();
 
