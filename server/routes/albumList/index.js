@@ -165,7 +165,7 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
         title: title,
         coverImgUrl: path,
         totalDuration: 0,
-        category: JSON.parse(category),
+        category: category,
         playList: []
     });
 
