@@ -24,6 +24,11 @@ class SearchList extends React.Component{
   }
 
   render(){
+
+    //let utilLayer = document.querySelector(".utilLayer");
+    //utilLayer.classList.remove("show");
+
+
     return(
       <div className="searchListWrap">
         <ul className="searchList" onScroll={this.props.moreVideoList}>

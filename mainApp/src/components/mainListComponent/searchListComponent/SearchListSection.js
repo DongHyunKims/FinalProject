@@ -213,7 +213,6 @@ render할때 그려지지 않았다.
   // }
   //
 
-
   render(){
     //console.log(this.state.selectedVideoArr);
 
