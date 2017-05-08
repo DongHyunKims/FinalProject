@@ -16,7 +16,7 @@ class SearchInputSection extends React.Component{
   render(){
 
     return(
-      <div>
+      <div className="searchInputWrap">
         <input onKeyPress={this.handleKeyPress} type="text" className="searchTextInput" placeholder="Search your favorite music"/>
       </div>
     )

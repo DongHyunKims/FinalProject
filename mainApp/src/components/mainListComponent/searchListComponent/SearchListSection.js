@@ -213,27 +213,31 @@ render할때 그려지지 않았다.
   // }
   //
 
-
   render(){
-    console.log(this.state.selectedVideoArr);
+    //console.log(this.state.selectedVideoArr);
 
-    let {addSelectedVideo,delSelectedVideo,changeIsAllClearAddBtn,addSelectedVideoToAlbum, items, moreVideoList,isSelectedArr,isAllClearAddBtn,searchVideo} = this.props;
+    let {addSelectedVideo,delSelectedVideo,changeIsAllClearAddBtn,addSelectedVideoToAlbum, items, moreVideoList,isSelectedArr,isAllClearAddBtn,searchVideo, isSearched} = this.props;
+
+    let renderSearchList = <div className="beforeSearchList">Search Youtube videos using the search bar!</div>
+    if(isSearched){
+      renderSearchList = <SearchList
+        items={items}
+        addSelectedVideo={addSelectedVideo}
+        delSelectedVideo={delSelectedVideo}
+        addSelectedVideoToAlbum={addSelectedVideoToAlbum}
+        moreVideoList={moreVideoList}
+        isSelectedArr={isSelectedArr}
+        isAllClearAddBtn={isAllClearAddBtn}
+        changeIsAllClearAddBtn={changeIsAllClearAddBtn}
+      />
+    }
 
     return(
       <div>
         <SearchInputBox
           searchVideo = {searchVideo}
         />
-        <SearchList
-          items={items}
-          addSelectedVideo={addSelectedVideo}
-          delSelectedVideo={delSelectedVideo}
-          addSelectedVideoToAlbum={addSelectedVideoToAlbum}
-          moreVideoList={moreVideoList}
-          isSelectedArr={isSelectedArr}
-          isAllClearAddBtn={isAllClearAddBtn}
-          changeIsAllClearAddBtn={changeIsAllClearAddBtn}
-        />
+        {renderSearchList}
       </div>
     )
   }

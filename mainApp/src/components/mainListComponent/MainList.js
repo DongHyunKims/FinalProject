@@ -11,6 +11,19 @@ class MainList extends React.Component{
 
     }
 
+    componentWillReceiveProps(nextProps){
+
+      console.log("mainList")
+      
+      /*
+      if(nextProps.isAllClearAddBtn){
+        this.setState({
+          isClickedAddBtn : false
+        });
+        this.props.changeIsAllClearAddBtn()
+      }*/
+    }
+
 
     render(){
 
@@ -26,15 +39,19 @@ class MainList extends React.Component{
             isAllClearAddBtn,
             searchVideo,
 
+            isSearched,
+
             //albumList
             albumList,
             albumClickHandler,
             deleteAlbumClickHandler,
             addAlbumSubmitHandler,
 
+
             navIdx
 
         } = this.props;
+
 
         let renderingMain = null;
         switch (navIdx){
@@ -50,6 +67,8 @@ class MainList extends React.Component{
                 searchVideo={searchVideo}
                 moreVideoList={moreVideoList}
 
+                isSearched={isSearched}
+
             />;
             break;
             case "2" : renderingMain = < AlbumList
@@ -62,8 +81,6 @@ class MainList extends React.Component{
             default : break;
 
         }
-
-
 
         return(
             <div className="rightArea">

@@ -5,8 +5,9 @@ import './App.css';
 import Header from './components/headerComponent/Header'
 import Nav from './components/navComponent/Nav'
 
-//import MainList from './components/mainListComponent/searchListComponent/SearchListSection'
+
 import MainList from './components/mainListComponent/MainList'
+
 import PlayListComponent from './components/playListComponent/PlayList';
 import PlayController from './components/playControllerComponent/samplePlayController';
 import utility from './utility/utility';
@@ -50,6 +51,9 @@ class App extends Component {
             isAllClearAddBtn : false,
             items : [],
             nextPageToken : "",
+            isSearched : false,
+
+            totalDuration : 0,
 
             //mainList
             navIdx: "2",
@@ -209,6 +213,10 @@ class App extends Component {
                 selectedVideoArr: [],
                 isSelectedArr: false,
                 isAllClearAddBtn: true,
+
+                totalDuration:0,
+
+
                 currentAlbum: jsonData
             });
             break;
@@ -421,9 +429,14 @@ class App extends Component {
     //searchList
 
     addSelectedVideo(index){
+      let selectedItem = this.state.items[index];
+      let totalDuration = this.state.totalDuration + selectedItem.duration;
+
         this.setState({
-            selectedVideoArr : this.state.selectedVideoArr.concat(this.state.items[index]),
-            isSelectedArr : true
+            selectedVideoArr : this.state.selectedVideoArr.concat(selectedItem),
+            isSelectedArr : true,
+
+            totalDuration : totalDuration
         })
     }
 
@@ -431,11 +444,14 @@ class App extends Component {
         let selectedVideoArr = [];
         let isSelectedArr = false;
 
+        let totalDuration = 0;
+
         selectedVideoArr = [...this.state.selectedVideoArr];
 
         selectedVideoArr.forEach((data, index)=>{
             if(data.videoId === videoId){
-                selectedVideoArr.splice(index, 1);
+              totalDuration = this.state.totalDuration - selectedVideoArr[index].duration;
+              selectedVideoArr.splice(index, 1);
             }
         });
 
@@ -445,7 +461,9 @@ class App extends Component {
 
         this.setState({
             selectedVideoArr : [...selectedVideoArr],
-            isSelectedArr : isSelectedArr
+            isSelectedArr : isSelectedArr,
+
+            totalDuration : totalDuration
         })
     }
 
@@ -454,13 +472,18 @@ class App extends Component {
             isAllClearAddBtn : false
         })
     }
+
     addSelectedVideoToAlbum(_id){
+      console.log(this.state.totalDuration)
+
         let utilLayer = document.querySelector(".utilLayer");
         utilLayer.classList.remove("show");
 
         let insertData = {
             albumId : _id,
-            selectedVideoArr : this.state.selectedVideoArr
+            selectedVideoArr : this.state.selectedVideoArr,
+
+            totalDuration : this.state.totalDuration
         };
 
         let jsonData = JSON.stringify(insertData);
@@ -478,7 +501,11 @@ class App extends Component {
         this.setState({
             items : [],
             nextPageToken : "",
-            selectedVideoArr : []
+            selectedVideoArr : [],
+
+            isSearched : true,
+            isSelectedArr : false
+
         });
         let encodedKeword = encodeURI(keyword);
         this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"
@@ -563,7 +590,7 @@ class App extends Component {
 
     //navComponent
     navClickHandler(event){
-        console.log(event.target.id)
+        //console.log(event.target.id)
         let navIdx = event.target.id;
         this.setState({navIdx : navIdx});
     }
@@ -571,9 +598,10 @@ class App extends Component {
 
 
     render() {
+      console.log(this.state.totalDuration)
 
 
-      let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey } = this.state;
+      let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched } = this.state;
       //console.log("albumData",albumData);
 
       let playList = null;
@@ -628,6 +656,8 @@ class App extends Component {
                 addSelectedVideoToAlbum={this.addSelectedVideoToAlbum.bind(null,_id)}
                 searchVideo={this.searchVideo}
                 moreVideoList={this.moreVideoList}
+
+                isSearched = {isSearched}
             />
 
 
