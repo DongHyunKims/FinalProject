@@ -204,19 +204,20 @@ class PlayController extends React.Component {
         <div className="ap">
           <div className="ap__inner">
             <div className="ap__item ap__item--playback">
+              {/*이전 재생*/}
               <button className="ap__controls ap__controls--prev" onClick={this.onChangePrevVideo}>
                 <svg className="icon-prev" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#333" width="30" height="30" viewBox="0 0 24 24">
                   <path d="M9.516 12l8.484-6v12zM6 6h2.016v12h-2.016v-12z"></path>
                 </svg>
               </button>
-
-              <button className="ap__controls ap__controls--toggle" onClick={this.onPlayVideo} className={this.state.event_map.playing ? "invisible" : ""}>
+              {/*이전 재생*/}
+              <button onClick={this.onPlayVideo} className={this.state.event_map.playing ? "invisible ap__controls ap__controls--toggle" : "ap__controls ap__controls--toggle"}>
                 <svg className="icon-play" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#333" width="30" height="30" viewBox="0 0 36 36" data-play="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z" data-pause="M 12,26 16.33,26 16.33,10 12,10 z M 20.66,26 25,26 25,10 20.66,10 z">
                   <path d="M 12,26 18.5,22 18.5,14 12,10 z M 18.5,22 25,18 25,18 18.5,14 z"></path>
                 </svg>                      
               </button>
 
-              <button className="ap__controls ap__controls--toggle" onClick={this.onPauseVideo} className={!this.state.event_map.playing ? "invisible" : ""}>
+              <button onClick={this.onPauseVideo} className={!this.state.event_map.playing ? "invisible ap__controls ap__controls--toggle" : "ap__controls ap__controls--toggle"}>
                 <svg className="icon-pause" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#e91e63" width="30" height="30" viewBox="0 0 36 36">
                   <path d="M 12,26 16.33,26 16.33,10 12,10 z M 20.66,26 25,26 25,10 20.66,10 z"></path>
                 </svg>
@@ -253,7 +254,6 @@ class PlayController extends React.Component {
           </button>
 
           <button onClick={this.offSound} className={!this.state.event_map.soundOn ? "invisible" : ""}>
-            
             <svg className="icon-volume-on" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#333" width="30" height="30" viewBox="0 0 24 24">
               <path d="M14.016 3.234q3.047 0.656 5.016 3.117t1.969 5.648-1.969 5.648-5.016 3.117v-2.063q2.203-0.656 3.586-2.484t1.383-4.219-1.383-4.219-3.586-2.484v-2.063zM16.5 12q0 2.813-2.484 4.031v-8.063q2.484 1.219 2.484 4.031zM3 9h3.984l5.016-5.016v16.031l-5.016-5.016h-3.984v-6z"></path>
             </svg>
