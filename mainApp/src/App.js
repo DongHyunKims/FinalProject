@@ -13,6 +13,9 @@ import PlayController from './components/playControllerComponent/PlayController'
 import utility from './utility/utility';
 import moment from 'moment'
 
+
+
+
 //임시 데이터
 //const ALBUM_ID = "5907f898f91d33f1d974f254";
 
@@ -43,6 +46,7 @@ class App extends Component {
             selectedData : null,
             selectedKey : -1,
             playingState : null,
+            isPlayerReady: false,
 
 
             //searchList
@@ -62,7 +66,7 @@ class App extends Component {
 
 
             //video controller
-            videoState: null,
+            videoState: 0,
             // videoId: selectedVideo.id.current,
             //player: null,
             eventMap: { playing: false,
@@ -151,11 +155,14 @@ class App extends Component {
 
     //app의 componentDid mount로 빠야 함
     componentDidMount(){
+
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
     //albumList
     addAlbumSubmitHandler(data,event){
+
+
         // let formData = new FormData();
         // //FormData 에 파일과 이메일을 append 메소드를 통해 등록
         //
@@ -441,9 +448,15 @@ class App extends Component {
     }
 
 
+
+
+
     onReady(event) {
         //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
-        //console.log(event.target);
+        // console.log(event);
+        console.log("durlrlrlrlrl");
+
+
         this.setState(()=>{
             return { player: event.target }
         });
@@ -458,7 +471,11 @@ class App extends Component {
 
     //playList
     playListClickHandler(playList,key){
-        
+
+
+        let {player,eventMap} = this.state;
+
+
             this.setState((state) => {
                 let {currentAlbum} = state;
                 return {
@@ -469,12 +486,25 @@ class App extends Component {
                     },
                     selectedData: playList[key],
                     selectedKey: key,
-                }
+                    // eventMap: Object.assign({}, eventMap, { playing: true }),
+                };
+
+
             });
 
+        Promise.resolve()
+            .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player,eventMap));
+
+
+        //onPlayVideo()
 
 
 
+
+        // let {player,eventMap} = this.state;
+        // Promise.resolve()
+        //     .then(this.opts.playerVars.autoplay = 1)
+        //     .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player,eventMap))
 
     }
 
@@ -650,9 +680,6 @@ class App extends Component {
     }
 
 
-
-
-
     //playController
     _toTimeString(seconds) {
         let time = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
@@ -661,7 +688,7 @@ class App extends Component {
     }
 
     _setCurrentTime(player,eventMap) {
-        console.log("player.getCurrentTime()",player.getCurrentTime());
+        // console.log("player.getCurrentTime()",this._toTimeString(Math.floor(player.getCurrentTime())));
         if (eventMap.playing){
             setInterval(() => {
                 let time = Math.floor(player.getCurrentTime());
@@ -676,12 +703,19 @@ class App extends Component {
         });
 
 
+
+
         let { videoState } = this.state;
+
+
+        console.log("fasdfasdfasdfasfasf",videoState);
+        // if(!videoState){
+        //     this.onPlayVideo(player,eventMap);
+        // }
 
             if (videoState !== 0)
                 Promise.resolve()
-                    .then(player.playVideo())
-                    .then(this.opts.playerVars.autoplay = 1)
+                    .then(()=>{console.log("dddd");player.playVideo()})
                     .then(this._setCurrentTime.bind(null, player, eventMap));
 
     }
@@ -742,8 +776,6 @@ class App extends Component {
             }
         );
 
-
-
         Promise.resolve()
             .then(this.opts.playerVars.autoplay = 1)
             .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player,eventMap))
@@ -752,11 +784,7 @@ class App extends Component {
 
 
     onPlayerStateChange(player,eventMap,event) {
-
-
-
-
-
+        //
 
 
         if (event !== undefined){
@@ -768,15 +796,11 @@ class App extends Component {
             }
         }
 
-
-
-
-
     }
 
 
    _setDuration(player,eventMap) {
-        //console.log("player",player);
+        console.log("player",player.getDuration());
         let time = Math.floor(player.getDuration());
         this.setState({
             eventMap: Object.assign({}, eventMap, {
@@ -795,8 +819,6 @@ class App extends Component {
             .then(player.seekTo(time, true))
             .then(this.onPlayVideo.bind(null,player,eventMap))
     }
-
-
 
 
 
@@ -867,7 +889,6 @@ class App extends Component {
                 addSelectedVideoToAlbum={this.addSelectedVideoToAlbum.bind(null,_id)}
                 searchVideo={this.searchVideo}
                 moreVideoList={this.moreVideoList}
-
                 isSearched = {isSearched}
             />
 
@@ -879,7 +900,6 @@ class App extends Component {
 
         <footer className="mainFooter">
             <PlayController
-
                 eventMap={eventMap}
                 playingData={playingData}
                 onChangePrevVideo={this.onChangePrevVideo.bind(null,player,eventMap)}

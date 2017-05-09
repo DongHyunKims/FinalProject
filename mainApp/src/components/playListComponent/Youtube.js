@@ -125,7 +125,6 @@ class YouTube extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.container = null;
     this.internalPlayer = null;
   }
@@ -149,6 +148,8 @@ class YouTube extends React.Component {
   }
 
   componentWillUnmount() {
+
+
      /**
       * Note: The `youtube-player` package that is used promisifies all Youtube
       * Player API calls, which introduces a delay of a tick before it actually
@@ -183,6 +184,7 @@ class YouTube extends React.Component {
    *   @param {Object} target - actual YT player
    */
   onPlayerStateChange = (event) => {
+
     this.props.onStateChange(event);
     switch (event.data) {
 
