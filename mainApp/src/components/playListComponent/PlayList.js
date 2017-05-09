@@ -14,50 +14,41 @@ class PlayList extends Component {
         super(props);
         this.youtubePlayer = null;
     }
-
-    componentDidMount(){
-
-
-        let {onReady, onPlayerStateChange} = this.props;
-        let opts = {
-            // playerVars: { // https://developers.google.com/youtube/player_parameters
-            //     autoplay: 1
-            // },
-            width: "100%",
-            height: "100%",
-            playerVars: { // https://developers.google.com/youtube/player_parameters
-                autoplay: 0
-            }
-        };
-
-        this.youtubePlayer= <YoutubePlayerComponent videoId={"FqRgAs0SOpU"} opts={opts} onReady={onReady} onStateChange={onPlayerStateChange}/>;
-        console.log(this.youtubePlayer);
-    }
-
-
+    //
+    // componentDidMount(){
+    //
+    //
+    //     let {onReady, onPlayerStateChange} = this.props;
+    //     let opts = {
+    //         // playerVars: { // https://developers.google.com/youtube/player_parameters
+    //         //     autoplay: 1
+    //         // },
+    //         width: "100%",
+    //         height: "100%",
+    //         playerVars: { // https://developers.google.com/youtube/player_parameters
+    //             autoplay: 0
+    //         }
+    //     };
+    //
+    //     this.youtubePlayer= <YoutubePlayerComponent videoId={"FqRgAs0SOpU"} opts={opts} onReady={onReady} onStateChange={onPlayerStateChange}/>;
+    //     console.log(this.youtubePlayer);
+    // }
+    //
+    //
 
 
     render(){
-        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,playListClickHandler,selectedData,selectedKey,onReady,onPlayerStateChange} = this.props;
+        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,playListClickHandler,selectedData,selectedKey,onReady,onPlayerStateChange,opts} = this.props;
 
 
-        let youtubePlayer = <div>loading...</div>;
+        this.youtubePlayer = <div>loading...</div>;
         if(selectedData){
 
             let {videoId} = selectedData;
             //playController
-            let opts = {
-                // playerVars: { // https://developers.google.com/youtube/player_parameters
-                //     autoplay: 1
-                // },
-                width: "100%",
-                height: "100%",
-                playerVars: { // https://developers.google.com/youtube/player_parameters
-                    autoplay: 1
-                }
-            };
-
-             this.youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts}  onStateChange={onPlayerStateChange}/>;
+            //console.log("player",player);
+            //console.log("videoState",videoState);
+             this.youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}  onStateChange={onPlayerStateChange} />;
             //youtubePlayer.
 
         }
