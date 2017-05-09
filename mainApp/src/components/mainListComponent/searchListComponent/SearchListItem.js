@@ -6,12 +6,17 @@ class SearchListItem extends React.Component{
   constructor(){
     super()
     this.state = {
-      isClickedAddBtn : false
+      isClickedAddBtn : false,
+
+      isPopupVideo :false
+
     };
 
     this.changePublishedAtData = this.changePublishedAtData.bind(this);
     this.clickAddButton = this.clickAddButton.bind(this);
     this.changeDuration = this.changeDuration.bind(this);
+
+    this.showPopupVideo = this.showPopupVideo.bind(this);
   }
 
   changePublishedAtData(publishedAt){
@@ -72,6 +77,26 @@ class SearchListItem extends React.Component{
     return str
   }
 
+
+  showPopupVideo(){
+    let videoId = this.props.data.videoId;
+    let videoTitle = this.props.data.title;
+    let videoUrl = "http://www.youtube.com/embed/"+videoId+"?autoplay=1&showinfo=0&rel=0&origin=http://example.com&controls=1"
+    let app = document.querySelector(".App");
+    app.insertAdjacentHTML("beforeend",
+    '<div class="popupVideoWrap"><div class="popup"><div class="title">'+videoTitle+'<button class="btnClose">X</button></div><iframe id="ytplayer" type="text/html" width="633" height="356" src='+videoUrl+' frameborder="0"/></div></div>;')
+
+    let btnClose = document.querySelector(".popupVideoWrap .btnClose");
+    this.hidePopupVideo(btnClose);
+  }
+
+  hidePopupVideo(btnClose){
+    btnClose.addEventListener("click", function(e){
+      let target = e.target;
+      target.closest(".popupVideoWrap").remove();
+    })
+  }
+
 // 상위 콤포넌트에서 setState호출로 하위콤포넌트의 props값이 변경되었을때 하위콤포넌트의 값을 setState해주기 위해
   componentWillReceiveProps(nextProps){
     if(nextProps.isAllClearAddBtn){
@@ -88,9 +113,9 @@ class SearchListItem extends React.Component{
 
     return(
       <li>
-        <p className="thum"><img src={data.thumnail}/></p>
+        <p className="thum" onClick={this.showPopupVideo}><img src={data.thumnail}/></p>
         <div className="itemCont">
-          <p className="title">{data.title}</p>
+          <p className="title" onClick={this.showPopupVideo}>{data.title}</p>
           <p className="info">
             <span className="duration">{this.changeDuration(data.duration)}</span>
             <span className="date">{this.changePublishedAtData(data.publishedAt)}</span>

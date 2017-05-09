@@ -600,6 +600,8 @@ class App extends Component {
       })
     }
 
+
+
     render() {
       let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched } = this.state;
       //console.log("albumData",albumData);
@@ -671,6 +673,10 @@ class App extends Component {
         <footer className="mainFooter">
             <PlayController player={player}/>
         </footer>
+
+        
+
+
 
       </div>
     );
