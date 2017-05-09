@@ -11,17 +11,11 @@ class MainList extends React.Component{
 
     }
 
-    componentWillReceiveProps(nextProps){
 
-      console.log("mainList")
-      
-      /*
-      if(nextProps.isAllClearAddBtn){
-        this.setState({
-          isClickedAddBtn : false
-        });
-        this.props.changeIsAllClearAddBtn()
-      }*/
+    componentWillReceiveProps(nextProps){
+      if(this.props.navIdx !== nextProps.navIdx){
+        this.props.initSearchList()
+      }
     }
 
 

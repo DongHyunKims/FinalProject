@@ -99,6 +99,8 @@ class App extends Component {
         this._getVideoDuration = this._getVideoDuration.bind(this);
         this._getVideoViewCount = this._getVideoViewCount.bind(this);
 
+        this.initSearchList = this.initSearchList.bind(this);
+
 
         //nav
         this.navClickHandler = this.navClickHandler.bind(this);
@@ -185,10 +187,12 @@ class App extends Component {
             });
             break;
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
+              if(!jsonAlbumList.err){
                 return {
                     albumList : jsonAlbumList,
                     currentAlbum: jsonAlbumList[0],
                 }
+              }
             });
             break;
             default: break;
@@ -475,25 +479,18 @@ class App extends Component {
     }
 
     addSelectedVideoToAlbum(_id){
-      console.log(this.state.totalDuration)
-
         let utilLayer = document.querySelector(".utilLayer");
         utilLayer.classList.remove("show");
 
         let insertData = {
             albumId : _id,
             selectedVideoArr : this.state.selectedVideoArr,
-
             totalDuration : this.state.totalDuration
         };
-
         let jsonData = JSON.stringify(insertData);
-        //console.log(jsonData)
+
         utility.runAjaxData(function(e){
-            //console.log(e);
-
             utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
-
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     }
 
@@ -518,8 +515,6 @@ class App extends Component {
         utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
             this.nextPageToken = data.nextPageToken;
-
-
             this.videoArr = data.items.map((item, index) => {
                 return {
                     videoId : item.id.videoId,
@@ -596,12 +591,16 @@ class App extends Component {
         this.setState({navIdx : navIdx});
     }
 
-
+    initSearchList(){
+      this.setState({
+        selectedVideoArr : [],
+        isSelectedArr : false,
+        isAllClearAddBtn : false,
+        totalDuration : 0
+      })
+    }
 
     render() {
-      console.log(this.state.totalDuration)
-
-
       let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched } = this.state;
       //console.log("albumData",albumData);
 
@@ -659,6 +658,8 @@ class App extends Component {
                 moreVideoList={this.moreVideoList}
 
                 isSearched = {isSearched}
+
+                initSearchList = {this.initSearchList}
             />
 
 
