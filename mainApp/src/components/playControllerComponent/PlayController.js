@@ -128,7 +128,7 @@ class PlayController extends React.Component {
   }
   
   render() {
-    let { onChangePrevVideo, onChangeNextVideo, onPlayVideo, onPauseVideo, eventMap, playingData, moveSeekBar} = this.props;
+    let { onChangePrevVideo, onChangeNextVideo, onPlayVideo, onPauseVideo, eventMap, playingData, moveSeekBar, onPlayBtnClickHandler} = this.props;
 
     // if(!player){
     //

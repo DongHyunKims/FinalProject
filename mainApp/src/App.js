@@ -487,6 +487,17 @@ class App extends Component {
 
     //playList
     playListClickHandler(playList,key){
+
+
+                let newEventMap = { playing: false,
+                    curTime: '00:00', // 현재 재생 시간
+                    totalTime: '00:00', // 전체 비디오 재생 시간
+                    curProgressBar: 0,
+                    maxProgressBar: 0,
+                };
+
+                let {eventMap} = this.state;
+
                 this.setState((state) => {
                     let {currentAlbum} = state;
                     return {
@@ -497,7 +508,16 @@ class App extends Component {
                         },
                         selectedData: playList[key],
                         selectedKey: key,
+                        eventMap: Object.assign({}, eventMap, newEventMap),
+
                     };
+                }, ()=>{
+                    let {player} = this.state;
+                    if(player) {
+                        this._setDuration(player);
+                    }
+
+
                 });
     }
 
@@ -512,7 +532,6 @@ class App extends Component {
         this.setState({
             selectedVideoArr : this.state.selectedVideoArr.concat(selectedItem),
             isSelectedArr : true,
-
             totalDuration : totalDuration
         })
     }
@@ -682,24 +701,26 @@ class App extends Component {
 
 
     onPlayVideo(player) {
-
-
-
-
-
-
+        //
+        // eventMap: { playing: false,
+        //     totalTime: '00:00', // 전체 비디오 재생 시간
+        //     maxProgressBar: 0,
+        //     soundOn: true,
+        // },
         let {eventMap} = this.state;
-
-
-
-
 
         if(!eventMap.playing) {
             this.setState((state)=>{
                 return {
-                    eventMap: Object.assign({}, eventMap, { playing: true }),
+                    eventMap: Object.assign({}, eventMap, {
+                        playing: true ,
+                        totalTime: '00:00', // 전체 비디오 재생 시간
+                        maxProgressBar: 0,
+                    }),
                 }
             },()=>{
+                let {eventMap} = this.state;
+                console.log("eventMap1231231",eventMap);
                 player.playVideo();
                 this._setDuration(player);
             });
@@ -753,6 +774,7 @@ class App extends Component {
     onChangePrevVideo(player,eventMap) {
         // this.setState({ videoId: selectedVideo.id.prev });
 
+
         this.setState((state)=>{
                 let { currentAlbum,selectedKey } = state;
                 let currentKey = selectedKey-1;
@@ -777,16 +799,22 @@ class App extends Component {
 
 
     onPlayerStateChange(player,event) {
+
+
+        console.log("onPlayerStateChange");
+
         if (event !== undefined){
             //console.log("event.dataasdfasdfasdfasfasdfasdfasfasdfadsfas",event.data);
             this.setState({ videoState: event.data },()=>{
-                let { videoState } = this.state;
+                let { videoState, eventMap } = this.state;
                 if(videoState===1){
                     this.onPlayVideo(player);
                 }else if(videoState===2) {
-                    console.log(" videoState1", videoState);
                     this.onPauseVideo(player);
                 }
+//                 else if(videoState===-1){
+// \
+//                 }
                 else{
                     return;
                 }
@@ -797,6 +825,10 @@ class App extends Component {
 
     }
 
+    onPlayBtnClickHandler(player){
+
+        player.pauseVideo();
+    }
 
    _setDuration(player) {
        //console.log("player111111111", player.getDuration());
@@ -831,13 +863,13 @@ class App extends Component {
     moveSeekBar(player,event){
 
 
-        let bar = utility.$selector("#seekBar");
-        let time = bar.value;
+        // let bar = utility.$selector("#seekBar");
+        // let time = bar.value;
         // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
         // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
-        Promise.resolve()
-            .then(player.seekTo(time, true))
-            .then(this.onPlayVideo.bind(null,player))
+        // Promise.resolve()
+        //     .then(player.seekTo(time, true))
+        //     .then(this.onPlayVideo.bind(null,player))
     }
 
 
@@ -929,6 +961,7 @@ class App extends Component {
                 onChangePrevVideo={this.onChangePrevVideo.bind(null,player,eventMap)}
                 onChangeNextVideo={this.onChangeNextVideo.bind(null,player,eventMap)}
                 onPlayVideo={this.onPlayVideo.bind(null,player)}
+                //onPlayBtnClickHandler={this.onPlayBtnClickHandler.bind(null,player)}
                 onPauseVideo={this.onPauseVideo.bind(null,player)}
                 onPlayerStateChange={this.onPlayerStateChange.bind(null,player)}
                 moveSeekBar={this.moveSeekBar.bind(null,player)}
