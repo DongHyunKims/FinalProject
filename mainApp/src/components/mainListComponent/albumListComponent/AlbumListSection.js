@@ -20,6 +20,7 @@ class MainList extends Component {
     }
 
 
+
     render(){
         let { albumList, albumClickHandler, deleteAlbumClickHandler,addAlbumSubmitHandler } = this.props;
         return(
