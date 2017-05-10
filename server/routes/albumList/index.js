@@ -150,8 +150,8 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
     let {title,category} = req.body;
     // // 전송된 파일 데이터 확인
     let {path} = req.file;
-
-    //console.log("category",category);
+    //
+    console.log("category",category);
 
 
 
@@ -166,14 +166,14 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
         title: title,
         coverImgUrl: path,
         totalDuration: 0,
-        category: category,
+        category: JSON.parse(category),
         playList: []
     });
 
 
     album.save((err,doc)=>{
         if(err) return res.status(500).send(err);
-        res.redirect(DEFAULT_URL + "/");
+        res.send(doc);
 
     });
 

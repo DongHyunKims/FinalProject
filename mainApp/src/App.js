@@ -26,6 +26,7 @@ const ACTION_CONFIG = {
     resetPlayList : "resetPlayList",
     deleteAlbum : "deleteAlbum",
     getAllAlbum : "getAllAlbum",
+    addAlbum : "addAlbum"
 };
 
 
@@ -37,6 +38,7 @@ class App extends Component {
             //albumList
             albumList : null,
             currentAlbum: null,
+            isAddClicked : false,
 
             //playList,
             deleteVideoCheckList : [],
@@ -46,7 +48,7 @@ class App extends Component {
             selectedData : null,
             selectedKey : -1,
             playingState : null,
-            isPlayerReady: false,
+
 
 
             //searchList
@@ -103,6 +105,8 @@ class App extends Component {
         this.deleteAlbumClickHandler = this.deleteAlbumClickHandler.bind(this);
         this._albumReqListener = this._albumReqListener.bind(this);
         this.addAlbumSubmitHandler = this.addAlbumSubmitHandler.bind(this);
+        this.addItemClickHandler = this.addItemClickHandler.bind(this);
+        this.addItemCancelClickHandler = this.addItemCancelClickHandler.bind(this);
 
 
 
@@ -156,44 +160,58 @@ class App extends Component {
 
 
 
-
-    //app의 componentDid mount로 빠야 함
     componentDidMount(){
-
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
     //albumList
+    addItemClickHandler(event){
+        this.setState(()=>{
+               return {isAddClicked: true}
+            });
+        event.stopPropagation();
+
+    }
+    addItemCancelClickHandler(event){
+        this.setState(()=>{
+            return {isAddClicked: false}
+        });
+        event.stopPropagation();
+    }
+
+
+
     addAlbumSubmitHandler(data,event){
 
 
-        // let formData = new FormData();
-        // //FormData 에 파일과 이메일을 append 메소드를 통해 등록
-        //
-        // for(let key in data){
-        //     let inputData = data[key];
-        //     if(key === "category"){
-        //         inputData = JSON.stringify(inputData);
-        //     }
-        //     formData.append(key, inputData);
-        // }
+        let formData = new FormData();
+        //FormData 에 파일과 이메일을 append 메소드를 통해 등록
+
+        for(let key in data){
+            let inputData = data[key];
+            if(key === "category"){
+                inputData = JSON.stringify(inputData);
+            }
+            formData.append(key, inputData);
+        }
 
         //console.log("asfasdfasdfasdf");
-        event.preventDefault();
+            // event.preventDefault();
 
         //formData.append("coverImgUrl",data.coverImgUrl);
-        //utility.runAjaxData(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"post","/albumList/addAlbum",formData);
+        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",formData);
 
     }
 
     deleteAlbumClickHandler(albumId,event){
-        utility.runAjax(this._albumReqListener, "GET", "/albumList/deleteAlbum/"+albumId);
+        utility.runAjax(this._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
         event.stopPropagation();
     }
 
-    _albumReqListener(res){
+    _albumReqListener(action,res){
         //console.log(res);
-        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.deleteAlbum),"GET","/albumList/getAllAlbumList");
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
+
     }
 
 
@@ -206,10 +224,24 @@ class App extends Component {
         switch (action){
             case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
                 //console.log(jsonAlbumList);
-                if(jsonAlbumList.err){
+                if(!jsonAlbumList.err){
+
+                    let { playingState } = state;
+
+                    if(playingState){
+
+                        return {
+                            albumList : jsonAlbumList,
+                            deleteVideoCheckList : [],
+                            checkIdxList : [],
+                            selectAllIsChecked : false,
+                        }
+
+                    }
+
                     return {
-                        albumList : null,
-                        currentAlbum: null,
+                        albumList : jsonAlbumList,
+                        currentAlbum: jsonAlbumList[0],
                         deleteVideoCheckList : [],
                         checkIdxList : [],
                         selectAllIsChecked : false,
@@ -218,13 +250,11 @@ class App extends Component {
                         selectedKey : -1,
                         playingState : null,
                     }
-
                 }
 
-
                 return {
-                    albumList : jsonAlbumList,
-                    currentAlbum: jsonAlbumList[0],
+                    albumList : null,
+                    currentAlbum: null,
                     deleteVideoCheckList : [],
                     checkIdxList : [],
                     selectAllIsChecked : false,
@@ -233,6 +263,7 @@ class App extends Component {
                     selectedKey : -1,
                     playingState : null,
                 }
+
             });
             break;
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
@@ -244,6 +275,17 @@ class App extends Component {
                 }
             });
             break;
+            case ACTION_CONFIG.addAlbum: this.setState((state)=>{
+                if(!jsonAlbumList.err){
+                    console.log("jsonAlbumList",jsonAlbumList);
+                    return {
+                        albumList : jsonAlbumList,
+                        isAddClicked : false,
+                    }
+                }
+            });
+            break;
+
             default: break;
 
         }
@@ -277,7 +319,7 @@ class App extends Component {
             case ACTION_CONFIG.deletePlayList  : this.setState((state)=>{
 
                 let currentAlbum = jsonData;
-                let { playingState, checkIdxList, selectAllIsChecked}  = state;
+                let { playingState, checkIdxList, selectAllIsChecked,eventMap}  = state;
                // console.log("selectAllIsChecked",selectAllIsChecked);
 
                 //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
@@ -323,15 +365,7 @@ class App extends Component {
                 }
 
 
-                let resetEventMap = { playing: false,
-                    curTime: '00:00', // 현재 재생 시간
-                    totalTime: '00:00', // 전체 비디오 재생 시간
-                    curProgressBar: 0,
-                    maxProgressBar: 0,
-                    preVolume: 50, // 볼륨 조절
-                    volume: 50, // 볼륨 조절
-                    soundOn: true,
-                };
+
 
                 return {
                     playingState : null,
@@ -341,7 +375,7 @@ class App extends Component {
                     checkIdxList: [],
                     selectAllIsChecked: false,
                     currentAlbum: jsonData,
-                    eventMap: Object.assign({}, resetEventMap),
+                    // eventMap: Object.assign({},eventMap, resetEventMap),
                 };
 
 
@@ -923,7 +957,19 @@ class App extends Component {
                     let {curProgressBar, maxProgressBar} = eventMap;
                     //전부 삭제 되었으면
                     if(!playingState){
+                        let resetEventMap = { playing: false,
+                            curTime: '00:00', // 현재 재생 시간
+                            totalTime: '00:00', // 전체 비디오 재생 시간
+                            curProgressBar: 0,
+                            maxProgressBar: 0,
+                            preVolume: 50, // 볼륨 조절
+                            volume: 50, // 볼륨 조절
+                            soundOn: true,
+                        };
                         clearInterval(this.interverId);
+                        this.setState(()=>{
+                            return { eventMap: Object.assign({}, eventMap, resetEventMap)};
+                        });
                     }else if(curProgressBar === maxProgressBar){
 
                         //끝나고 다음 행동을 여기서 정하면된다
@@ -1017,8 +1063,25 @@ class App extends Component {
 
     render() {
       //console.log(this.state.totalDuration)
-      let { albumList, checkIdxList, selectAllIsChecked, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched, player,eventMap,playingState,videoState  } = this.state;
-      //console.log("albumData",albumData);
+      let {
+          albumList,
+          checkIdxList,
+          selectAllIsChecked,
+          currentAlbum,
+          items,
+          isSelectedArr,
+          isAllClearAddBtn,
+          navIdx,
+          selectedData,
+          selectedKey,
+          isSearched,
+          player,
+          eventMap,
+          playingState,
+          isAddClicked
+
+      } = this.state;
+      console.log("isAddClicked",isAddClicked);
 
 
       let playList = null;
@@ -1049,7 +1112,6 @@ class App extends Component {
                 playList={playList}
                 selectedData={selectedData}
                 selectedKey={selectedKey}
-
                 playState={playingState}
 
 
@@ -1071,9 +1133,12 @@ class App extends Component {
 
                 //albumList
                 albumList={albumList}
+                isAddClicked={isAddClicked}
                 albumClickHandler={this.albumClickHandler}
-                deleteAlbumClickHandler = {this.deleteAlbumClickHandler}
-                addAlbumSubmitHandler = {this.addAlbumSubmitHandler}
+                deleteAlbumClickHandler={this.deleteAlbumClickHandler}
+                addAlbumSubmitHandler={this.addAlbumSubmitHandler}
+                addItemClickHandler={this.addItemClickHandler}
+                addItemCancelClickHandler={this.addItemCancelClickHandler}
 
                 //searchList
                 items={items}
