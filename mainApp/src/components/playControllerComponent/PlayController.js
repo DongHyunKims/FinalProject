@@ -48,9 +48,9 @@ class PlayController extends React.Component {
     // this.moveSeekBar = this.moveSeekBar.bind(this);
 
     //sound
-    this.moveVolumeBar = this.moveVolumeBar.bind(this);
-    this.onSound = this.onSound.bind(this);
-    this.offSound = this.offSound.bind(this);
+    // this.moveVolumeBar = this.moveVolumeBar.bind(this);
+    // this.onSound = this.onSound.bind(this);
+    // this.offSound = this.offSound.bind(this);
 
   }
 
@@ -94,45 +94,48 @@ class PlayController extends React.Component {
   //   .then(this.onPlayVideo)
   // }
 
-  moveVolumeBar(event){
-    let bar = utility.$selector("#volumeBar");
-    let volumeVal = bar.value;
-    this.setState({
-      event_map: Object.assign({}, this.state.event_map, { volume: volumeVal }),
-    });
-    
-    this.state.player.setVolume(volumeVal);
-    console.log(volumeVal, this.state.event_map.volume);
-    if (this.state.event_map.volume <= 1){
-      Promise.resolve()
-        .then(this.offSound)
-    }
-    else {
-      Promise.resolve()
-        .then(this.onSound)
-    }
-  }
+  // moveVolumeBar(event){
+  //   let bar = utility.$selector("#volumeBar");
+  //   let volumeVal = bar.value;
+  //   this.setState({
+  //     event_map: Object.assign({}, this.state.event_map, { volume: volumeVal }),
+  //   });
+  //
+  //   this.state.player.setVolume(volumeVal);
+  //   console.log(volumeVal, this.state.event_map.volume);
+  //   if (this.state.event_map.volume <= 1){
+  //     Promise.resolve()
+  //       .then(this.offSound)
+  //   }
+  //   else {
+  //     Promise.resolve()
+  //       .then(this.onSound)
+  //   }
+  // }
 
-  onSound(){
-    this.setState({
-      event_map: Object.assign({}, this.state.event_map, { soundOn: true })
-    });
-    this.state.player.unMute();
-  }
-
-  offSound(){
-    this.setState({
-      event_map: Object.assign({}, this.state.event_map, { soundOn: false })
-    });
-    this.state.player.mute();
-  }
+  // onSound(){
+  //   this.setState({
+  //     event_map: Object.assign({}, this.state.event_map, { soundOn: true })
+  //   });
+  //   this.state.player.unMute();
+  // }
+  //
+  // offSound(){
+  //   this.setState({
+  //     event_map: Object.assign({}, this.state.event_map, { soundOn: false })
+  //   });
+  //   this.state.player.mute();
+  // }
   
   render() {
-    let { onChangePrevVideo, onChangeNextVideo, onPlayVideo, onPauseVideo, eventMap, playingData, moveSeekBar, onPlayBtnClickHandler} = this.props;
+    let { onChangePrevVideo, onChangeNextVideo, onPlayVideo, onPauseVideo, eventMap, playingData, moveSeekBar, moveVolumeBar, onSound, offSound} = this.props;
 
     // if(!player){
     //
     // }
+
+      //
+      // console.log(eventMap.volume);
 
 
       let playingImg = null;
@@ -144,13 +147,11 @@ class PlayController extends React.Component {
           playingImg = playingData.thumnail;
           playingTitle = playingData.title;
       }
-
     return (
-      <div>
-        <div>
-          {/*<YouTube onStateChange={this.onPlayerStateChange} videoId={this.state.videoId} opts={this.opts} onReady={this.onReady} />*/}
-        </div>
+        <footer className="mainFooter">
+
         <div className="ap">
+          <div id="floater"></div>
           <div className="ap__inner">
             <div className="ap__item ap__item--playback">
               <button className="ap__controls ap__controls--prev" onClick={onChangePrevVideo}>
@@ -194,27 +195,27 @@ class PlayController extends React.Component {
           </div>
           <div className="ap__item ap__item--settings">
             <div className="ap__controls volume-container">
-          <button onClick={this.onSound} className={eventMap.soundOn ? "invisible" : ""}>
+          <button onClick={onSound} className={eventMap.soundOn ? "invisible" : ""}>
             <svg className="icon-volume-off" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#333" width="30" height="30" viewBox="0 0 24 24">
               <path d="M12 3.984v4.219l-2.109-2.109zM4.266 3l16.734 16.734-1.266 1.266-2.063-2.063q-1.734 1.359-3.656 1.828v-2.063q1.172-0.328 2.25-1.172l-4.266-4.266v6.75l-5.016-5.016h-3.984v-6h4.734l-4.734-4.734zM18.984 12q0-2.391-1.383-4.219t-3.586-2.484v-2.063q3.047 0.656 5.016 3.117t1.969 5.648q0 2.25-1.031 4.172l-1.5-1.547q0.516-1.266 0.516-2.625zM16.5 12q0 0.422-0.047 0.609l-2.438-2.438v-2.203q2.484 1.219 2.484 4.031z"></path>
             </svg>
           </button>
 
-          <button onClick={this.offSound} className={!eventMap.soundOn ? "invisible" : ""}>
+          <button onClick={offSound} className={!eventMap.soundOn ? "invisible" : ""}>
             <svg className="icon-volume-on" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#333" width="30" height="30" viewBox="0 0 24 24">
               <path d="M14.016 3.234q3.047 0.656 5.016 3.117t1.969 5.648-1.969 5.648-5.016 3.117v-2.063q2.203-0.656 3.586-2.484t1.383-4.219-1.383-4.219-3.586-2.484v-2.063zM16.5 12q0 2.813-2.484 4.031v-8.063q2.484 1.219 2.484 4.031zM3 9h3.984l5.016-5.016v16.031l-5.016-5.016h-3.984v-6z"></path>
             </svg>
           </button>
           <div className="volume">
 
-          <input id="volumeBar" orient="vertical" type="range" min="0" 
-          max="100" defaultValue={eventMap.volume} step="1" onChange={this.moveVolumeBar} />
+          <input id="volumeBar" orient="vertical" type="range" min="0"
+          max="100" defaultValue="50" value={eventMap.volume} step="1" onChange={moveVolumeBar} />
           </div>
           </div>
         </div>
         </div>
       </div>
-      </div>
+        </footer>
     );
   }
 }

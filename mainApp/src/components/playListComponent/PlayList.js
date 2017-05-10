@@ -12,7 +12,6 @@ class PlayList extends Component {
 
     constructor(props){
         super(props);
-        this.youtubePlayer = null;
     }
     //
     // componentDidMount(){
@@ -38,25 +37,28 @@ class PlayList extends Component {
 
 
     render(){
-        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,playListClickHandler,selectedData,selectedKey,onReady,onPlayerStateChange,opts} = this.props;
+        let {playState,playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,playListClickHandler,selectedKey,onReady,onPlayerStateChange} = this.props;
+       const opts = {
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                autoplay:1,
+                controls:0
+            },
+            width: "100%",
+            height: "100%",
+        };
+        let youtubePlayer = <div>loading...</div>;
+        if(playState){
+            let {playingData} = playState;
 
-
-        this.youtubePlayer = <div>loading...</div>;
-        if(selectedData){
-
-            let {videoId} = selectedData;
-            //playController
-            //console.log("player",player);
-            //console.log("videoState",videoState);
-             this.youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}  onStateChange={onPlayerStateChange} />;
-            //youtubePlayer.
+            let {videoId} = playingData;
+             youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}  onStateChange={onPlayerStateChange} />;
 
         }
 
         return (
           <div className="leftArea">
               <div className="youtubePlayerArea">
-                { this.youtubePlayer }
+                { youtubePlayer }
               </div>
               <PlayListSection
 
