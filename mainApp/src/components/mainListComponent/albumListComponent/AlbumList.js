@@ -11,29 +11,13 @@ class AlbumList extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            isAddClicked : false,
-        };
-        this.addItemClickHandler = this.addItemClickHandler.bind(this);
-        this.addItemCancelClickHandler = this.addItemCancelClickHandler.bind(this);
-        this.renderAddItemModal = this.renderAddItemModal.bind(this);
-    }
-
-    addItemClickHandler(event){
-        this.setState({isAddClicked: true});
-        event.stopPropagation();
-
-    }
-    addItemCancelClickHandler(event){
-        this.setState({isAddClicked: false});
-        event.stopPropagation();
 
     }
 
-    renderAddItemModal(isAddClicked,addAlbumSubmitHandler){
 
+    renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler){
         return isAddClicked ? <Modal
-                addItemCancelClickHandler={this.addItemCancelClickHandler}
+                addItemCancelClickHandler={addItemCancelClickHandler}
                 addAlbumSubmitHandler={addAlbumSubmitHandler}
             /> : null;
     }
@@ -58,14 +42,10 @@ class AlbumList extends Component {
     }
 
     render(){
-        let { items,albumClickHandler,deleteAlbumClickHandler, addAlbumSubmitHandler }= this.props;
+        let { items,albumClickHandler,deleteAlbumClickHandler, addAlbumSubmitHandler,addItemClickHandler, addItemCancelClickHandler,isAddClicked }= this.props;
 
-
-        let {isAddClicked} = this.state;
-        //console.log(isAddClicked);
         let renderingAlbumList = null;
         if(items){
-            //console.log("items12321",typeof newItems);
             renderingAlbumList = this.makeListItem(items,albumClickHandler,deleteAlbumClickHandler);
         }
 
@@ -73,10 +53,10 @@ class AlbumList extends Component {
             <div className="albumListWrap">
                 <ul className="albumList">
                     {renderingAlbumList}
-                    <li id="addItem" onClick={this.addItemClickHandler}>
+                    <li id="addItem" onClick={addItemClickHandler}>
 
                     </li>
-                    {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler)}
+                    {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler)}
 
                 </ul>
             </div>
@@ -85,6 +65,5 @@ class AlbumList extends Component {
 
 }
 
-//               <ul className="albumList" onScroll={this.props.moreVideoList}>
 
 export default AlbumList;

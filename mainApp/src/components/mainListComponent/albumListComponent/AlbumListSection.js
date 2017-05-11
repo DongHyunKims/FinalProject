@@ -16,12 +16,16 @@ class MainList extends Component {
 
     constructor(props){
         super(props);
-        // this.requestListener = this.requestListener.bind(this)
     }
 
 
+
     render(){
-        let { albumList, albumClickHandler, deleteAlbumClickHandler,addAlbumSubmitHandler } = this.props;
+        let { albumList, albumClickHandler, deleteAlbumClickHandler,addAlbumSubmitHandler, addItemClickHandler,addItemCancelClickHandler ,isAddClicked} = this.props;
+
+
+
+
         return(
             <div>
                 <SearchInputBox
@@ -29,9 +33,12 @@ class MainList extends Component {
                 />
                 <AlbumList
                     items={albumList}
+                    isAddClicked={isAddClicked}
                     albumClickHandler={albumClickHandler}
                     deleteAlbumClickHandler={deleteAlbumClickHandler}
                     addAlbumSubmitHandler={addAlbumSubmitHandler}
+                    addItemClickHandler={addItemClickHandler}
+                    addItemCancelClickHandler={addItemCancelClickHandler}
                 />
             </div>
         )

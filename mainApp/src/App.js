@@ -9,9 +9,12 @@ import Nav from './components/navComponent/Nav'
 import MainList from './components/mainListComponent/MainList'
 
 import PlayListComponent from './components/playListComponent/PlayList';
-import PlayController from './components/playControllerComponent/samplePlayController';
+import PlayController from './components/playControllerComponent/PlayController';
 import utility from './utility/utility';
 import moment from 'moment'
+
+
+
 
 //임시 데이터
 //const ALBUM_ID = "5907f898f91d33f1d974f254";
@@ -23,6 +26,7 @@ const ACTION_CONFIG = {
     resetPlayList : "resetPlayList",
     deleteAlbum : "deleteAlbum",
     getAllAlbum : "getAllAlbum",
+    addAlbum : "addAlbum"
 };
 
 
@@ -34,6 +38,7 @@ class App extends Component {
             //albumList
             albumList : null,
             currentAlbum: null,
+            isAddClicked : false,
 
             //playList,
             deleteVideoCheckList : [],
@@ -43,6 +48,7 @@ class App extends Component {
             selectedData : null,
             selectedKey : -1,
             playingState : null,
+
 
 
             //searchList
@@ -57,8 +63,27 @@ class App extends Component {
 
             //mainList
             navIdx: "2",
-        };
 
+
+
+
+            //video controller
+            videoState: null,
+            // videoId: selectedVideo.id.current,
+            //player: null,
+            eventMap: { playing: false,
+                curTime: '00:00', // 현재 재생 시간
+                totalTime: '00:00', // 전체 비디오 재생 시간
+                curProgressBar: 0,
+                maxProgressBar: 0,
+                preVolume: 50, // 볼륨 조절
+                volume: 50, // 볼륨 조절
+                soundOn: true,
+            },
+
+
+
+        };
 
 
 
@@ -80,6 +105,8 @@ class App extends Component {
         this.deleteAlbumClickHandler = this.deleteAlbumClickHandler.bind(this);
         this._albumReqListener = this._albumReqListener.bind(this);
         this.addAlbumSubmitHandler = this.addAlbumSubmitHandler.bind(this);
+        this.addItemClickHandler = this.addItemClickHandler.bind(this);
+        this.addItemCancelClickHandler = this.addItemCancelClickHandler.bind(this);
 
 
 
@@ -108,47 +135,88 @@ class App extends Component {
         //nav
         this.navClickHandler = this.navClickHandler.bind(this);
 
+
+        //playController
+        this.opts = {
+            videoId: this.state.videoId,
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                autoplay: 0
+            }
+        };
+
+
+        this.interverId = null;
+        this.onChangePrevVideo = this.onChangePrevVideo.bind(this);
+        this.onChangeNextVideo = this.onChangeNextVideo.bind(this);
+        this.onPlayVideo = this.onPlayVideo.bind(this);
+        this.onPauseVideo = this.onPauseVideo.bind(this);
+        this._setCurrentTime = this._setCurrentTime.bind(this);
+        this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
+        this._setDuration = this._setDuration.bind(this);
+        this.moveSeekBar = this.moveSeekBar.bind(this);
+
+        //sound
+        this.moveVolumeBar = this.moveVolumeBar.bind(this);
+        this.onSound = this.onSound.bind(this);
+        this.offSound = this.offSound.bind(this);
+
     }
 
 
 
 
-
-    //app의 componentDid mount로 빠야 함
     componentDidMount(){
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
     //albumList
+    addItemClickHandler(event){
+        this.setState(()=>{
+               return {isAddClicked: true}
+            });
+        event.stopPropagation();
+
+    }
+    addItemCancelClickHandler(event){
+        this.setState(()=>{
+            return {isAddClicked: false}
+        });
+        event.stopPropagation();
+    }
+
+
+
     addAlbumSubmitHandler(data,event){
-        // let formData = new FormData();
-        // //FormData 에 파일과 이메일을 append 메소드를 통해 등록
-        //
-        // for(let key in data){
-        //     let inputData = data[key];
-        //     if(key === "category"){
-        //         inputData = JSON.stringify(inputData);
-        //     }
-        //     formData.append(key, inputData);
-        // }
 
 
-        console.log("asfasdfasdfasdf");
-        event.preventDefault();
+        let formData = new FormData();
+        //FormData 에 파일과 이메일을 append 메소드를 통해 등록
+
+        for(let key in data){
+            let inputData = data[key];
+            if(key === "category"){
+                inputData = JSON.stringify(inputData);
+            }
+            formData.append(key, inputData);
+        }
+
+        //console.log("asfasdfasdfasdf");
+            // event.preventDefault();
 
         //formData.append("coverImgUrl",data.coverImgUrl);
-        //utility.runAjaxData(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"post","/albumList/addAlbum",formData);
+        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",formData);
 
     }
 
     deleteAlbumClickHandler(albumId,event){
-        utility.runAjax(this._albumReqListener, "GET", "/albumList/deleteAlbum/"+albumId);
+        utility.runAjax(this._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
         event.stopPropagation();
     }
 
-    _albumReqListener(res){
+    _albumReqListener(action,res){
         //console.log(res);
-        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.deleteAlbum),"GET","/albumList/getAllAlbumList");
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
+
     }
 
 
@@ -156,14 +224,29 @@ class App extends Component {
 
     _getAllAlbumReqListener(action,res){
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
+        // console.log("jsonAlbumList",jsonAlbumList)
 
         switch (action){
             case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
-                console.log(jsonAlbumList);
-                if(jsonAlbumList.err){
+                //console.log(jsonAlbumList);
+                if(!jsonAlbumList.err){
+
+                    let { playingState } = state;
+
+                    if(playingState){
+
+                        return {
+                            albumList : jsonAlbumList,
+                            deleteVideoCheckList : [],
+                            checkIdxList : [],
+                            selectAllIsChecked : false,
+                        }
+
+                    }
+
                     return {
-                        albumList : null,
-                        currentAlbum: null,
+                        albumList : jsonAlbumList,
+                        currentAlbum: jsonAlbumList[0],
                         deleteVideoCheckList : [],
                         checkIdxList : [],
                         selectAllIsChecked : false,
@@ -172,13 +255,11 @@ class App extends Component {
                         selectedKey : -1,
                         playingState : null,
                     }
-
                 }
 
-
                 return {
-                    albumList : jsonAlbumList,
-                    currentAlbum: jsonAlbumList[0],
+                    albumList : null,
+                    currentAlbum: null,
                     deleteVideoCheckList : [],
                     checkIdxList : [],
                     selectAllIsChecked : false,
@@ -187,17 +268,31 @@ class App extends Component {
                     selectedKey : -1,
                     playingState : null,
                 }
+
             });
             break;
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
-              if(!jsonAlbumList.err){
-                return {
-                    albumList : jsonAlbumList,
-                    currentAlbum: jsonAlbumList[0],
+
+                if(!jsonAlbumList.err){
+                    return {
+                        albumList : jsonAlbumList,
+                        currentAlbum: jsonAlbumList[0],
+                    }
                 }
               }
+            );
+            break;
+            case ACTION_CONFIG.addAlbum: this.setState((state)=>{
+                if(!jsonAlbumList.err){
+                    console.log("jsonAlbumList",jsonAlbumList);
+                    return {
+                        albumList : jsonAlbumList,
+                        isAddClicked : false,
+                    }
+                }
             });
             break;
+
             default: break;
 
         }
@@ -231,17 +326,15 @@ class App extends Component {
             case ACTION_CONFIG.deletePlayList  : this.setState((state)=>{
 
                 let currentAlbum = jsonData;
-                let { playingState, checkIdxList, selectAllIsChecked}  = state;
-                console.log("selectAllIsChecked",selectAllIsChecked);
+                let { playingState, checkIdxList, selectAllIsChecked,eventMap}  = state;
+               // console.log("selectAllIsChecked",selectAllIsChecked);
 
                 //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
                 if(playingState && !selectAllIsChecked){
                     let { playingKey } = playingState;
                     let { playList } = currentAlbum;
 
-                    let length = checkIdxList.filter((val)=>{
-                        return val < playingKey;
-                    }).length;
+
 
                     //삭제 리스트에 있는 경우
                     if(checkIdxList.indexOf(playingKey) !== -1){
@@ -259,6 +352,10 @@ class App extends Component {
                             currentAlbum: jsonData
                         }
                     }
+
+                    let length = checkIdxList.filter((val)=>{
+                        return val < playingKey;
+                    }).length;
                      let currentPlayingKey = playingKey-length;
                       return {
                           playingState : {
@@ -276,6 +373,9 @@ class App extends Component {
 
                 }
 
+
+
+
                 return {
                     playingState : null,
                     selectedData: null,
@@ -283,7 +383,8 @@ class App extends Component {
                     deleteVideoCheckList: [],
                     checkIdxList: [],
                     selectAllIsChecked: false,
-                    currentAlbum: jsonData
+                    currentAlbum: jsonData,
+                    // eventMap: Object.assign({},eventMap, resetEventMap),
                 };
 
 
@@ -406,10 +507,16 @@ class App extends Component {
     }
 
 
+
+
+
     onReady(event) {
         //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
-        //console.log(event.target);
-        this.setState({ player: event.target });
+        // console.log(event);
+            this.setState((state)=>{
+                return { player: event.target }
+            });
+        // this.state.player ? this._setDuration() : null;
         //this.state.player ? this.getDuration() : null
         //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
     }
@@ -417,19 +524,33 @@ class App extends Component {
 
     //playList
     playListClickHandler(playList,key){
-        this.setState((state)=>{
-                let { currentAlbum } = state;
-                return {
-                    playingState : {
-                        playingAlbum :  currentAlbum,
-                        playingData :  playList[key],
-                        playingKey : key,
-                    },
-                    selectedData : playList[key],
-                    selectedKey : key
-                }
-            }
-        );
+                let newEventMap = { playing: false,
+                    curTime: '00:00', // 현재 재생 시간
+                    totalTime: '00:00', // 전체 비디오 재생 시간
+                    curProgressBar: 0,
+                    maxProgressBar: 0,
+                };
+                let {eventMap} = this.state;
+                this.setState((state) => {
+                    let {currentAlbum, playingState} = state;
+
+                    return {
+                        playingState: Object.assign({}, playingState, {
+                            playingAlbum: currentAlbum,
+                            playingData: playList[key],
+                            playingKey: key,
+                        }),
+                        selectedData: playList[key],
+                        selectedKey: key,
+                        eventMap: Object.assign({}, eventMap, newEventMap),
+
+                    };
+                }, ()=>{
+                    let {player} = this.state;
+                    if(player) {
+                        this._setDuration(player);
+                    }
+                });
     }
 
 
@@ -443,7 +564,6 @@ class App extends Component {
         this.setState({
             selectedVideoArr : this.state.selectedVideoArr.concat(selectedItem),
             isSelectedArr : true,
-
             totalDuration : totalDuration
         })
     }
@@ -633,11 +753,369 @@ class App extends Component {
       })
     }
 
+    //playController
+    _toTimeString(seconds) {
+        let time = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+        time = time.replace(/00:/, "");
+        return time
+    }
+
+
+    onPlayVideo(player) {
+        let {eventMap} = this.state;
+
+        if(!eventMap.playing) {
+            this.setState((state)=>{
+                return {
+                    eventMap: Object.assign({}, eventMap, {
+                        playing: true ,
+                        totalTime: '00:00', // 전체 비디오 재생 시간
+                        maxProgressBar: 0,
+                    }),
+                }
+            },()=>{
+                let {eventMap} = this.state;
+                console.log("eventMap1231231",eventMap);
+                player.playVideo();
+                this._setDuration(player);
+            });
+        }
+
+
+    }
+
+    onPauseVideo(player) {
+
+        let {eventMap} = this.state;
+            if(eventMap.playing) {
+                this.setState((state) => {
+                    return {
+                        eventMap: Object.assign({}, eventMap, {playing: false}),
+                    }
+                },()=>{
+                    player.pauseVideo(); //  이게 state를 바꾸고 2번으로 바꾸는 작업 계속 발생한다
+                    this._setCurrentTime(player)
+                });
+            }
+
+    }
+
+    onChangeNextVideo() {
+        // this.setState({ videoId: selectedVideo.id.next });
+        let newEventMap = { playing: false,
+            curTime: '00:00', // 현재 재생 시간
+            totalTime: '00:00', // 전체 비디오 재생 시간
+            curProgressBar: 0,
+            maxProgressBar: 0,
+        };
+
+        let {eventMap} = this.state;
+
+        this.setState((state) => {
+            let { playingState, currentAlbum } = state;
+            let {playingAlbum, playingKey} = playingState;
+            let currentKey = playingKey+1;
+            let { playList } = playingAlbum;
+            if(currentKey > playList.length-1){
+                currentKey = 0;
+            }
+
+            let newSelectedData = null;
+            let newSelectedKey = -1;
+            if(playingAlbum === currentAlbum){
+                newSelectedData = playList[currentKey];
+                newSelectedKey = currentKey;
+            }
+
+            return {
+                playingState: Object.assign({}, playingState, {
+                    playingData: playList[currentKey],
+                    playingKey: currentKey,
+                }),
+                 selectedData: newSelectedData,
+                 selectedKey: newSelectedKey,
+                eventMap: Object.assign({}, eventMap, newEventMap),
+
+            };
+        },()=>{
+            let {player} = this.state;
+            if(player) {
+                this._setDuration(player);
+            }
+        });
+
+        // this.setState((state)=>{
+        //         let { currentAlbum,selectedKey } = state;
+        //
+        //         let currentKey = selectedKey+1;
+        //         let { playList } = currentAlbum;
+        //         return {
+        //             playingState : {
+        //                 playingAlbum :  currentAlbum,
+        //                 playingData :  playList[currentKey],
+        //                 playingKey : currentKey,
+        //             },
+        //             selectedData : playList[currentKey],
+        //             selectedKey : currentKey
+        //         }
+        //     }
+        // );
+        //
+        //
+        // Promise.resolve()
+        //     .then(this.opts.playerVars.autoplay = 1)
+        //     .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player))
+    }
+
+    onChangePrevVideo() {
+        // this.setState({ videoId: selectedVideo.id.prev });
+
+
+
+        let newEventMap = { playing: false,
+            curTime: '00:00', // 현재 재생 시간
+            totalTime: '00:00', // 전체 비디오 재생 시간
+            curProgressBar: 0,
+            maxProgressBar: 0,
+        };
+
+        let {eventMap} = this.state;
+        this.setState((state) => {
+            let { playingState,currentAlbum } = state;
+            let {playingAlbum, playingKey} = playingState;
+            let currentKey = playingKey-1;
+            let { playList } = playingAlbum;
+            if(currentKey < 0){
+                currentKey = playList.length-1;
+            }
+            let newSelectedData = null;
+            let newSelectedKey = -1;
+            if(playingAlbum === currentAlbum){
+                newSelectedData = playList[currentKey];
+                newSelectedKey = currentKey;
+            }
+            return {
+                playingState: Object.assign({}, playingState, {
+                    playingData: playList[currentKey],
+                    playingKey: currentKey,
+                }),
+                selectedData: newSelectedData,
+                selectedKey: newSelectedKey,
+                eventMap: Object.assign({}, eventMap, newEventMap),
+            };
+        },()=>{
+            let {player} = this.state;
+            if(player) {
+                this._setDuration(player);
+            }
+        });
+
+
+        // this.setState((state)=>{
+        //         let { currentAlbum,selectedKey } = state;
+        //         let currentKey = selectedKey-1;
+        //         let { playList } = currentAlbum;
+        //         return {
+        //             playingState : {
+        //                 playingAlbum :  currentAlbum,
+        //                 playingData :  playList[currentKey],
+        //                 playingKey : currentKey,
+        //             },
+        //             selectedData : playList[currentKey],
+        //             selectedKey : currentKey
+        //         }
+        //     }
+        // );
+        //
+        // Promise.resolve()
+        //     .then(this.opts.playerVars.autoplay = 1)
+        //     .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player))
+    }
+
+
+
+    onPlayerStateChange(player,event) {
+        console.log("onPlayerStateChange");
+        if (event !== undefined){
+            //console.log("event.dataasdfasdfasdfasfasdfasdfasfasdfadsfas",event.data);
+            this.setState({ videoState: event.data },()=>{
+                let { videoState, eventMap } = this.state;
+                if(videoState===1){
+                    this.onPlayVideo(player);
+                }else if(videoState===2) {
+                    this.onPauseVideo(player);
+                }
+                else{
+                    return;
+                }
+            });
+
+
+        }
+
+    }
+
+   _setDuration(player) {
+       //console.log("player111111111", player.getDuration());
+
+       let {eventMap} = this.state;
+       console.log("videoState111111111",eventMap);
+       let time = Math.floor(player.getDuration());
+       this.setState({
+           eventMap: Object.assign({}, eventMap, {
+               totalTime: this._toTimeString(time),
+               maxProgressBar: time
+           })
+       },  this._setCurrentTime.bind(null, player));
+   };
+
+
+
+    _setCurrentTime(player) {
+        let {eventMap} = this.state;
+        if (eventMap.playing){
+
+            this.interverId = setInterval(() => {
+                let time = Math.floor(player.getCurrentTime());
+                this.setState((state)=>{
+
+                    let {eventMap} = state;
+                    let sound = false;
+                    if(eventMap.soundOn){
+                        sound = true;
+                    }
+                    return {
+                        eventMap: Object.assign({}, eventMap, { curTime: this._toTimeString(time), curProgressBar: time, sound : sound})
+                    }
+                },()=>{
+                    let {eventMap, playingState} = this.state;
+                    let {curProgressBar, maxProgressBar} = eventMap;
+                    //전부 삭제 되었으면
+                    if(!playingState){
+                        let resetEventMap = { playing: false,
+                            curTime: '00:00', // 현재 재생 시간
+                            totalTime: '00:00', // 전체 비디오 재생 시간
+                            curProgressBar: 0,
+                            maxProgressBar: 0,
+                            preVolume: 50, // 볼륨 조절
+                            volume: 50, // 볼륨 조절
+                            soundOn: true,
+                        };
+                        clearInterval(this.interverId);
+                        this.setState(()=>{
+                            return { eventMap: Object.assign({}, eventMap, resetEventMap)};
+                        });
+                    }else if(curProgressBar === maxProgressBar){
+
+                        //끝나고 다음 행동을 여기서 정하면된다
+                        this.onChangeNextVideo();
+
+
+                        /*
+                            한곡 연속 재생일시 초기화 설정을 해주면 된다
+
+                            this.onPauseVideo(player);
+                         */
+                    }else{
+                        return;
+                    }
+
+                });
+            }, 1000);
+        }else{
+            // console.log("fasdfasdfsadfasdf");
+            clearInterval(this.interverId);
+        }
+    }
+
+    moveSeekBar(player,event){
+        let bar = utility.$selector("#seekBar");
+        let time = bar.value;
+        // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
+        // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
+
+        player.seekTo(time, true);
+        // this.onPlayVideo(player)
+        // Promise.resolve()
+        //     .then(player.seekTo(time, true))
+        //     .then(this.onPlayVideo.bind(null,player))
+    }
+
+
+    moveVolumeBar(player,event){
+
+        let bar = utility.$selector("#volumeBar");
+        let volumeVal = bar.value;
+        this.setState((state)=>{
+            let {eventMap}  = state;
+            return {
+                eventMap: Object.assign({}, eventMap, { volume: volumeVal ,preVolume: volumeVal}),
+            }
+
+        },()=>{
+            let {eventMap}  = this.state;
+            player.setVolume(volumeVal);
+            //console.log(volumeVal, this.state.event_map.volume);
+            if (eventMap.volume < 1){
+                this.offSound(player);
+            }
+            else {
+                this.onSound(player)
+            }
+        });
+    }
+
+    onSound(player){
+        this.setState((state)=> {
+            let {eventMap} = state;
+            let {preVolume} = eventMap;
+            return {
+                eventMap: Object.assign({}, eventMap, {soundOn: true, volume: preVolume})
+            };
+        },()=>{
+            player.unMute();
+        });
+
+    }
+
+    offSound(player){
+        this.setState((state)=> {
+                let {eventMap} = state;
+                return {
+                    eventMap: Object.assign({}, eventMap, {soundOn: false, volume: 0})
+                }
+            }
+            ,()=>{
+                player.mute();
+
+            });
+    }
+
+
+
 
 
     render() {
-      let { albumList, checkIdxList, selectAllIsChecked, player, currentAlbum, items, isSelectedArr, isAllClearAddBtn, navIdx, selectedData, selectedKey, isSearched } = this.state;
-      //console.log("albumData",albumData);
+      //console.log(this.state.totalDuration)
+      let {
+          albumList,
+          checkIdxList,
+          selectAllIsChecked,
+          currentAlbum,
+          items,
+          isSelectedArr,
+          isAllClearAddBtn,
+          navIdx,
+          selectedData,
+          selectedKey,
+          isSearched,
+          player,
+          eventMap,
+          playingState,
+          isAddClicked
+
+      } = this.state;
+
 
       let playList = null;
       let albumTitle = null;
@@ -646,6 +1124,12 @@ class App extends Component {
           _id = currentAlbum._id;
           albumTitle = currentAlbum.title;
           playList = currentAlbum.playList;
+      }
+
+      let playingData = null;
+
+      if(playingState) {
+          playingData = playingState.playingData;
       }
 
     return (
@@ -661,8 +1145,13 @@ class App extends Component {
                 playList={playList}
                 selectedData={selectedData}
                 selectedKey={selectedKey}
+                playState={playingState}
+
+
+
                 checkIdxList={checkIdxList}
                 selectAllIsChecked={selectAllIsChecked}
+                onPlayerStateChange={this.onPlayerStateChange.bind(null,player)}
                 onReady={this.onReady}
                 playListClickHandler={this.playListClickHandler}
                 deletePlayListBtnClickHandler={this.deletePlayListBtnClickHandler}
@@ -677,14 +1166,18 @@ class App extends Component {
 
                 //albumList
                 albumList={albumList}
+                isAddClicked={isAddClicked}
                 albumClickHandler={this.albumClickHandler}
-                deleteAlbumClickHandler = {this.deleteAlbumClickHandler}
-                addAlbumSubmitHandler = {this.addAlbumSubmitHandler}
+                deleteAlbumClickHandler={this.deleteAlbumClickHandler}
+                addAlbumSubmitHandler={this.addAlbumSubmitHandler}
+                addItemClickHandler={this.addItemClickHandler}
+                addItemCancelClickHandler={this.addItemCancelClickHandler}
 
                 //searchList
                 items={items}
                 isSelectedArr={isSelectedArr}
                 isAllClearAddBtn={isAllClearAddBtn}
+                isSearched = {isSearched}
                 addSelectedVideo={this.addSelectedVideo}
                 delSelectedVideo={this.delSelectedVideo}
                 changeIsAllClearAddBtn={this.changeIsAllClearAddBtn}
@@ -692,9 +1185,11 @@ class App extends Component {
                 searchVideo={this.searchVideo}
                 moreVideoList={this.moreVideoList}
 
+
                 isSearched = {isSearched}
 
                 initSearchList = {this.initSearchList}
+
             />
 
 
@@ -703,9 +1198,23 @@ class App extends Component {
 
         </div>
 
-        <footer className="mainFooter">
-            <PlayController player={player}/>
-        </footer>
+
+            <PlayController
+                player={player}
+                eventMap={eventMap}
+                playingData={playingData}
+                onChangePrevVideo={this.onChangePrevVideo}
+                onChangeNextVideo={this.onChangeNextVideo}
+                onPlayVideo={this.onPlayVideo.bind(null,player)}
+                onPauseVideo={this.onPauseVideo.bind(null,player)}
+                onPlayerStateChange={this.onPlayerStateChange.bind(null,player)}
+                moveSeekBar={this.moveSeekBar.bind(null,player)}
+
+                moveVolumeBar={this.moveVolumeBar.bind(null,player)}
+                onSound={this.onSound.bind(null,player)}
+                offSound={this.offSound.bind(null,player)}
+            />
+
 
 
 
@@ -715,5 +1224,14 @@ class App extends Component {
     );
   }
 }
+
+
+
+// this.onChangePrevVideo = this.onChangePrevVideo.bind(this);
+// this.onChangeNextVideo = this.onChangeNextVideo.bind(this);
+// this.onPlayVideo = this.onPlayVideo.bind(this);
+// this.onPauseVideo = this.onPauseVideo.bind(this);
+// this.setCurrentTime = this.setCurrentTime.bind(this);
+// this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
 
 export default App;

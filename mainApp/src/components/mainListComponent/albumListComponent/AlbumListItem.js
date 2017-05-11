@@ -14,12 +14,9 @@ class AlbumListItem extends Component{
 
     }
 
-
     render(){
         let { data, albumClickHandler,idx,deleteAlbumClickHandler } = this.props;
         let { coverImgUrl,title, totalDuration, _id } = data;
-
-
         return(
             <li onClick={albumClickHandler.bind(null,_id,idx)}>
                 <div className="albumThum">
