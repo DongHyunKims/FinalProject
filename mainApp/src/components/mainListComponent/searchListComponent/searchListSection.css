@@ -50,6 +50,7 @@
 }
 
 .searchList li .thum{
+  cursor: pointer;
   position:absolute;
   top:10px;
   left:10px;
@@ -67,6 +68,7 @@
 }
 
 .searchList li .itemCont .title{
+  cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -126,4 +128,55 @@
   border-radius: 5px;
   border:1px solid #d9d9d9;
   background-color: #fff;
+}
+
+@keyframes fadein{
+  from{opacity: 0;}
+  to{opacity: 1;}
+}
+
+@keyframes fadeout{
+  from{opacity: 1;}
+  to{opacity: 0;}
+}
+
+.popupVideoWrap{
+  display: block;
+  z-index:1000;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  animation: fadein 0.3s;
+}
+
+.popupVideoWrap .popup{
+  position:absolute;
+  left:50%;
+  top:120px;
+  margin-left:-320px;
+}
+
+.popupVideoWrap .popup .title{
+  position: relative;
+  width:553px;
+  padding:20px 60px 20px 20px;
+  color:#fff;
+  background-color:#000;
+}
+
+.popupVideoWrap .popup .title .btnClose{
+  cursor: pointer;
+  position: absolute;
+  top:20px;
+  right: 20px;
+  font-size:1.5rem;
+  background: none;
+  border:none;
+}
+
+.popupVideoWrap .popup .title .btnClose:hover{
+  color:#fff;
 }

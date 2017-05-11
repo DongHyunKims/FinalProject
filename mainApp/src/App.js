@@ -122,9 +122,14 @@ class App extends Component {
         this.changeIsAllClearAddBtn = this.changeIsAllClearAddBtn.bind(this);
         this.addSelectedVideoToAlbum = this.addSelectedVideoToAlbum.bind(this);
         this.moreVideoList = this.moreVideoList.bind(this);
-        this._searchAgainVideo = this._searchAgainVideo.bind(this);
-        this._getVideoDuration = this._getVideoDuration.bind(this);
-        this._getVideoViewCount = this._getVideoViewCount.bind(this);
+
+        this.getVideoInfo=this.getVideoInfo.bind(this);
+        this.promiseSearch=this.promiseSearch.bind(this);
+        this.promiseGetViewCount=this.promiseGetViewCount.bind(this);
+        this.promiseGetDuration=this.promiseGetDuration.bind(this);
+
+
+        this.initSearchList = this.initSearchList.bind(this);
 
 
         //nav
@@ -267,13 +272,15 @@ class App extends Component {
             });
             break;
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
+
                 if(!jsonAlbumList.err){
                     return {
                         albumList : jsonAlbumList,
                         currentAlbum: jsonAlbumList[0],
                     }
                 }
-            });
+              }
+            );
             break;
             case ACTION_CONFIG.addAlbum: this.setState((state)=>{
                 if(!jsonAlbumList.err){
@@ -595,25 +602,18 @@ class App extends Component {
     }
 
     addSelectedVideoToAlbum(_id){
-      //console.log(this.state.totalDuration)
-
         let utilLayer = document.querySelector(".utilLayer");
         utilLayer.classList.remove("show");
 
         let insertData = {
             albumId : _id,
             selectedVideoArr : this.state.selectedVideoArr,
-
             totalDuration : this.state.totalDuration
         };
-
         let jsonData = JSON.stringify(insertData);
-        //console.log(jsonData)
+
         utility.runAjaxData(function(e){
-            //console.log(e);
-
             utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
-
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     }
 
@@ -623,7 +623,6 @@ class App extends Component {
             items : [],
             nextPageToken : "",
             selectedVideoArr : [],
-
             isSearched : true,
             isSelectedArr : false
 
@@ -631,69 +630,97 @@ class App extends Component {
         let encodedKeword = encodeURI(keyword);
         this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"
 
-        this._searchAgainVideo(this.searchUrl);
+        //this._searchAgainVideo(this.searchUrl);
+        this.getVideoInfo(this.searchUrl);
     }
 
-    _searchAgainVideo(searchUrl){
+    promiseSearch(url){
+      return new Promise(function(resolve, reject){
         utility.runAjax(function(e){
+          let data = JSON.parse(e.target.responseText);
+          this.nextPageToken = data.nextPageToken;
+          let videoArr = data.items.map((item, index) => {
+              return {
+                  videoId : item.id.videoId,
+                  title : item.snippet.title,
+                  publishedAt : item.snippet.publishedAt,
+                  thumnail : item.snippet.thumbnails.default.url
+              }
+          });
+          if(typeof data !== "object"){
+            reject("wrong data")
+          }else{
+            resolve(videoArr);
+          }
+        }.bind(this), "GET", url)
+      }.bind(this))
+    }
+
+    promiseGetViewCount(videoArr){
+      const UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
+      let count = 0;
+      return new Promise(function(resolve, reject){
+        videoArr.forEach((item, index) => {
+          let statisticsUrl = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+item.videoId+"&key="+UTUBEKEY+"";
+          utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
-            this.nextPageToken = data.nextPageToken;
-
-
-            this.videoArr = data.items.map((item, index) => {
-                return {
-                    videoId : item.id.videoId,
-                    title : item.snippet.title,
-                    publishedAt : item.snippet.publishedAt,
-                    thumnail : item.snippet.thumbnails.default.url
-                }
-            });
-
-            this._getVideoViewCount();
-
-        }.bind(this), "GET", searchUrl)
-    }
-
-    _getVideoViewCount(){
-        let count = 0;
-        this.videoArr.map((item, index) => {
-            let statisticsUrl = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+item.videoId+"&key="+this.UTUBEKEY+"";
-            utility.runAjax(function(e){
-
-                let data = JSON.parse(e.target.responseText);
-                let viewCount = data.items[0].statistics.viewCount;
-                this.videoArr[index].viewCount = viewCount;
-                count++;
-                if(count === this.videoArr.length){
-                    this._getVideoDuration();
-                }
-            }.bind(this), "GET", statisticsUrl)
+            let viewCount = data.items[0].statistics.viewCount;
+            videoArr[index].viewCount = viewCount;
+            count++;
+            if(count === videoArr.length){
+              if(typeof videoArr !== "object"){
+                reject("wrong data")
+              }else{
+                resolve(videoArr);
+              }
+            }
+          }.bind(this), "GET", statisticsUrl)
         })
+      })
     }
-//함수형 setState, jsWeekly - redux를 써봐라, component를 가볍게 순수하게 component는 UI Render하는것에 집중, config 분리, 주석정리, 디버거사용 소스맵, map(forEach)
-    _getVideoDuration(){
-        let count = 0;
-        this.videoArr.map((item, index) => {
-            let contentDetailsUrl = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id="+item.videoId+"&key="+this.UTUBEKEY+"";
-            utility.runAjax(function(e){
-                let data = JSON.parse(e.target.responseText);
-                let duration = data.items[0].contentDetails.duration;
-                let changedDuration = "";
 
-                changedDuration = moment.duration(duration, moment.ISO_8601)
-                this.videoArr[index].duration = changedDuration._milliseconds;
+    promiseGetDuration(videoArr){
+      const UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
+      let count = 0;
+      return new Promise(function(resolve, reject){
+        videoArr.forEach((item, index) => {
 
-                count++;
-                if(count === this.videoArr.length){
-                    this.setState({
-                        items : this.state.items.concat(this.videoArr),
-                        nextPageToken : this.nextPageToken
-                    })
-                }
-            }.bind(this), "GET", contentDetailsUrl)
+          let contentDetailsUrl = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id="+item.videoId+"&key="+UTUBEKEY+"";
+          utility.runAjax(function(e){
+            let data = JSON.parse(e.target.responseText);
+            let duration = data.items[0].contentDetails.duration;
+            let changedDuration = "";
+            changedDuration = moment.duration(duration, moment.ISO_8601)
+            videoArr[index].duration = changedDuration._milliseconds;
+            count++;
+            if(count === videoArr.length){
+              if(typeof videoArr !== "object"){
+                reject("wrong data")
+              }else{
+                resolve(videoArr);
+              }
+            }
+
+          }.bind(this), "GET", contentDetailsUrl)
         })
+      })
     }
 
+    getVideoInfo(url){
+      this.promiseSearch(url)
+        .then(function(videoArr){
+          return this.promiseGetViewCount(videoArr)
+        }.bind(this))
+        .then(function(videoArr){
+          return this.promiseGetDuration(videoArr)
+        }.bind(this))
+        .then(function(videoArr){
+          this.setState({
+              items : this.state.items.concat(videoArr),
+              nextPageToken : this.nextPageToken
+          })
+        }.bind(this))
+    }
 
     moreVideoList(){
         const url = this.searchUrl.concat("&pageToken="+this.state.nextPageToken);
@@ -704,7 +731,8 @@ class App extends Component {
         let scrollTop  = searchList.scrollTop;
 
         if((scrollHeight - scrollTop) === clientHeight){
-            this._searchAgainVideo(url)
+            //this._searchAgainVideo(url)
+            this.getVideoInfo(url)
         }
     }
 
@@ -716,6 +744,14 @@ class App extends Component {
         this.setState({navIdx : navIdx});
     }
 
+    initSearchList(){
+      this.setState({
+        selectedVideoArr : [],
+        isSelectedArr : false,
+        isAllClearAddBtn : false,
+        totalDuration : 0
+      })
+    }
 
     //playController
     _toTimeString(seconds) {
@@ -766,9 +802,6 @@ class App extends Component {
 
     onChangeNextVideo() {
         // this.setState({ videoId: selectedVideo.id.next });
-
-
-
         let newEventMap = { playing: false,
             curTime: '00:00', // 현재 재생 시간
             totalTime: '00:00', // 전체 비디오 재생 시간
@@ -1082,7 +1115,6 @@ class App extends Component {
           isAddClicked
 
       } = this.state;
-      console.log("isAddClicked",isAddClicked);
 
 
       let playList = null;
@@ -1152,6 +1184,12 @@ class App extends Component {
                 addSelectedVideoToAlbum={this.addSelectedVideoToAlbum.bind(null,_id)}
                 searchVideo={this.searchVideo}
                 moreVideoList={this.moreVideoList}
+
+
+                isSearched = {isSearched}
+
+                initSearchList = {this.initSearchList}
+
             />
 
 
@@ -1176,6 +1214,10 @@ class App extends Component {
                 onSound={this.onSound.bind(null,player)}
                 offSound={this.offSound.bind(null,player)}
             />
+
+
+
+
 
 
       </div>

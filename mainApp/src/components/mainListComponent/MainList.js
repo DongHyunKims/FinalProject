@@ -11,17 +11,11 @@ class MainList extends React.Component{
 
     }
 
+// serachList로 변경할 경우 처음 누른 경우에만 해당 state값 변경
     componentWillReceiveProps(nextProps){
-
-      console.log("mainList")
-      
-      /*
-      if(nextProps.isAllClearAddBtn){
-        this.setState({
-          isClickedAddBtn : false
-        });
-        this.props.changeIsAllClearAddBtn()
-      }*/
+      if(this.props.navIdx !== nextProps.navIdx){
+        this.props.initSearchList()
+      }
     }
 
 
