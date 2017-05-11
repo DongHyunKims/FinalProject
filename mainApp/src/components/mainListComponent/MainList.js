@@ -43,14 +43,19 @@ class MainList extends React.Component{
 
             //albumList
             albumList,
+            isAddClicked,
             albumClickHandler,
             deleteAlbumClickHandler,
             addAlbumSubmitHandler,
+            addItemClickHandler,
+            addItemCancelClickHandler,
 
 
             navIdx
 
         } = this.props;
+
+
 
 
         let renderingMain = null;
@@ -73,9 +78,12 @@ class MainList extends React.Component{
             break;
             case "2" : renderingMain = < AlbumList
                 albumList={albumList}
+                isAddClicked={isAddClicked}
                 albumClickHandler={albumClickHandler}
                 deleteAlbumClickHandler={deleteAlbumClickHandler}
                 addAlbumSubmitHandler={addAlbumSubmitHandler}
+                addItemClickHandler={addItemClickHandler}
+                addItemCancelClickHandler={addItemCancelClickHandler}
             />;
             break;
             default : break;

@@ -3,53 +3,65 @@
  */
 import React, {Component} from 'react';
 import "./playList.css";
-//import YoutubePlayerComponent from "./YoutubePlayer";
-
-
 import YoutubePlayerComponent from "./Youtube";
+
+
 import PlayListSection from "./PlayListSection";
 
 class PlayList extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-        };
-        // this.playListClickHandler = this.playListClickHandler.bind(this);
     }
-
-    // playListClickHandler(key){
-    //     let {playList} = this.props;
-    //     this.setState({selectedData : playList[key], selectedKey : key});
+    //
+    // componentDidMount(){
+    //
+    //
+    //     let {onReady, onPlayerStateChange} = this.props;
+    //     let opts = {
+    //         // playerVars: { // https://developers.google.com/youtube/player_parameters
+    //         //     autoplay: 1
+    //         // },
+    //         width: "100%",
+    //         height: "100%",
+    //         playerVars: { // https://developers.google.com/youtube/player_parameters
+    //             autoplay: 0
+    //         }
+    //     };
+    //
+    //     this.youtubePlayer= <YoutubePlayerComponent videoId={"FqRgAs0SOpU"} opts={opts} onReady={onReady} onStateChange={onPlayerStateChange}/>;
+    //     console.log(this.youtubePlayer);
     // }
+    //
+    //
+
 
     render(){
-        let {playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,onReady,playListClickHandler,selectedData,selectedKey} = this.props;
-
-        let opts = {
-            height: '100%',
-            width: '100%',
+        let {playState,playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,playListClickHandler,selectedKey,onReady,onPlayerStateChange} = this.props;
+       const opts = {
             playerVars: { // https://developers.google.com/youtube/player_parameters
-                autoplay: 1
-            }
+                autoplay:1,
+                controls:0
+            },
+            width: "100%",
+            height: "100%",
         };
+        let youtubePlayer = <div>loading...</div>;
+        if(playState){
+            let {playingData} = playState;
 
-        let youtubePlayer = <div> loading... </div>;
+            let {videoId} = playingData;
+             youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}  onStateChange={onPlayerStateChange} />;
 
-
-        if(selectedData){
-            let {videoId} = selectedData;
-
-
-            youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}/>
         }
 
         return (
           <div className="leftArea">
               <div className="youtubePlayerArea">
-                {youtubePlayer}
+                { youtubePlayer }
               </div>
               <PlayListSection
+
                   playList={playList}
                   playListClickHandler={playListClickHandler}
                   selectedKey={selectedKey}
