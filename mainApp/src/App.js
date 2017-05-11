@@ -214,7 +214,7 @@ class App extends Component {
     }
 
     _albumReqListener(action,res){
-        //console.log(res);
+        console.log(action);
         utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
 
     }
@@ -224,7 +224,7 @@ class App extends Component {
 
     _getAllAlbumReqListener(action,res){
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
-        // console.log("jsonAlbumList",jsonAlbumList)
+        console.log("jsonAlbumList",jsonAlbumList)
 
         switch (action){
             case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
@@ -287,6 +287,7 @@ class App extends Component {
                     console.log("jsonAlbumList",jsonAlbumList);
                     return {
                         albumList : jsonAlbumList,
+                        currentAlbum: jsonAlbumList[jsonAlbumList.length-1],
                         isAddClicked : false,
                     }
                 }
@@ -338,6 +339,7 @@ class App extends Component {
 
                     //삭제 리스트에 있는 경우
                     if(checkIdxList.indexOf(playingKey) !== -1){
+
                         return {
                             playingState : {
                                 playingAlbum :  currentAlbum,
@@ -524,15 +526,25 @@ class App extends Component {
 
     //playList
     playListClickHandler(playList,key){
-                let newEventMap = { playing: false,
-                    curTime: '00:00', // 현재 재생 시간
-                    totalTime: '00:00', // 전체 비디오 재생 시간
-                    curProgressBar: 0,
-                    maxProgressBar: 0,
-                };
+
                 let {eventMap} = this.state;
+
                 this.setState((state) => {
                     let {currentAlbum, playingState} = state;
+                    let newEventMap = null;
+                    if(playingState) {
+                        let {playingKey} = playingState;
+                        if (key !== playingKey) {
+                            newEventMap = {
+                                playing: false,
+                                curTime: '00:00', // 현재 재생 시간
+                                totalTime: '00:00', // 전체 비디오 재생 시간
+                                curProgressBar: 0,
+                                maxProgressBar: 0,
+                            };
+                        }
+                    }
+
 
                     return {
                         playingState: Object.assign({}, playingState, {
@@ -786,6 +798,8 @@ class App extends Component {
 
     onPauseVideo(player) {
 
+        event.stopPropagation();
+        event.preventDefault();
         let {eventMap} = this.state;
             if(eventMap.playing) {
                 this.setState((state) => {
@@ -797,6 +811,8 @@ class App extends Component {
                     this._setCurrentTime(player)
                 });
             }
+
+
 
     }
 
@@ -940,9 +956,18 @@ class App extends Component {
             //console.log("event.dataasdfasdfasdfasfasdfasdfasfasdfadsfas",event.data);
             this.setState({ videoState: event.data },()=>{
                 let { videoState, eventMap } = this.state;
+                let {playing} = eventMap;
                 if(videoState===1){
                     this.onPlayVideo(player);
                 }else if(videoState===2) {
+
+                    //seekbar 의 마지막 클릭시
+                    if(playing) {
+                        //끝나고 다음 행동을 여기서 정하면된다
+                        this.onChangeNextVideo();
+                    }
+
+
                     this.onPauseVideo(player);
                 }
                 else{
@@ -1005,7 +1030,7 @@ class App extends Component {
                         this.setState(()=>{
                             return { eventMap: Object.assign({}, eventMap, resetEventMap)};
                         });
-                    }else if(curProgressBar === maxProgressBar){
+                    }else if(curProgressBar == maxProgressBar){
 
                         //끝나고 다음 행동을 여기서 정하면된다
                         this.onChangeNextVideo();
@@ -1184,10 +1209,6 @@ class App extends Component {
                 addSelectedVideoToAlbum={this.addSelectedVideoToAlbum.bind(null,_id)}
                 searchVideo={this.searchVideo}
                 moreVideoList={this.moreVideoList}
-
-
-                isSearched = {isSearched}
-
                 initSearchList = {this.initSearchList}
 
             />
