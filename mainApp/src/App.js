@@ -327,9 +327,7 @@ class App extends Component {
                     let { playingKey } = playingState;
                     let { playList } = currentAlbum;
 
-                    let length = checkIdxList.filter((val)=>{
-                        return val < playingKey;
-                    }).length;
+
 
                     //삭제 리스트에 있는 경우
                     if(checkIdxList.indexOf(playingKey) !== -1){
@@ -347,6 +345,10 @@ class App extends Component {
                             currentAlbum: jsonData
                         }
                     }
+
+                    let length = checkIdxList.filter((val)=>{
+                        return val < playingKey;
+                    }).length;
                      let currentPlayingKey = playingKey-length;
                       return {
                           playingState : {
@@ -984,7 +986,6 @@ class App extends Component {
                     }else{
                         return;
                     }
-
 
                 });
             }, 1000);
