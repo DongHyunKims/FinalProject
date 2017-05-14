@@ -189,7 +189,7 @@ class PlayController extends React.Component {
                 </div>
                 <div className="progress-container">
                   <input id="seekBar" orient="horizontal" type="range" min="0" max={eventMap.maxProgressBar}
-                  value={eventMap.curProgressBar} step="0.1" onChange={moveSeekBar} />
+                         value={eventMap.curProgressBar} step="0.1" onChange={moveSeekBar} />
                 </div>
               </div>
           </div>

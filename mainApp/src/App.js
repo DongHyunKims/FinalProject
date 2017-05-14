@@ -14,12 +14,6 @@ import utility from './utility/utility';
 import moment from 'moment'
 
 
-
-
-//임시 데이터
-//const ALBUM_ID = "5907f898f91d33f1d974f254";
-
-
 const ACTION_CONFIG = {
     addPlayList : "addPlayList",
     deletePlayList : "deletePlayList",
@@ -39,6 +33,8 @@ class App extends Component {
             albumList : null,
             currentAlbum: null,
             isAddClicked : false,
+            currentAlbumKey: 0,
+
 
             //playList,
             deleteVideoCheckList : [],
@@ -200,10 +196,6 @@ class App extends Component {
             formData.append(key, inputData);
         }
 
-        //console.log("asfasdfasdfasdf");
-            // event.preventDefault();
-
-        //formData.append("coverImgUrl",data.coverImgUrl);
         utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",formData);
 
     }
@@ -220,33 +212,35 @@ class App extends Component {
     }
 
 
-
-
     _getAllAlbumReqListener(action,res){
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
-        console.log("jsonAlbumList",jsonAlbumList)
+       //console.log("jsonAlbumList",jsonAlbumList)
 
         switch (action){
             case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
                 //console.log(jsonAlbumList);
                 if(!jsonAlbumList.err){
-
-                    let { playingState } = state;
-
+                    let { playingState, currentAlbum } = state;
+                    let { playingAlbum,playingAlbumKey,playingData, playingKey } = playingState;
                     if(playingState){
-
-                        return {
-                            albumList : jsonAlbumList,
-                            deleteVideoCheckList : [],
-                            checkIdxList : [],
-                            selectAllIsChecked : false,
+                        if(currentAlbum !== playingAlbum) {
+                            return {
+                                albumList : jsonAlbumList,
+                                currentAlbum: jsonAlbumList[playingAlbumKey],
+                                currentAlbumKey : playingAlbumKey,
+                                selectedData : playingData,
+                                selectedKey : playingKey,
+                                deleteVideoCheckList : [],
+                                checkIdxList : [],
+                                selectAllIsChecked : false,
+                            }
                         }
 
                     }
-
                     return {
                         albumList : jsonAlbumList,
                         currentAlbum: jsonAlbumList[0],
+                        currentAlbumKey : 0,
                         deleteVideoCheckList : [],
                         checkIdxList : [],
                         selectAllIsChecked : false,
@@ -256,10 +250,10 @@ class App extends Component {
                         playingState : null,
                     }
                 }
-
                 return {
                     albumList : null,
                     currentAlbum: null,
+                    currentAlbumKey : 0,
                     deleteVideoCheckList : [],
                     checkIdxList : [],
                     selectAllIsChecked : false,
@@ -272,11 +266,12 @@ class App extends Component {
             });
             break;
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
-
                 if(!jsonAlbumList.err){
+                    let { currentAlbum } = state;
+
                     return {
                         albumList : jsonAlbumList,
-                        currentAlbum: jsonAlbumList[0],
+                        currentAlbum: currentAlbum,
                     }
                 }
               }
@@ -284,14 +279,16 @@ class App extends Component {
             break;
             case ACTION_CONFIG.addAlbum: this.setState((state)=>{
                 if(!jsonAlbumList.err){
-                    console.log("jsonAlbumList",jsonAlbumList);
+                    let currentAlbumKey = jsonAlbumList.length-1;
                     return {
                         albumList : jsonAlbumList,
-                        currentAlbum: jsonAlbumList[jsonAlbumList.length-1],
+                        currentAlbum: jsonAlbumList[currentAlbumKey],
+                        currentAlbumKey : currentAlbumKey,
                         isAddClicked : false,
                     }
                 }
             });
+
             break;
 
             default: break;
@@ -319,33 +316,28 @@ class App extends Component {
                 isAllClearAddBtn: true,
 
                 totalDuration:0,
-
-
                 currentAlbum: jsonData
             });
             break;
             case ACTION_CONFIG.deletePlayList  : this.setState((state)=>{
 
                 let currentAlbum = jsonData;
-                let { playingState, checkIdxList, selectAllIsChecked,eventMap}  = state;
-               // console.log("selectAllIsChecked",selectAllIsChecked);
-
+                let { playingState, checkIdxList, selectAllIsChecked,currentAlbumKey}  = state;
                 //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
                 if(playingState && !selectAllIsChecked){
                     let { playingKey } = playingState;
                     let { playList } = currentAlbum;
-
-
-
                     //삭제 리스트에 있는 경우
                     if(checkIdxList.indexOf(playingKey) !== -1){
 
                         return {
-                            playingState : {
-                                playingAlbum :  currentAlbum,
-                                playingData :  playList[0],
-                                playingKey : 0,
-                            },
+
+                            playingState: Object.assign({}, playingState, {
+                                playingAlbum: currentAlbum,
+                                playingData: playList[0],
+                                playingKey: 0,
+                                playingAlbumKey : currentAlbumKey
+                            }),
                             selectedData : playList[0],
                             selectedKey : 0,
                             deleteVideoCheckList: [],
@@ -360,11 +352,13 @@ class App extends Component {
                     }).length;
                      let currentPlayingKey = playingKey-length;
                       return {
-                          playingState : {
-                              playingAlbum :  currentAlbum,
-                              playingData :  playList[currentPlayingKey],
-                              playingKey : currentPlayingKey,
-                          },
+
+                          playingState: Object.assign({}, playingState, {
+                              playingAlbum: currentAlbum,
+                              playingData: playList[currentPlayingKey],
+                              playingKey: currentPlayingKey,
+                              playingAlbumKey : currentAlbumKey
+                          }),
                           selectedData : playList[currentPlayingKey],
                           selectedKey : currentPlayingKey,
                           deleteVideoCheckList: [],
@@ -374,10 +368,6 @@ class App extends Component {
                     }
 
                 }
-
-
-
-
                 return {
                     playingState : null,
                     selectedData: null,
@@ -442,7 +432,6 @@ class App extends Component {
         let jsonData = JSON.stringify(deleteData);
         utility.runAjaxData(this._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
     }
-
 
 
     _deletePlayListReqListener(_id,res){
@@ -530,7 +519,7 @@ class App extends Component {
                 let {eventMap} = this.state;
 
                 this.setState((state) => {
-                    let {currentAlbum, playingState} = state;
+                    let {currentAlbum,currentAlbumKey, playingState} = state;
                     let newEventMap = null;
                     if(playingState) {
                         let {playingKey} = playingState;
@@ -545,12 +534,12 @@ class App extends Component {
                         }
                     }
 
-
                     return {
                         playingState: Object.assign({}, playingState, {
                             playingAlbum: currentAlbum,
                             playingData: playList[key],
                             playingKey: key,
+                            playingAlbumKey : currentAlbumKey
                         }),
                         selectedData: playList[key],
                         selectedKey: key,
@@ -751,9 +740,19 @@ class App extends Component {
 
     //navComponent
     navClickHandler(event){
-        //console.log(event.target.id)
         let navIdx = event.target.id;
-        this.setState({navIdx : navIdx});
+        this.setState(()=>{
+            return {
+                navIdx : navIdx
+            }
+        },()=>{
+
+            let { navIdx } = this.state;
+            if(navIdx==="2"){
+                utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
+            }
+        });
+
     }
 
     initSearchList(){
@@ -775,8 +774,8 @@ class App extends Component {
 
     onPlayVideo(player) {
         let {eventMap} = this.state;
-
-        if(!eventMap.playing) {
+        let {playing} = eventMap;
+        if(!playing) {
             this.setState((state)=>{
                 return {
                     eventMap: Object.assign({}, eventMap, {
@@ -786,8 +785,6 @@ class App extends Component {
                     }),
                 }
             },()=>{
-                let {eventMap} = this.state;
-                console.log("eventMap1231231",eventMap);
                 player.playVideo();
                 this._setDuration(player);
             });
@@ -860,34 +857,9 @@ class App extends Component {
             }
         });
 
-        // this.setState((state)=>{
-        //         let { currentAlbum,selectedKey } = state;
-        //
-        //         let currentKey = selectedKey+1;
-        //         let { playList } = currentAlbum;
-        //         return {
-        //             playingState : {
-        //                 playingAlbum :  currentAlbum,
-        //                 playingData :  playList[currentKey],
-        //                 playingKey : currentKey,
-        //             },
-        //             selectedData : playList[currentKey],
-        //             selectedKey : currentKey
-        //         }
-        //     }
-        // );
-        //
-        //
-        // Promise.resolve()
-        //     .then(this.opts.playerVars.autoplay = 1)
-        //     .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player))
     }
 
     onChangePrevVideo() {
-        // this.setState({ videoId: selectedVideo.id.prev });
-
-
-
         let newEventMap = { playing: false,
             curTime: '00:00', // 현재 재생 시간
             totalTime: '00:00', // 전체 비디오 재생 시간
@@ -898,7 +870,7 @@ class App extends Component {
         let {eventMap} = this.state;
         this.setState((state) => {
             let { playingState,currentAlbum } = state;
-            let {playingAlbum, playingKey} = playingState;
+            let { playingAlbum, playingKey } = playingState;
             let currentKey = playingKey-1;
             let { playList } = playingAlbum;
             if(currentKey < 0){
@@ -926,26 +898,6 @@ class App extends Component {
             }
         });
 
-
-        // this.setState((state)=>{
-        //         let { currentAlbum,selectedKey } = state;
-        //         let currentKey = selectedKey-1;
-        //         let { playList } = currentAlbum;
-        //         return {
-        //             playingState : {
-        //                 playingAlbum :  currentAlbum,
-        //                 playingData :  playList[currentKey],
-        //                 playingKey : currentKey,
-        //             },
-        //             selectedData : playList[currentKey],
-        //             selectedKey : currentKey
-        //         }
-        //     }
-        // );
-        //
-        // Promise.resolve()
-        //     .then(this.opts.playerVars.autoplay = 1)
-        //     .then(this.onPlayVideo.bind(null,player,eventMap)).then(this.onPlayerStateChange.bind(null,player))
     }
 
 
@@ -953,21 +905,11 @@ class App extends Component {
     onPlayerStateChange(player,event) {
         console.log("onPlayerStateChange");
         if (event !== undefined){
-            //console.log("event.dataasdfasdfasdfasfasdfasdfasfasdfadsfas",event.data);
             this.setState({ videoState: event.data },()=>{
-                let { videoState, eventMap } = this.state;
-                let {playing} = eventMap;
+                let { videoState } = this.state;
                 if(videoState===1){
                     this.onPlayVideo(player);
                 }else if(videoState===2) {
-
-                    //seekbar 의 마지막 클릭시
-                    if(playing) {
-                        //끝나고 다음 행동을 여기서 정하면된다
-                        this.onChangeNextVideo();
-                    }
-
-
                     this.onPauseVideo(player);
                 }
                 else{
@@ -982,10 +924,8 @@ class App extends Component {
 
    _setDuration(player) {
        //console.log("player111111111", player.getDuration());
-
        let {eventMap} = this.state;
-       console.log("videoState111111111",eventMap);
-       let time = Math.floor(player.getDuration());
+       let time = Math.ceil(player.getDuration());
        this.setState({
            eventMap: Object.assign({}, eventMap, {
                totalTime: this._toTimeString(time),
@@ -1001,7 +941,7 @@ class App extends Component {
         if (eventMap.playing){
 
             this.interverId = setInterval(() => {
-                let time = Math.floor(player.getCurrentTime());
+                let time = Math.ceil(player.getCurrentTime());
                 this.setState((state)=>{
 
                     let {eventMap} = state;
@@ -1014,7 +954,7 @@ class App extends Component {
                     }
                 },()=>{
                     let {eventMap, playingState} = this.state;
-                    let {curProgressBar, maxProgressBar} = eventMap;
+                    let {curProgressBar, maxProgressBar, playing} = eventMap;
                     //전부 삭제 되었으면
                     if(!playingState){
                         let resetEventMap = { playing: false,
@@ -1030,7 +970,7 @@ class App extends Component {
                         this.setState(()=>{
                             return { eventMap: Object.assign({}, eventMap, resetEventMap)};
                         });
-                    }else if(curProgressBar == maxProgressBar){
+                    }else if(curProgressBar >= maxProgressBar){
 
                         //끝나고 다음 행동을 여기서 정하면된다
                         this.onChangeNextVideo();
@@ -1055,20 +995,18 @@ class App extends Component {
 
     moveSeekBar(player,event){
         let bar = utility.$selector("#seekBar");
-        let time = bar.value;
-        // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
-        // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
+        let maxVal = bar.max;
+        let curVal = bar.value;
 
-        player.seekTo(time, true);
-        // this.onPlayVideo(player)
-        // Promise.resolve()
-        //     .then(player.seekTo(time, true))
-        //     .then(this.onPlayVideo.bind(null,player))
+        player.seekTo(curVal, true);
+        if(maxVal === curVal){
+            this.onChangeNextVideo();
+        }
+
     }
 
 
     moveVolumeBar(player,event){
-
         let bar = utility.$selector("#volumeBar");
         let volumeVal = bar.value;
         this.setState((state)=>{
@@ -1115,10 +1053,6 @@ class App extends Component {
 
             });
     }
-
-
-
-
 
     render() {
       //console.log(this.state.totalDuration)
@@ -1210,16 +1144,10 @@ class App extends Component {
                 searchVideo={this.searchVideo}
                 moreVideoList={this.moreVideoList}
                 initSearchList = {this.initSearchList}
-
             />
-
-
-
             <Nav navClickHandler={this.navClickHandler}/>
 
         </div>
-
-
             <PlayController
                 player={player}
                 eventMap={eventMap}
@@ -1235,24 +1163,10 @@ class App extends Component {
                 onSound={this.onSound.bind(null,player)}
                 offSound={this.offSound.bind(null,player)}
             />
-
-
-
-
-
-
       </div>
     );
   }
 }
 
-
-
-// this.onChangePrevVideo = this.onChangePrevVideo.bind(this);
-// this.onChangeNextVideo = this.onChangeNextVideo.bind(this);
-// this.onPlayVideo = this.onPlayVideo.bind(this);
-// this.onPauseVideo = this.onPauseVideo.bind(this);
-// this.setCurrentTime = this.setCurrentTime.bind(this);
-// this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
 
 export default App;
