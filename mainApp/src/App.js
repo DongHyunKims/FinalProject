@@ -67,7 +67,8 @@ class App extends Component {
             videoState: null,
             // videoId: selectedVideo.id.current,
             //player: null,
-            eventMap: { playing: false,
+            eventMap: {
+                playing: false,
                 curTime: '00:00', // 현재 재생 시간
                 totalTime: '00:00', // 전체 비디오 재생 시간
                 curProgressBar: 0,
@@ -269,10 +270,18 @@ class App extends Component {
                 if(!jsonAlbumList.err){
                     let { currentAlbum } = state;
 
+                    if(currentAlbum){
+                        return {
+                            albumList : jsonAlbumList,
+                            currentAlbum: currentAlbum,
+                        }
+                    }
+
                     return {
                         albumList : jsonAlbumList,
-                        currentAlbum: currentAlbum,
+                        currentAlbum: jsonAlbumList[0],
                     }
+
                 }
               }
             );
