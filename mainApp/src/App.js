@@ -166,6 +166,8 @@ class App extends Component {
 
 
     componentDidMount(){
+        console.log(sessionStorage.getItem("email"))
+        
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
@@ -224,7 +226,7 @@ class App extends Component {
 
     _getAllAlbumReqListener(action,res){
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
-        // console.log("jsonAlbumList",jsonAlbumList)
+        console.log("jsonAlbumList",jsonAlbumList)
 
         switch (action){
             case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
@@ -1214,7 +1216,6 @@ class App extends Component {
                 onSound={this.onSound.bind(null,player)}
                 offSound={this.offSound.bind(null,player)}
             />
-
 
 
 

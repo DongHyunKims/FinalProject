@@ -1,0 +1,81 @@
+.authWrap{
+  position: relative;
+  width:100%;
+  height:100%;
+}
+
+.authSection{
+  position: absolute;
+  left:50%;
+  top:120px;
+  margin-left:-200px;
+  width:400px;
+}
+
+.authSection h1{
+  text-align: center;
+  padding-bottom:40px;
+  font-size:2.5rem;
+  color:#c2185b;
+}
+
+.authSection h2{
+  text-align: center;
+  padding:20px;
+  font-size:1.5rem;
+  color:#fff;
+  background-color:#e91e63;
+}
+
+.authSection .loginForm{
+  border-left:1px solid #d9d9d9;
+  border-right:1px solid #d9d9d9;
+  border-bottom:1px solid #d9d9d9;
+  box-shadow: 10px 10px 5px #888888;
+}
+
+.authSection .loginForm .inputField{
+  padding:20px;
+}
+
+.authSection .loginForm .btnSection{
+  padding:20px;
+}
+
+.authSection .loginForm .btnSubmit{
+  cursor: pointer;
+  text-align: center;
+  width:100%;
+  padding:10px 0;
+  color:#fff;
+  background-color: #536dfe;
+  border:none;
+}
+
+.authSection .loginForm .infoSection{
+  padding:20px;
+  border-top:1px solid #d9d9d9;
+}
+
+.authSection .loginForm .infoSection:after{
+  clear:both;
+  display: block;
+  content:"";
+}
+
+.authSection .loginForm .infoSection a{
+  float:right;
+  color:#536dfe;
+}
+
+
+.inputText{
+  width:100%;
+  padding:10px 0;
+  font-size:1.25rem;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-bottom:1px solid #d9d9d9;
+  background: none;
+}
