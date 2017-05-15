@@ -96,7 +96,7 @@ router.get("/insertAllAlbum",(req,res)=>{
 router.get("/getAllAlbumList",(req,res)=>{
     Album.find((err,albums)=>{
         if(err)           return res.status(500).send(err);
-        if(!albums.length) return res.status(404).send({ err: "Album not found" });
+        if(!albums.length) return res.send({ err: "Album not found" });
         //console.log(albums);
         //let jsonAlbums = JSON.parse(albums);
         res.json(albums);
