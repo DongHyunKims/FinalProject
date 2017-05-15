@@ -2,6 +2,7 @@
  * Created by donghyunkim on 2017. 4. 27..
  */
 import React, {Component} from 'react';
+import utility from '../../utility/utility'
 
 
 const playListPartStyle = {
@@ -34,28 +35,21 @@ class PlayListPart extends Component {
     }
 
     checkToggle(){
-        let {isToggled} = this.state;
+        let { isToggled } = this.state;
         let { videoSnippet } = this.props;
-
-        return isToggled ? <img src='./images/default/Ok-64.png'/> : videoSnippet.duration;
+        return isToggled ? <img src='./images/default/Ok-64.png'/> : utility.changeDuration(videoSnippet.duration);
     }
 
-
-
     render() {
-
         let { videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler, isChecked } = this.props;
-
         let { title } = videoSnippet;
         let iconRendering = null;
         let playlistPartStyle = null;
         let playListFontStyle = null;
-
         if (selectedKey === idx) {
             playlistPartStyle = playListPartStyle.playListPartAreaStyle;
             playListFontStyle = playListPartStyle.playListPartTitleAreaFontStyle;
             iconRendering = (
-
                 <div className="eq">
                     <div className="eq__bar"></div>
                     <div className="eq__bar"></div>

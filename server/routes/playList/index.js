@@ -17,7 +17,6 @@ router.post("/deletePlayList",(req,res)=>{
 
     //console.log("body",req.body);
 
-
     Album.update({ _id: albumId }, { $pull: { playList:{videoId:{ $in: deleteList }}}}, (err,doc)=>{
         if(err) return res.status(500).send(err);
         res.status(200).send();
