@@ -19,7 +19,7 @@ class AlbumList extends Component {
         return isAddClicked ? <Modal
                 itemCancelClickHandler={addItemCancelClickHandler}
                 itemSubmitHandler={addAlbumSubmitHandler}
-                title="Add Album"
+                modalTitle="Add Album"
                 btnTitle="앨범 생성"
             /> : null;
     }

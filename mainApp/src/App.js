@@ -41,6 +41,7 @@ class App extends Component {
 
             //선택된 현재 앨범
             currentAlbum: null,
+            updateAlbum: null,
             isAddClicked : false,
             isAlbumUpdateClicked : false,
 
@@ -629,7 +630,8 @@ class App extends Component {
           eventMap,
           playingState,
           isAddClicked,
-          isAlbumUpdateClicked
+          isAlbumUpdateClicked,
+          updateAlbum
 
       } = this.state;
 
@@ -685,6 +687,7 @@ class App extends Component {
                 albumList={albumList}
                 isAddClicked={isAddClicked}
                 isAlbumUpdateClicked={isAlbumUpdateClicked}
+                updateAlbum={updateAlbum}
                 albumClickHandler={albumListEvents.albumClickHandler}
                 deleteAlbumClickHandler={albumListEvents.deleteAlbumClickHandler}
                 addAlbumSubmitHandler={albumListEvents.addAlbumSubmitHandler}

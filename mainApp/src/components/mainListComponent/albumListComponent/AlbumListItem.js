@@ -30,7 +30,7 @@ class AlbumListItem extends Component{
                             <img src="./images/default/menu.png" />
                             <div className="albumMenuBtn">
                                 <button onClick={deleteAlbumClickHandler.bind(null,_id)}>앨범 삭제</button>
-                                <button onClick={updateItemClickHandler}>앨범 수정</button>
+                                <button onClick={updateItemClickHandler.bind(null,data)}>앨범 수정</button>
                             </div>
                      </div>
 

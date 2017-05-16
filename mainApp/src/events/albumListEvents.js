@@ -61,9 +61,12 @@ export default {
         event.stopPropagation();
     },
 
-    updateItemClickHandler(event){
+    updateItemClickHandler(data,event){
         this.setState(()=>{
-            return {isAlbumUpdateClicked: true}
+            return {
+                isAlbumUpdateClicked: true,
+                updateAlbum: data
+            }
         });
         event.stopPropagation();
 
@@ -71,15 +74,19 @@ export default {
 
     updateItemCancelClickHandler(event){
         this.setState(()=>{
-            return {isAlbumUpdateClicked: false}
+            return {
+                isAlbumUpdateClicked: false,
+                updateAlbum: null,
+            }
         });
         event.stopPropagation();
     },
 
 
-    updateAlbumClickHandler(albumId,event){
+    updateAlbumClickHandler(albumId,data,event){
 
-        console.log("fff");
+
+
         event.stopPropagation();
     },
 

@@ -9,6 +9,8 @@ class Modal extends Component{
 
 
 
+
+
     constructor(props){
         super(props);
         this.state = {
@@ -16,12 +18,30 @@ class Modal extends Component{
             coverImgUrl : null,
             category : [],
         };
-        this.handleAlbumInputChange = this.handleAlbumInputChange.bind(this);
+
+        this.handleItemInputChange = this.handleItemInputChange.bind(this);
+    }
+
+    componentDidMount(){
+        let {data} = this.props;
+        //console.log("asdfasdfs");
+        if(data) {
+            let {title,coverImgUrl,category} = data;
+            this.setState(() => {
+
+                return {
+                    title : title,
+                    coverImgUrl : coverImgUrl,
+                    category : category,
+                }
+
+            });
+        }
     }
 
 
 
-    handleAlbumInputChange(event){
+    handleItemInputChange(data,event){
         let target = event.target;
         let nextState = {};
         let name = target.name;
@@ -55,45 +75,55 @@ class Modal extends Component{
                 };
         }
 
+
         this.setState((state)=>{
             return nextState;
         });
+    }
+
+    renderCategory(defaultCategoryTitle,category,data){
+
+
+
+        return defaultCategoryTitle.map((val, idx)=>{
+            if(category.indexOf(idx+1) !== -1){
+                return <span key={idx} ><input type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange.bind(null,data)} checked /> {val}</span>
+            }
+            return <span key={idx} ><input  type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange.bind(null,data)} /> {val}</span>
+        })
+
 
     }
 
 
 
     render(){
-
-        let { itemCancelClickHandler,itemSubmitHandler, title, btnTitle } = this.props;
+        let { itemCancelClickHandler, itemSubmitHandler, modalTitle, btnTitle, data, defaultCategoryTitle } = this.props;
+        let {title,category} = this.state;
 
         return (
             <div id="myModal" className="modal">
                 <div className="modalContent">
                     <div className="modalHeader">
                         <span className="close"  onClick={itemCancelClickHandler}>&times;</span>
-                        <h3>{title}</h3>
+                        <h3>{modalTitle}</h3>
                     </div>
-
                     <div className="modalBody">
                         <div className="modalFormContainer">
                             <label><b>Title</b></label>
-                            <input type="text" placeholder="Title" name="title" onChange={this.handleAlbumInputChange} required />
+                            <input type="text" placeholder="Title" name="title" onChange={this.handleItemInputChange.bind(null,data)} value={title} required />
                             <label><b>Album Image</b></label>
-                            <input type="file" name="coverImgUrl" onChange={this.handleAlbumInputChange} required />
+                            <input type="file" name="coverImgUrl" onChange={this.handleItemInputChange.bind(null,data)} required />
                             <label><b>Category</b></label>
                             <div className="modalFormCheckContainer">
-                                <span><input type="checkbox" name="category" value="1"  onChange={this.handleAlbumInputChange}/> Pop</span>
-                                <span><input type="checkbox" name="category" value="2"  onChange={this.handleAlbumInputChange}/> Hiphop</span>
-                                <span><input type="checkbox" name="category" value="3"  onChange={this.handleAlbumInputChange}/> Rock</span>
-                                <span><input type="checkbox" name="category" value="4"  onChange={this.handleAlbumInputChange}/> Ballad</span>
+                                {this.renderCategory(defaultCategoryTitle,category,data)}
                             </div>
                         </div>
                     </div>
                     <div className="modalFooter">
                             <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state)}/>
                             <input type="button" className="button" onClick={itemCancelClickHandler} value="취소" />
-                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -101,6 +131,14 @@ class Modal extends Component{
 
     }
 }
+
+
+Modal.defaultProps = {
+    defaultCategoryTitle : ["Pop", "Hiphop", "Rock", "Ballad"],
+    btnTitle: "확인",
+    modalTitle: "Modal",
+};
+
 
 //onSubmit={addAlbumSubmitHandler.bind(null,this.state)}
 export default Modal;

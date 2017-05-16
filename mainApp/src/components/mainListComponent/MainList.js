@@ -38,6 +38,7 @@ class MainList extends React.Component{
             //albumList
             albumList,
             isAddClicked,
+            updateAlbum,
             isAlbumUpdateClicked,
             albumClickHandler,
             deleteAlbumClickHandler,
@@ -75,6 +76,7 @@ class MainList extends React.Component{
             case "2" : renderingMain = < AlbumList
                 albumList={albumList}
                 isAddClicked={isAddClicked}
+                updateAlbum={updateAlbum}
                 isAlbumUpdateClicked={isAlbumUpdateClicked}
                 albumClickHandler={albumClickHandler}
                 deleteAlbumClickHandler={deleteAlbumClickHandler}
