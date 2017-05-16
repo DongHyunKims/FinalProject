@@ -28,7 +28,8 @@ const ACTION_CONFIG = {
     resetPlayList : "resetPlayList",
     deleteAlbum : "deleteAlbum",
     getAllAlbum : "getAllAlbum",
-    addAlbum : "addAlbum"
+    addAlbum : "addAlbum",
+    updateAlbum:"updateAlbum"
 };
 
 class App extends Component {
@@ -282,6 +283,19 @@ class App extends Component {
                         albumList : jsonAlbumList,
                         currentAlbum: jsonAlbumList[currentAlbumKey],
                         isAddClicked : false,
+                    }
+                }
+            });
+            break;
+            case ACTION_CONFIG.updateAlbum: this.setState((state)=>{
+                if(!jsonAlbumList.err){
+                    // 최근에 추가된 album을 선택 해야 함
+                    let { currentAlbum } = state;
+                    return {
+                        albumList : jsonAlbumList,
+                        currentAlbum: currentAlbum,
+                        isAlbumUpdateClicked : false,
+
                     }
                 }
             });

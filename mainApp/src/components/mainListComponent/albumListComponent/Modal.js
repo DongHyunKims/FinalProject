@@ -24,11 +24,9 @@ class Modal extends Component{
 
     componentDidMount(){
         let {data} = this.props;
-        //console.log("asdfasdfs");
         if(data) {
             let {title,coverImgUrl,category} = data;
             this.setState(() => {
-
                 return {
                     title : title,
                     coverImgUrl : coverImgUrl,
@@ -41,7 +39,7 @@ class Modal extends Component{
 
 
 
-    handleItemInputChange(data,event){
+    handleItemInputChange(event){
         let target = event.target;
         let nextState = {};
         let name = target.name;
@@ -74,22 +72,18 @@ class Modal extends Component{
                     [name] : target.value,
                 };
         }
-
-
         this.setState((state)=>{
             return nextState;
         });
     }
 
-    renderCategory(defaultCategoryTitle,category,data){
-
-
+    renderCategory(defaultCategoryTitle,category){
 
         return defaultCategoryTitle.map((val, idx)=>{
             if(category.indexOf(idx+1) !== -1){
-                return <span key={idx} ><input type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange.bind(null,data)} checked /> {val}</span>
+                return <span key={idx} ><input type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange} checked /> {val}</span>
             }
-            return <span key={idx} ><input  type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange.bind(null,data)} /> {val}</span>
+            return <span key={idx} ><input  type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange} /> {val}</span>
         })
 
 
@@ -98,8 +92,14 @@ class Modal extends Component{
 
 
     render(){
-        let { itemCancelClickHandler, itemSubmitHandler, modalTitle, btnTitle, data, defaultCategoryTitle } = this.props;
+        let { itemCancelClickHandler, itemSubmitHandler, modalTitle, btnTitle, defaultCategoryTitle,data } = this.props;
         let {title,category} = this.state;
+        let _id = null;
+        if(data){
+            _id = data._id;
+        }
+
+
 
         return (
             <div id="myModal" className="modal">
@@ -111,9 +111,9 @@ class Modal extends Component{
                     <div className="modalBody">
                         <div className="modalFormContainer">
                             <label><b>Title</b></label>
-                            <input type="text" placeholder="Title" name="title" onChange={this.handleItemInputChange.bind(null,data)} value={title} required />
+                            <input type="text" placeholder="Title" name="title" onChange={this.handleItemInputChange} value={title} required />
                             <label><b>Album Image</b></label>
-                            <input type="file" name="coverImgUrl" onChange={this.handleItemInputChange.bind(null,data)} required />
+                            <input type="file" name="coverImgUrl" onChange={this.handleItemInputChange} required />
                             <label><b>Category</b></label>
                             <div className="modalFormCheckContainer">
                                 {this.renderCategory(defaultCategoryTitle,category,data)}
@@ -121,7 +121,7 @@ class Modal extends Component{
                         </div>
                     </div>
                     <div className="modalFooter">
-                            <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state)}/>
+                            <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state,_id)}/>
                             <input type="button" className="button" onClick={itemCancelClickHandler} value="취소" />
                     </div>
                 </div>

@@ -16,10 +16,27 @@ const ACTION_CONFIG = {
     resetPlayList : "resetPlayList",
     deleteAlbum : "deleteAlbum",
     getAllAlbum : "getAllAlbum",
-    addAlbum : "addAlbum"
+    addAlbum : "addAlbum",
+    updateAlbum:"updateAlbum"
 };
 
 
+
+const createFormData = function(data){
+
+    let formData = new FormData();
+    //FormData 에 파일과 이메일을 append 메소드를 통해 등록
+
+    for(let key in data){
+        let inputData = data[key];
+        if(key === "category"){
+            inputData = JSON.stringify(inputData);
+        }
+        formData.append(key, inputData);
+    }
+
+    return formData;
+};
 
 export default {
 
@@ -38,21 +55,9 @@ export default {
         event.stopPropagation();
     },
 
-    addAlbumSubmitHandler(data,event){
+    addAlbumSubmitHandler(data){
 
-
-        let formData = new FormData();
-        //FormData 에 파일과 이메일을 append 메소드를 통해 등록
-
-        for(let key in data){
-            let inputData = data[key];
-            if(key === "category"){
-                inputData = JSON.stringify(inputData);
-            }
-            formData.append(key, inputData);
-        }
-
-        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",formData);
+        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",createFormData(data));
 
     },
 
@@ -83,8 +88,10 @@ export default {
     },
 
 
-    updateAlbumClickHandler(albumId,data,event){
+    updateAlbumClickHandler(data,_id,event){
 
+
+        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),"post","/albumList/updateAlbum/"+_id,createFormData(data));
 
 
         event.stopPropagation();
