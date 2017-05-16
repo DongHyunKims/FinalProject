@@ -10,9 +10,7 @@ const ACTION_CONFIG = {
     addAlbum : "addAlbum"
 };
 
-
-
-export default {
+const playControllerEvents = {
 
     onPlayVideo(player) {
         let {eventMap} = this.state;
@@ -38,16 +36,16 @@ export default {
         event.stopPropagation();
         event.preventDefault();
         let {eventMap} = this.state;
-            if(eventMap.playing) {
-                this.setState((state) => {
-                    return {
-                        eventMap: Object.assign({}, eventMap, {playing: false}),
-                    }
-                },()=>{
-                    player.pauseVideo(); //  이게 state를 바꾸고 2번으로 바꾸는 작업 계속 발생한다
-                    this._setCurrentTime(player)
-                });
-            }
+        if(eventMap.playing) {
+            this.setState((state) => {
+                return {
+                    eventMap: Object.assign({}, eventMap, {playing: false}),
+                }
+            },()=>{
+                player.pauseVideo(); //  이게 state를 바꾸고 2번으로 바꾸는 작업 계속 발생한다
+                this._setCurrentTime(player)
+            });
+        }
     },
 
     onChangeNextVideo() {
@@ -82,8 +80,8 @@ export default {
                     playingData: playList[currentKey],
                     playingKey: currentKey,
                 }),
-                 selectedData: newSelectedData,
-                 selectedKey: newSelectedKey,
+                selectedData: newSelectedData,
+                selectedKey: newSelectedKey,
                 eventMap: Object.assign({}, eventMap, newEventMap),
 
             };
@@ -138,62 +136,62 @@ export default {
     },
 
     moveSeekBar(player,event){
-            let bar = utility.$selector("#seekBar");
-            let maxVal = bar.max;
-            let curVal = bar.value;
-
+        let bar = utility.$selector("#seekBar");
+        let maxVal = bar.max;
+        let curVal = bar.value;
+        if(maxVal !== curVal){
             player.seekTo(curVal, true);
-            if(maxVal === curVal){
-                this.onChangeNextVideo();
-            }
-        },
-
-
-        moveVolumeBar(player,event){
-            let bar = utility.$selector("#volumeBar");
-            let volumeVal = bar.value;
-            this.setState((state)=>{
-                let {eventMap}  = state;
-                return {
-                    eventMap: Object.assign({}, eventMap, { volume: volumeVal ,preVolume: volumeVal}),
-                }
-
-            },()=>{
-                let {eventMap}  = this.state;
-                player.setVolume(volumeVal);
-                //console.log(volumeVal, this.state.event_map.volume);
-                if (eventMap.volume < 1){
-                    this.offSound(player);
-                }
-                else {
-                    this.onSound(player)
-                }
-            });
-        },
-
-        onSound(player){
-            this.setState((state)=> {
-                let {eventMap} = state;
-                let {preVolume} = eventMap;
-                return {
-                    eventMap: Object.assign({}, eventMap, {soundOn: true, volume: preVolume})
-                };
-            },()=>{
-                player.unMute();
-            });
-
-        },
-
-        offSound(player){
-            this.setState((state)=> {
-                    let {eventMap} = state;
-                    return {
-                        eventMap: Object.assign({}, eventMap, {soundOn: false, volume: 0})
-                    }
-                }
-                ,()=>{
-                    player.mute();
-
-                });
         }
+    },
+
+
+    moveVolumeBar(player,event){
+        let bar = utility.$selector("#volumeBar");
+        let volumeVal = bar.value;
+        this.setState((state)=>{
+            let {eventMap}  = state;
+            return {
+                eventMap: Object.assign({}, eventMap, { volume: volumeVal ,preVolume: volumeVal}),
+            }
+
+        },()=>{
+            let {eventMap}  = this.state;
+            player.setVolume(volumeVal);
+            //console.log(volumeVal, this.state.event_map.volume);
+            if (eventMap.volume < 1){
+                playControllerEvents.offSound(player);
+            }
+            else {
+                playControllerEvents.onSound(player)
+            }
+        });
+    },
+
+    onSound(player){
+        this.setState((state)=> {
+            let {eventMap} = state;
+            let {preVolume} = eventMap;
+            return {
+                eventMap: Object.assign({}, eventMap, {soundOn: true, volume: preVolume})
+            };
+        },()=>{
+            player.unMute();
+        });
+
+    },
+
+    offSound(player){
+        this.setState((state)=> {
+                let {eventMap} = state;
+                return {
+                    eventMap: Object.assign({}, eventMap, {soundOn: false, volume: 0})
+                }
+            }
+            ,()=>{
+                player.mute();
+
+            });
     }
+};
+
+export default playControllerEvents;

@@ -51,7 +51,6 @@ export default {
         }
 
         //console.log("currentSelectAllIsChecked",currentSelectAllIsChecked);
-
         this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList, selectAllIsChecked: currentSelectAllIsChecked});
         event.stopPropagation();
     },
@@ -120,7 +119,21 @@ export default {
                 this._setDuration(player);
             }
         });
-    }
+    },
+
+    onReady(event) {
+        //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
+        // console.log(event);
+        this.setState((state)=>{
+            return { player: event.target }
+        });
+        // this.state.player ? this._setDuration() : null;
+        //this.state.player ? this.getDuration() : null
+        //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
+    },
+
+
+
 
 
 

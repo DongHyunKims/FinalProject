@@ -1,4 +1,5 @@
 import utility from '../utility/utility';
+import config from '../utility/config';
 
 const ACTION_CONFIG = {
     addPlayList : "addPlayList",
@@ -21,7 +22,7 @@ export default {
 
         });
         let encodedKeword = encodeURI(keyword);
-        this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"
+        this.searchUrl = config.DEFAULT_YOUTUBE_SEARCH_URL + "?part=snippet&maxResults=15&q="+encodedKeword+"&key="+config.YOUTUBE_KEY+"&type=video"
 
         //this._searchAgainVideo(this.searchUrl);
         this._getVideoInfo(this.searchUrl);
