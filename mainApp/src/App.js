@@ -42,6 +42,7 @@ class App extends Component {
             //선택된 현재 앨범
             currentAlbum: null,
             isAddClicked : false,
+            isAlbumUpdateClicked : false,
 
 
             //playList,
@@ -103,7 +104,6 @@ class App extends Component {
 
 
 
-
         this._getAlbumReqListener = this._getAlbumReqListener.bind(this);
         this._deletePlayListReqListener = this._deletePlayListReqListener.bind(this);
         playListEvents.onReady = playListEvents.onReady.bind(this);
@@ -124,7 +124,9 @@ class App extends Component {
         albumListEvents.addAlbumSubmitHandler = albumListEvents.addAlbumSubmitHandler.bind(this);
         albumListEvents.addItemClickHandler = albumListEvents.addItemClickHandler.bind(this);
         albumListEvents.addItemCancelClickHandler = albumListEvents.addItemCancelClickHandler.bind(this);
-
+        albumListEvents.updateAlbumClickHandler  = albumListEvents.updateAlbumClickHandler.bind(this);
+        albumListEvents.updateItemClickHandler = albumListEvents.updateItemClickHandler.bind(this);
+        albumListEvents.updateItemCancelClickHandler = albumListEvents.updateItemCancelClickHandler.bind(this);
 
 
         //searchList
@@ -626,7 +628,8 @@ class App extends Component {
           player,
           eventMap,
           playingState,
-          isAddClicked
+          isAddClicked,
+          isAlbumUpdateClicked
 
       } = this.state;
 
@@ -681,11 +684,16 @@ class App extends Component {
                 //albumList
                 albumList={albumList}
                 isAddClicked={isAddClicked}
+                isAlbumUpdateClicked={isAlbumUpdateClicked}
                 albumClickHandler={albumListEvents.albumClickHandler}
                 deleteAlbumClickHandler={albumListEvents.deleteAlbumClickHandler}
                 addAlbumSubmitHandler={albumListEvents.addAlbumSubmitHandler}
                 addItemClickHandler={albumListEvents.addItemClickHandler}
                 addItemCancelClickHandler={albumListEvents.addItemCancelClickHandler}
+                updateAlbumClickHandler={albumListEvents.updateAlbumClickHandler}
+                updateItemClickHandler={albumListEvents.updateItemClickHandler}
+                updateItemCancelClickHandler={albumListEvents.updateItemCancelClickHandler}
+
 
                 //searchList
                 items={items}

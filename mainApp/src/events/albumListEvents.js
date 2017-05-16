@@ -61,6 +61,29 @@ export default {
         event.stopPropagation();
     },
 
+    updateItemClickHandler(event){
+        this.setState(()=>{
+            return {isAlbumUpdateClicked: true}
+        });
+        event.stopPropagation();
+
+    },
+
+    updateItemCancelClickHandler(event){
+        this.setState(()=>{
+            return {isAlbumUpdateClicked: false}
+        });
+        event.stopPropagation();
+    },
+
+
+    updateAlbumClickHandler(albumId,event){
+
+        console.log("fff");
+        event.stopPropagation();
+    },
+
+
     albumClickHandler(_id,idx,event){
         utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
     }

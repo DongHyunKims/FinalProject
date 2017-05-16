@@ -88,7 +88,6 @@ export default {
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     },
 
-
     moreVideoList(){
         const url = this.searchUrl.concat("&pageToken="+this.state.nextPageToken);
 
@@ -103,10 +102,10 @@ export default {
         }
     },
 
-    initSearchList(){
-        this.setState({
-            selectedVideoArr : [],
-            isSelectedArr : false,
+        initSearchList(){
+            this.setState({
+                selectedVideoArr : [],
+                isSelectedArr : false,
             isAllClearAddBtn : false,
             totalDuration : 0
         })

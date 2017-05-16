@@ -2,130 +2,35 @@
  * Created by @sujinleeme on 2017. 4
  */
 import React from 'react';
-import YouTube from './Youtube';
 import "./playController.css"
-import utility from '../../utility/utility';
+import config from "../../utility/config"
 
 // 이전 버튼, 이후 버튼, 플레이리스트 내 컴포넌트를 클릭할 때마다 prev, current, next Video ID를 업데이트할 수 있는 메소드가 필요.
-const selectedVideo = {id : {prev: 'XNoMw1Dmqzs', current: '-DX3vJiqxm4', next:'MmKlaGpmYig'}}
 
 
-const DEFAULT_IMG_URL = "http://localhost:3001";
+
 
 class PlayController extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      videoState: null,
-      videoId: selectedVideo.id.current,
-      //player: null,
-      event_map: { playing: false,
-                   curTime: '0:00', // 현재 재생 시간
-                   totalTime: '0:00', // 전체 비디오 재생 시간 
-                   curProgressBar: 0,
-                   maxProgressBar: 0,
-                   volume: 50, // 볼륨 조절
-                   soundOn: true
-                  }
-    };
 
-    // this.opts = {
-    //   videoId: this.state.videoId,
-    //   playerVars: { // https://developers.google.com/youtube/player_parameters
-    //     autoplay: 0
-    //   }
-    // };
-    
-    // this.onReady = this.onReady.bind(this);
-    // this.onChangePrevVideo = this.onChangePrevVideo.bind(this);
-    // this.onChangeNextVideo = this.onChangeNextVideo.bind(this);
-    // this.onPlayVideo = this.onPlayVideo.bind(this);
-    // this.onPauseVideo = this.onPauseVideo.bind(this);
-    this.onEndVideo = this.onEndVideo.bind(this);
-    // this.setDuration = this.setDuration.bind(this);
-    // this.setCurrentTime = this.setCurrentTime.bind(this);
-    // this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
-    // this.moveSeekBar = this.moveSeekBar.bind(this);
 
-    //sound
-    // this.moveVolumeBar = this.moveVolumeBar.bind(this);
-    // this.onSound = this.onSound.bind(this);
-    // this.offSound = this.offSound.bind(this);
+    // this.onEndVideo = this.onEndVideo.bind(this);
+
 
   }
 
-  
-  //
-  // onReady(event) {
-  //   this.setState({ player: event.target });
-  //   this.state.player ? this.setDuration() : null
-  // }
 
-  //
-  // setDuration() {
-  //   let time = Math.floor(this.state.player.getDuration());
+  // onEndVideo() {
   //   this.setState({
-  //     event_map: Object.assign({}, this.state.event_map, {
-  //       totalTime: this._toTimeString(time),
-  //       maxProgressBar: time
-  //     })
+  //     event_map: Object.assign({}, this.state.event_map, { playing: false }),
   //   });
-  // }
-
-
-
-
-  onEndVideo() {
-    this.setState({
-      event_map: Object.assign({}, this.state.event_map, { playing: false }),
-    });
-    this.state.player.endVideo();
-    this.onChangeNextVideo();
-  }
-
-  
-  // moveSeekBar(event){
-  //   let bar = utility.$selector("#seekBar");
-  //   let time = bar.value;
-  //   // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
-  //   // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
-  //  Promise.resolve()
-  //   .then(this.state.player.seekTo(time, true))
-  //   .then(this.onPlayVideo)
-  // }
-
-  // moveVolumeBar(event){
-  //   let bar = utility.$selector("#volumeBar");
-  //   let volumeVal = bar.value;
-  //   this.setState({
-  //     event_map: Object.assign({}, this.state.event_map, { volume: volumeVal }),
-  //   });
-  //
-  //   this.state.player.setVolume(volumeVal);
-  //   console.log(volumeVal, this.state.event_map.volume);
-  //   if (this.state.event_map.volume <= 1){
-  //     Promise.resolve()
-  //       .then(this.offSound)
-  //   }
-  //   else {
-  //     Promise.resolve()
-  //       .then(this.onSound)
-  //   }
-  // }
-
-  // onSound(){
-  //   this.setState({
-  //     event_map: Object.assign({}, this.state.event_map, { soundOn: true })
-  //   });
-  //   this.state.player.unMute();
+  //   this.state.player.endVideo();
+  //   this.onChangeNextVideo();
   // }
   //
-  // offSound(){
-  //   this.setState({
-  //     event_map: Object.assign({}, this.state.event_map, { soundOn: false })
-  //   });
-  //   this.state.player.mute();
-  // }
+  //
+
   
   render() {
     let { onChangePrevVideo, onChangeNextVideo, onPlayVideo, onPauseVideo, eventMap, playingData, moveSeekBar, moveVolumeBar, onSound, offSound} = this.props;
@@ -141,7 +46,7 @@ class PlayController extends React.Component {
       let playingImg = null;
       let playingTitle = null;
       if(!playingData){
-          playingImg = DEFAULT_IMG_URL + "/images/default/default-thumbnail.jpg";
+          playingImg =config.DEFAULT_SERVER_URL + "/images/default/default-thumbnail.jpg";
           playingTitle = "현재 재생중인 동영상이 없습니다"
       }else{
           playingImg = playingData.thumnail;

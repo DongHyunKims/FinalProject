@@ -17,14 +17,16 @@ class AlbumList extends Component {
 
     renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler){
         return isAddClicked ? <Modal
-                addItemCancelClickHandler={addItemCancelClickHandler}
-                addAlbumSubmitHandler={addAlbumSubmitHandler}
+                itemCancelClickHandler={addItemCancelClickHandler}
+                itemSubmitHandler={addAlbumSubmitHandler}
+                title="Add Album"
+                btnTitle="앨범 생성"
             /> : null;
     }
 
 
 
-    makeListItem(items,albumClickHandler,deleteAlbumClickHandler){
+    makeListItem(items,albumClickHandler,deleteAlbumClickHandler,updateItemClickHandler){
 
         if(!items){
             return null;
@@ -37,16 +39,17 @@ class AlbumList extends Component {
                 data={data}
                 albumClickHandler={albumClickHandler}
                 deleteAlbumClickHandler={deleteAlbumClickHandler}
+                updateItemClickHandler={updateItemClickHandler}
                 idx={idx} />
         })
     }
 
     render(){
-        let { items,albumClickHandler,deleteAlbumClickHandler, addAlbumSubmitHandler,addItemClickHandler, addItemCancelClickHandler,isAddClicked }= this.props;
+        let { items,albumClickHandler,deleteAlbumClickHandler, addAlbumSubmitHandler,addItemClickHandler, addItemCancelClickHandler,updateItemClickHandler,isAddClicked }= this.props;
 
         let renderingAlbumList = null;
         if(items){
-            renderingAlbumList = this.makeListItem(items,albumClickHandler,deleteAlbumClickHandler);
+            renderingAlbumList = this.makeListItem(items,albumClickHandler,deleteAlbumClickHandler,updateItemClickHandler);
         }
 
         return (
@@ -56,10 +59,13 @@ class AlbumList extends Component {
                     <li id="addItem" onClick={addItemClickHandler}>
 
                     </li>
-                    {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler)}
+
 
                 </ul>
+                {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler)}
             </div>
+
+
         )
     }
 
