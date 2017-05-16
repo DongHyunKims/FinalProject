@@ -486,9 +486,15 @@ class App extends Component {
 
     //playController
     _toTimeString(seconds) {
-        let time = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
-        time = time.replace(/00:/, "");
-        return time
+        if(seconds) {
+            let timeArr = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/);
+            let time = timeArr[0];
+            time = time.replace(/00:/, "");
+            return time;
+
+        }
+        return "00:00";
+
     }
 
 

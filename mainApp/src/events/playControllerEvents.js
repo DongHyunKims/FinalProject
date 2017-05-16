@@ -139,9 +139,13 @@ const playControllerEvents = {
         let bar = utility.$selector("#seekBar");
         let maxVal = bar.max;
         let curVal = bar.value;
-        if(maxVal !== curVal){
+
+        //2초 전까지 클릭을 막는다
+        if(maxVal-2 > curVal){
             player.seekTo(curVal, true);
         }
+
+
     },
 
 
@@ -157,7 +161,6 @@ const playControllerEvents = {
         },()=>{
             let {eventMap}  = this.state;
             player.setVolume(volumeVal);
-            //console.log(volumeVal, this.state.event_map.volume);
             if (eventMap.volume < 1){
                 playControllerEvents.offSound(player);
             }

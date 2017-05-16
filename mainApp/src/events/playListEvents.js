@@ -9,8 +9,6 @@ import utility from '../utility/utility';
 
 
 
-
-
 export default {
     //삭제버튼 클릭 handler
     deletePlayListBtnClickHandler(){
@@ -50,7 +48,6 @@ export default {
             }
         }
 
-        //console.log("currentSelectAllIsChecked",currentSelectAllIsChecked);
         this.setState({deleteVideoCheckList: newDeleteVideoCheckList,checkIdxList:  newCheckIdxList, selectAllIsChecked: currentSelectAllIsChecked});
         event.stopPropagation();
     },
