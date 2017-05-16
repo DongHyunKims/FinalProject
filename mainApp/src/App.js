@@ -200,14 +200,31 @@ class App extends Component {
                     let { playingAlbum,playingData, playingKey } = playingState;
                     //현재 play되고 있는 album이 존재하고 선택된 album과 play 되고 있는 album이 다를 경우
                     if(playingState  && (currentAlbum._id !== playingAlbum._id)){
-                            return Object.assign({}, newState, {
-                                albumList : jsonAlbumList,
-                                currentAlbum: playingAlbum,
-                                selectedData : playingData,
-                                selectedKey : playingKey,
-                            });
+
+                            let len = jsonAlbumList.filter((val)=>{
+                                return val._id === playingAlbum._id;
+                            }).length;
+
+                            if(len){
+                                return Object.assign({}, newState, {
+                                    albumList: jsonAlbumList,
+                                    currentAlbum: playingAlbum,
+                                    selectedData: playingData,
+                                    selectedKey: playingKey,
+                                });
+                            }else {
+                                return Object.assign({}, newState, {
+                                    albumList: jsonAlbumList,
+                                    currentAlbum: currentAlbum,
+                                    player: null,
+                                    selectedData: null,
+                                    selectedKey: -1,
+                                });
+                            }
 
                     }
+
+
                     return Object.assign({}, newState, {
                         albumList : jsonAlbumList,
                         currentAlbum: jsonAlbumList[0],
@@ -216,6 +233,9 @@ class App extends Component {
                         player: null,
                         playingState : null,
                     });
+
+
+
 
                 }
 
@@ -335,8 +355,8 @@ class App extends Component {
                     selectedData: null,
                     selectedKey: -1,
                 });
-
-
+            },()=>{
+                utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
             });
             break;
             case ACTION_CONFIG.resetPlayList : this.setState((state,props)=>{

@@ -23,10 +23,8 @@ router.post("/deletePlayList",(req,res)=>{
 
     console.log(deleteVideoIdList);
 
-
-
     //console.log("body",req.body);
-    
+
     Album.find({_id:albumId}, (err, doc)=> {
         if (err) {
             console.log("err", err);
