@@ -174,7 +174,7 @@ class App extends Component {
 
 
     _albumReqListener(action,res){
-        console.log(action);
+        //console.log(action);
         utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
 
     }
@@ -235,9 +235,9 @@ class App extends Component {
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
                 if(!jsonAlbumList.err){
                     let { currentAlbum } = state;
-
                     if(currentAlbum){
                         return {
+                            albumList : jsonAlbumList,
                             currentAlbum: currentAlbum,
                         }
                     }
@@ -474,7 +474,6 @@ class App extends Component {
                 navIdx : navIdx
             }
         },()=>{
-
             let { navIdx } = this.state;
             if(navIdx==="2"){
                 utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");

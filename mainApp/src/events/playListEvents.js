@@ -22,16 +22,21 @@ export default {
         utility.runAjaxData(this._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
     },
     //check click handler
-    checkClickHandler(videoId, checkIdx, isChecked, event) {
+    checkClickHandler(_id, duration,checkIdx, isChecked, event) {
         let {deleteVideoCheckList,checkIdxList,currentAlbum}  = this.state;
         //let items = videoData.items;
         let currentSelectAllIsChecked = false;
 
         let newDeleteVideoCheckList = [...deleteVideoCheckList];
         let newCheckIdxList = [...checkIdxList];
+
+        let deleteData = {
+            _id : _id,
+            duration :duration,
+        };
         //check 되어있지 않으면
         if(!isChecked){
-            newDeleteVideoCheckList.push(videoId);
+            newDeleteVideoCheckList.push(deleteData);
             newCheckIdxList.push(checkIdx);
         }else{
             let idx =  checkIdxList.indexOf(checkIdx);
@@ -69,8 +74,8 @@ export default {
 
         if(!selectAllIsChecked){
             playList.forEach((val,idx)=>{
-                let {videoId} = val;
-                newDeleteVideoCheckList.push(videoId);
+                let {_id, duration} = val;
+                newDeleteVideoCheckList.push({_id:_id, duration:duration});
                 newCheckIdxList.push(idx);
             });
             currentSelectAllIsChecked = true;
