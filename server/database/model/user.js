@@ -11,12 +11,9 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 
-
-
 const userSchema = new Schema({
-
     email : {type: String, required: true},
-    pwd : {type: String, require: true},
+    password : {type: String, require: true},
     gender : {type: Number},
     nickname : {type: String},
     albumList: [Schema.Types.ObjectId],
