@@ -41,8 +41,8 @@ class PlayListPart extends Component {
     }
 
     render() {
-        let { videoSnippet, selectedKey, idx, videoId, onClick, checkClickHandler, isChecked } = this.props;
-        let { title } = videoSnippet;
+        let { videoSnippet, selectedKey, idx, onClick, checkClickHandler, isChecked } = this.props;
+        let { title,_id,videoId,duration } = videoSnippet;
         let iconRendering = null;
         let playlistPartStyle = null;
         let playListFontStyle = null;
@@ -76,7 +76,6 @@ class PlayListPart extends Component {
                  onMouseEnter={this.mouseEnter}
                  onMouseLeave={this.mouseLeave}
                  >
-
                 <input type="hidden" value={videoId}/>
                 <div className="iconDiv playListPartIconArea">
                     <div className="floater"></div>
@@ -89,7 +88,7 @@ class PlayListPart extends Component {
                     {title}
                 </div>
 
-                <div className="iconDiv playListPartDurationArea" style={playListFontStyle} onClick={checkClickHandler.bind(null,videoId,idx,isChecked)}>
+                <div className="iconDiv playListPartDurationArea" style={playListFontStyle} onClick={checkClickHandler.bind(null,_id,duration,idx,isChecked)}>
                     {checkIconRendering}
                 </div>
             </div>

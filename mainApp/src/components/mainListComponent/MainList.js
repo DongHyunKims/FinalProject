@@ -38,13 +38,16 @@ class MainList extends React.Component{
             //albumList
             albumList,
             isAddClicked,
+            updateAlbum,
+            isAlbumUpdateClicked,
             albumClickHandler,
             deleteAlbumClickHandler,
             addAlbumSubmitHandler,
             addItemClickHandler,
             addItemCancelClickHandler,
-
-
+            updateAlbumClickHandler,
+            updateItemClickHandler,
+            updateItemCancelClickHandler,
             navIdx
 
         } = this.props;
@@ -73,11 +76,16 @@ class MainList extends React.Component{
             case "2" : renderingMain = < AlbumList
                 albumList={albumList}
                 isAddClicked={isAddClicked}
+                updateAlbum={updateAlbum}
+                isAlbumUpdateClicked={isAlbumUpdateClicked}
                 albumClickHandler={albumClickHandler}
                 deleteAlbumClickHandler={deleteAlbumClickHandler}
                 addAlbumSubmitHandler={addAlbumSubmitHandler}
                 addItemClickHandler={addItemClickHandler}
                 addItemCancelClickHandler={addItemCancelClickHandler}
+                updateAlbumClickHandler={updateAlbumClickHandler}
+                updateItemClickHandler={updateItemClickHandler}
+                updateItemCancelClickHandler={updateItemCancelClickHandler}
             />;
             break;
             default : break;

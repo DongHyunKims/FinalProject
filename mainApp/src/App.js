@@ -2,20 +2,23 @@
 import React, { Component } from 'react';
 import './App.css';
 
+//component
 import Header from './components/headerComponent/Header'
 import Nav from './components/navComponent/Nav'
-
-
 import MainList from './components/mainListComponent/MainList'
-
 import PlayListComponent from './components/playListComponent/PlayList';
 import PlayController from './components/playControllerComponent/PlayController';
+
+
+//libs, config
 import utility from './utility/utility';
+import config from './utility/config';
 import moment from 'moment'
 
+
+//events
 import playListEvents from "./events/playListEvents";
 import albumListEvents from "./events/albumListEvents";
-
 import searchListEvents from "./events/searchListEvents";
 import playControllerEvents from "./events/playControllerEvents";
 
@@ -25,7 +28,8 @@ const ACTION_CONFIG = {
     resetPlayList : "resetPlayList",
     deleteAlbum : "deleteAlbum",
     getAllAlbum : "getAllAlbum",
-    addAlbum : "addAlbum"
+    addAlbum : "addAlbum",
+    updateAlbum:"updateAlbum"
 };
 
 class App extends Component {
@@ -38,7 +42,9 @@ class App extends Component {
 
             //선택된 현재 앨범
             currentAlbum: null,
+            updateAlbum: null,
             isAddClicked : false,
+            isAlbumUpdateClicked : false,
 
 
             //playList,
@@ -100,10 +106,9 @@ class App extends Component {
 
 
 
-
         this._getAlbumReqListener = this._getAlbumReqListener.bind(this);
         this._deletePlayListReqListener = this._deletePlayListReqListener.bind(this);
-        this.onReady = this.onReady.bind(this);
+        playListEvents.onReady = playListEvents.onReady.bind(this);
 
 
         //playList
@@ -111,7 +116,7 @@ class App extends Component {
         playListEvents.checkClickHandler = playListEvents.checkClickHandler.bind(this);
         playListEvents.selectAllBtnClickHandler = playListEvents.selectAllBtnClickHandler.bind(this);
         playListEvents.deletePlayListBtnClickHandler = playListEvents.deletePlayListBtnClickHandler.bind(this);
-
+        this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
 
        //albumList
         this._getAllAlbumReqListener = this._getAllAlbumReqListener.bind(this);
@@ -121,13 +126,13 @@ class App extends Component {
         albumListEvents.addAlbumSubmitHandler = albumListEvents.addAlbumSubmitHandler.bind(this);
         albumListEvents.addItemClickHandler = albumListEvents.addItemClickHandler.bind(this);
         albumListEvents.addItemCancelClickHandler = albumListEvents.addItemCancelClickHandler.bind(this);
-
+        albumListEvents.updateAlbumClickHandler  = albumListEvents.updateAlbumClickHandler.bind(this);
+        albumListEvents.updateItemClickHandler = albumListEvents.updateItemClickHandler.bind(this);
+        albumListEvents.updateItemCancelClickHandler = albumListEvents.updateItemCancelClickHandler.bind(this);
 
 
         //searchList
-        this.UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
         this.searchUrl = "";
-        this.videoArr = [];
         this.nextPageToken = "";
 
         searchListEvents.searchVideo = searchListEvents.searchVideo.bind(this);
@@ -137,7 +142,6 @@ class App extends Component {
         searchListEvents.addSelectedVideoToAlbum = searchListEvents.addSelectedVideoToAlbum.bind(this);
         searchListEvents.moreVideoList = searchListEvents.moreVideoList.bind(this);
         searchListEvents.initSearchList = searchListEvents.initSearchList.bind(this);
-
         this._getVideoInfo=this._getVideoInfo.bind(this);
         this._promiseSearch=this._promiseSearch.bind(this);
         this._promiseGetViewCount=this._promiseGetViewCount.bind(this);
@@ -149,18 +153,14 @@ class App extends Component {
 
 
         //playController
-
-
         this.interverId = null;
         playControllerEvents.onChangePrevVideo = playControllerEvents.onChangePrevVideo.bind(this);
         playControllerEvents.onChangeNextVideo = playControllerEvents.onChangeNextVideo.bind(this);
         playControllerEvents.onPlayVideo = playControllerEvents.onPlayVideo.bind(this);
         playControllerEvents.onPauseVideo = playControllerEvents.onPauseVideo.bind(this);
         this._setCurrentTime = this._setCurrentTime.bind(this);
-        this.onPlayerStateChange = this.onPlayerStateChange.bind(this);
         this._setDuration = this._setDuration.bind(this);
         playControllerEvents.moveSeekBar = playControllerEvents.moveSeekBar.bind(this);
-
         //sound
         playControllerEvents.moveVolumeBar = playControllerEvents.moveVolumeBar.bind(this);
         playControllerEvents.onSound = playControllerEvents.onSound.bind(this);
@@ -178,7 +178,7 @@ class App extends Component {
 
 
     _albumReqListener(action,res){
-        console.log(action);
+        //console.log(action);
         utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
 
     }
@@ -202,17 +202,32 @@ class App extends Component {
                 if(!jsonAlbumList.err){
                     let { playingState, currentAlbum } = state;
                     let { playingAlbum,playingData, playingKey } = playingState;
-
                     //현재 play되고 있는 album이 존재하고 선택된 album과 play 되고 있는 album이 다를 경우
                     if(playingState  && (currentAlbum._id !== playingAlbum._id)){
-                            return Object.assign({}, newState, {
-                                albumList : jsonAlbumList,
-                                currentAlbum: playingAlbum,
-                                selectedData : playingData,
-                                selectedKey : playingKey,
-                            });
+
+                            let len = jsonAlbumList.filter((val)=>{
+                                return val._id === playingAlbum._id;
+                            }).length;
+
+                            if(len){
+                                return Object.assign({}, newState, {
+                                    albumList: jsonAlbumList,
+                                    currentAlbum: playingAlbum,
+                                    selectedData: playingData,
+                                    selectedKey: playingKey,
+                                });
+                            }else {
+                                return Object.assign({}, newState, {
+                                    albumList: jsonAlbumList,
+                                    currentAlbum: currentAlbum,
+                                    player: null,
+                                    selectedData: null,
+                                    selectedKey: -1,
+                                });
+                            }
 
                     }
+
 
                     return Object.assign({}, newState, {
                         albumList : jsonAlbumList,
@@ -223,8 +238,10 @@ class App extends Component {
                         playingState : null,
                     });
 
-                }
 
+
+
+                }
 
                 // 마지막 앨범을 삭제 한 경우
                 return Object.assign({}, newState, {
@@ -242,9 +259,9 @@ class App extends Component {
             case ACTION_CONFIG.getAllAlbum: this.setState((state)=>{
                 if(!jsonAlbumList.err){
                     let { currentAlbum } = state;
-
                     if(currentAlbum){
                         return {
+                            albumList : jsonAlbumList,
                             currentAlbum: currentAlbum,
                         }
                     }
@@ -266,6 +283,19 @@ class App extends Component {
                         albumList : jsonAlbumList,
                         currentAlbum: jsonAlbumList[currentAlbumKey],
                         isAddClicked : false,
+                    }
+                }
+            });
+            break;
+            case ACTION_CONFIG.updateAlbum: this.setState((state)=>{
+                if(!jsonAlbumList.err){
+                    // 최근에 추가된 album을 선택 해야 함
+                    let { currentAlbum } = state;
+                    return {
+                        albumList : jsonAlbumList,
+                        currentAlbum: currentAlbum,
+                        isAlbumUpdateClicked : false,
+
                     }
                 }
             });
@@ -342,8 +372,8 @@ class App extends Component {
                     selectedData: null,
                     selectedKey: -1,
                 });
-
-
+            },()=>{
+                utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
             });
             break;
             case ACTION_CONFIG.resetPlayList : this.setState((state,props)=>{
@@ -385,24 +415,6 @@ class App extends Component {
         utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.deletePlayList), "GET", "/albumList/getAlbum/"+_id);
     }
 
-
-
-
-    onReady(event) {
-        //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
-        // console.log(event);
-            this.setState((state)=>{
-                return { player: event.target }
-            });
-        // this.state.player ? this._setDuration() : null;
-        //this.state.player ? this.getDuration() : null
-        //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
-    }
-
-
-
-
-
     //searchList
 
     _promiseSearch(url){
@@ -428,11 +440,10 @@ class App extends Component {
     }
 
     _promiseGetViewCount(videoArr){
-      const UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
       let count = 0;
       return new Promise(function(resolve, reject){
         videoArr.forEach((item, index) => {
-          let statisticsUrl = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+item.videoId+"&key="+UTUBEKEY+"";
+          let statisticsUrl = config.DEFAULT_YOUTUBE_DATA_URL + "?part=statistics&id="+item.videoId+"&key="+config.YOUTUBE_KEY+"";
           utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
             let viewCount = data.items[0].statistics.viewCount;
@@ -451,12 +462,12 @@ class App extends Component {
     }
 
     _promiseGetDuration(videoArr){
-      const UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
+
       let count = 0;
       return new Promise(function(resolve, reject){
         videoArr.forEach((item, index) => {
 
-          let contentDetailsUrl = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id="+item.videoId+"&key="+UTUBEKEY+"";
+          let contentDetailsUrl =config.DEFAULT_YOUTUBE_DATA_URL +"?part=contentDetails&id="+item.videoId+"&key="+config.YOUTUBE_KEY+"";
           utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
             let duration = data.items[0].contentDetails.duration;
@@ -500,7 +511,6 @@ class App extends Component {
                 navIdx : navIdx
             }
         },()=>{
-
             let { navIdx } = this.state;
             if(navIdx==="2"){
                 utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
@@ -512,9 +522,15 @@ class App extends Component {
 
     //playController
     _toTimeString(seconds) {
-        let time = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
-        time = time.replace(/00:/, "");
-        return time
+        if(seconds) {
+            let timeArr = (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/);
+            let time = timeArr[0];
+            time = time.replace(/00:/, "");
+            return time;
+
+        }
+        return "00:00";
+
     }
 
 
@@ -627,7 +643,9 @@ class App extends Component {
           player,
           eventMap,
           playingState,
-          isAddClicked
+          isAddClicked,
+          isAlbumUpdateClicked,
+          updateAlbum
 
       } = this.state;
 
@@ -664,11 +682,10 @@ class App extends Component {
                 playState={playingState}
 
 
-
                 checkIdxList={checkIdxList}
                 selectAllIsChecked={selectAllIsChecked}
                 onPlayerStateChange={this.onPlayerStateChange.bind(null,player)}
-                onReady={this.onReady}
+                onReady={playListEvents.onReady}
                 playListClickHandler={playListEvents.playListClickHandler}
                 deletePlayListBtnClickHandler={playListEvents.deletePlayListBtnClickHandler}
                 selectAllBtnClickHandler={playListEvents.selectAllBtnClickHandler}
@@ -683,11 +700,17 @@ class App extends Component {
                 //albumList
                 albumList={albumList}
                 isAddClicked={isAddClicked}
+                isAlbumUpdateClicked={isAlbumUpdateClicked}
+                updateAlbum={updateAlbum}
                 albumClickHandler={albumListEvents.albumClickHandler}
                 deleteAlbumClickHandler={albumListEvents.deleteAlbumClickHandler}
                 addAlbumSubmitHandler={albumListEvents.addAlbumSubmitHandler}
                 addItemClickHandler={albumListEvents.addItemClickHandler}
                 addItemCancelClickHandler={albumListEvents.addItemCancelClickHandler}
+                updateAlbumClickHandler={albumListEvents.updateAlbumClickHandler}
+                updateItemClickHandler={albumListEvents.updateItemClickHandler}
+                updateItemCancelClickHandler={albumListEvents.updateItemCancelClickHandler}
+
 
                 //searchList
                 items={items}
@@ -716,7 +739,6 @@ class App extends Component {
                 onChangeNextVideo={playControllerEvents.onChangeNextVideo}
                 onPlayVideo={playControllerEvents.onPlayVideo.bind(null,player)}
                 onPauseVideo={playControllerEvents.onPauseVideo.bind(null,player)}
-                onPlayerStateChange={this.onPlayerStateChange.bind(null,player)}
                 moveSeekBar={playControllerEvents.moveSeekBar.bind(null,player)}
 
                 moveVolumeBar={playControllerEvents.moveVolumeBar.bind(null,player)}

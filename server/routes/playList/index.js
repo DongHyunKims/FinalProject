@@ -15,14 +15,38 @@ router.post("/deletePlayList",(req,res)=>{
 
     let { deleteList,albumId }= req.body;
 
+    let deleteVideoIdList = convertObjToArr(deleteList,"_id");
+    let deleteDurationList= convertObjToArr(deleteList,"duration");
+    let deleteTotalDuration = deleteDurationList.reduce((pre,post)=>{
+            return pre + post;
+    },0);
+
+    console.log(deleteVideoIdList);
+
     //console.log("body",req.body);
 
-    Album.update({ _id: albumId }, { $pull: { playList:{videoId:{ $in: deleteList }}}}, (err,doc)=>{
-        if(err) return res.status(500).send(err);
-        res.status(200).send();
+    Album.find({_id:albumId}, (err, doc)=> {
+        if (err) {
+            console.log("err", err);
+            return res.status(500).send(err);
+        }
+        let totalDuration = doc[0].totalDuration - deleteTotalDuration;
+        Album.update({_id: albumId}, {$pull: {playList: {_id: {$in: deleteVideoIdList}}}, totalDuration:totalDuration}, (err, doc) => {
+            if (err) return res.status(500).send(err);
+            res.status(200).send();
+        });
     });
 
 });
+
+
+function convertObjToArr(arr,key){
+    return arr.map((val)=>{
+        return val[key];
+    });
+}
+
+
 
 router.post("/videos", (req, res)=>{
   let { albumId, selectedVideoArr, totalDuration } = req.body;

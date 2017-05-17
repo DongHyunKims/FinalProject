@@ -12,8 +12,8 @@ router.use(express.static('public'));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
 
-const DEFAULT_IMG_URL = "http://localhost:3001";
-const DEFAULT_URL = "http://localhost:3000";
+const DEFAULT_IMG_URL = "http://localhost:3000";
+//const DEFAULT_URL = "http://localhost:3000";
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -149,17 +149,12 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
     // console.log("ffffffffff");
     let {title,category} = req.body;
     // // 전송된 파일 데이터 확인
-    let {path} = req.file;
-    //
-    console.log("category",category);
 
-
-
-    if(path === null || path === undefined){
-        path = DEFAULT_IMG_URL+"/images/default/default-thumbnail.jpg";
-        console.log("inputFileUrl1",path);
+    let path = DEFAULT_IMG_URL+"/images/default/default-thumbnail.jpg";
+    if(req.file) {
+        path = req.file.path;
+        path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
     }
-    path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
 
 
     let album = new Album({
@@ -177,6 +172,40 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
 
     });
 
+});
+
+
+
+
+
+
+router.post("/updateAlbum/:_id",upload.single('coverImgUrl'),(req,res)=>{
+    let { _id }   = req.params;
+     //console.log(_id);
+    let {title,category,coverImgUrl} = req.body;
+    // // 전송된 파일 데이터 확인
+
+    let path = coverImgUrl;
+    if(req.file) {
+        path = req.file.path;
+        path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
+    }
+
+
+
+    Album.findOne({_id: _id}, (err, doc)=>{
+
+        if(err) return res.status(500).send(err);
+        doc.title = title;
+        doc.category = JSON.parse(category);
+        doc.coverImgUrl = path;
+        doc.save((err,doc)=>{
+            console.log(err);
+            if(err) return res.status(500).send(err);
+            res.send(doc);
+
+        });
+    });
 
 
 
