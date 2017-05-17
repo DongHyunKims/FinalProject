@@ -191,8 +191,6 @@ router.post("/updateAlbum/:_id",upload.single('coverImgUrl'),(req,res)=>{
         path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
     }
 
-
-
     Album.findOne({_id: _id}, (err, doc)=>{
 
         if(err) return res.status(500).send(err);
