@@ -14,6 +14,12 @@ class Auth extends React.Component{
   render(){
     return(
       <div className="authWrap">
+
+
+        <video className="videoContainer" autoPlay="true" loop>
+            <source src="../videos/login_02.mov" type="video/mp4" />
+        </video>
+
         <section className="authSection">
           <h1>Jinniecast</h1>
 

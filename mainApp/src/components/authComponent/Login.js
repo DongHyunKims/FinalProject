@@ -9,20 +9,22 @@ import {
 } from 'react-router-dom'
 //import history from 'history'
 
+/*
 const fakeAuth = {
   isAuthenticated: false,
   authenticate(cb) {
     this.isAuthenticated = true
     setTimeout(cb, 100) // fake async
   }
-}
+}*/
 
 
 class Login extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      redirectToReferrer: false
+      redirectToReferrer: false,
+      message:""
     }
 
     this.setLogin = this.setLogin.bind(this);
@@ -43,12 +45,26 @@ class Login extends React.Component{
       let obj = JSON.parse(e.target.responseText);
       console.log(obj)
 
-      sessionStorage.setItem('id', obj._id);
-      sessionStorage.setItem('email', obj.email);
+      if(typeof obj === "object"){
+        sessionStorage.setItem('id', obj._id);
+        sessionStorage.setItem('email', obj.email);
 
-      fakeAuth.authenticate(() => {
-        this.setState({ redirectToReferrer: true })
-      })
+        // fakeAuth.authenticate(() => {
+        //   this.setState({
+        //     redirectToReferrer: true
+        //    })
+        // })
+
+
+        this.setState({
+          redirectToReferrer: true
+         })
+
+      }else{
+        this.setState({
+          message:obj
+        })
+      }
 
       //history.push('/');
 
@@ -60,7 +76,7 @@ class Login extends React.Component{
     const { redirectToReferrer } = this.state
 
     // here is the important part
-    if (redirectToReferrer) {
+    if (redirectToReferrer || sessionStorage.getItem("id")) {
       return (
         <Redirect to="/"/>
       )
@@ -70,7 +86,6 @@ class Login extends React.Component{
       <div>
         <h2>Login</h2>
         <div className="loginForm">
-
             <div className="inputField">
               <input type="text" placeholder="Email" name="email" id="email" className="inputText"/>
             </div>
@@ -82,9 +97,11 @@ class Login extends React.Component{
             </div>
 
           <div className="infoSection">
+            <p className="message">
+              {this.state.message}
+            </p>
             <Link to="/auth/register">Create an account</Link>
           </div>
-
         </div>
       </div>
     )

@@ -1,5 +1,7 @@
 
 import React, { Component } from 'react';
+
+import {Redirect} from 'react-router-dom'
 import './App.css';
 
 import Header from './components/headerComponent/Header'
@@ -160,14 +162,17 @@ class App extends Component {
         this.onSound = this.onSound.bind(this);
         this.offSound = this.offSound.bind(this);
 
+        //
+
+        this.reRender = this.reRender.bind(this);
+
     }
 
 
 
 
     componentDidMount(){
-        console.log(sessionStorage.getItem("email"))
-        
+        //console.log(sessionStorage.getItem("email"))
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
@@ -1094,6 +1099,9 @@ class App extends Component {
     }
 
 
+    reRender(){
+      this.setState({})
+    }
 
 
 
@@ -1134,12 +1142,18 @@ class App extends Component {
           playingData = playingState.playingData;
       }
 
+      if(!sessionStorage.getItem("id")){
+        return(
+          <Redirect to="/auth/login"/>
+        )
+      }
+
     return (
       <div className="App">
 
 
 
-        <Header albumTitle={albumTitle}/>
+        <Header albumTitle={albumTitle} reRender={this.reRender}/>
 
         <div className="container">
 
