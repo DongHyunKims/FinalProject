@@ -7,7 +7,7 @@ import React, {Component} from 'react';
 import SearchInputBox from "./SearchInputSection";
 import AlbumList from "./AlbumList";
 import "./albumListSection.css";
-
+import Modal from './Modal';
 
 
 
@@ -19,12 +19,22 @@ class MainList extends Component {
     }
 
 
+    renderUpdateItemModal(isAlbumUpdateClicked,updateAlbumClickHandler,updateItemCancelClickHandler,updateAlbum){
+        return isAlbumUpdateClicked ? <Modal
+                itemCancelClickHandler={updateItemCancelClickHandler}
+                itemSubmitHandler={updateAlbumClickHandler}
+                modalTitle="Update Album"
+                btnTitle="앨범 수정"
+                data={updateAlbum}
+            /> : null;
+    }
+
+
+
+
 
     render(){
-        let { albumList, albumClickHandler, deleteAlbumClickHandler,addAlbumSubmitHandler, addItemClickHandler,addItemCancelClickHandler ,isAddClicked} = this.props;
-
-
-
+        let { albumList, albumClickHandler, deleteAlbumClickHandler,addAlbumSubmitHandler, addItemClickHandler,addItemCancelClickHandler ,isAddClicked,isAlbumUpdateClicked, updateAlbumClickHandler,updateItemClickHandler,updateItemCancelClickHandler,updateAlbum} = this.props;
 
         return(
             <div>
@@ -34,12 +44,19 @@ class MainList extends Component {
                 <AlbumList
                     items={albumList}
                     isAddClicked={isAddClicked}
+
                     albumClickHandler={albumClickHandler}
                     deleteAlbumClickHandler={deleteAlbumClickHandler}
                     addAlbumSubmitHandler={addAlbumSubmitHandler}
                     addItemClickHandler={addItemClickHandler}
                     addItemCancelClickHandler={addItemCancelClickHandler}
+                    updateItemClickHandler={updateItemClickHandler}
                 />
+
+                {this.renderUpdateItemModal(isAlbumUpdateClicked,updateAlbumClickHandler,updateItemCancelClickHandler,updateAlbum)}
+
+
+
             </div>
         )
     }

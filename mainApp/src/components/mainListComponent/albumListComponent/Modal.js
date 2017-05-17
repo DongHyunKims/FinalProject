@@ -9,6 +9,8 @@ class Modal extends Component{
 
 
 
+
+
     constructor(props){
         super(props);
         this.state = {
@@ -16,12 +18,28 @@ class Modal extends Component{
             coverImgUrl : null,
             category : [],
         };
-        this.handleAlbumInputChange = this.handleAlbumInputChange.bind(this);
+
+        this.handleItemInputChange = this.handleItemInputChange.bind(this);
+    }
+
+    componentDidMount(){
+        let {data} = this.props;
+        if(data) {
+            let {title,coverImgUrl,category} = data;
+            this.setState(() => {
+                return {
+                    title : title,
+                    coverImgUrl : coverImgUrl,
+                    category : category,
+                }
+
+            });
+        }
     }
 
 
 
-    handleAlbumInputChange(event){
+    handleItemInputChange(event){
         let target = event.target;
         let nextState = {};
         let name = target.name;
@@ -54,18 +72,32 @@ class Modal extends Component{
                     [name] : target.value,
                 };
         }
-
         this.setState((state)=>{
             return nextState;
         });
+    }
+
+    renderCategory(defaultCategoryTitle,category){
+
+        return defaultCategoryTitle.map((val, idx)=>{
+            if(category.indexOf(idx+1) !== -1){
+                return <span key={idx} ><input type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange} checked /> {val}</span>
+            }
+            return <span key={idx} ><input  type="checkbox" name="category" value={idx+1}  onChange={this.handleItemInputChange} /> {val}</span>
+        })
+
 
     }
 
 
 
     render(){
-
-        let { addItemCancelClickHandler,addAlbumSubmitHandler } = this.props;
+        let { itemCancelClickHandler, itemSubmitHandler, modalTitle, btnTitle, defaultCategoryTitle,data } = this.props;
+        let {title,category} = this.state;
+        let _id = null;
+        if(data){
+            _id = data._id;
+        }
 
 
 
@@ -73,30 +105,25 @@ class Modal extends Component{
             <div id="myModal" className="modal">
                 <div className="modalContent">
                     <div className="modalHeader">
-                        <span className="close"  onClick={addItemCancelClickHandler}>&times;</span>
-                        <h3>Add Album</h3>
+                        <span className="close"  onClick={itemCancelClickHandler}>&times;</span>
+                        <h3>{modalTitle}</h3>
                     </div>
-                    {/*<form action="/albumList/addAlbum" method="post" encType="multipart/form-data">*/}
-                        <div className="modalBody">
-                            <div className="modalFormContainer">
-                                <label><b>Title</b></label>
-                                <input type="text" placeholder="Title" name="title" onChange={this.handleAlbumInputChange} required  />
-                                <label><b>Album Image</b></label>
-                                <input type="file" name="coverImgUrl" onChange={this.handleAlbumInputChange} required  />
-                                <label><b>Category</b></label>
-                                <div className="modalFormCheckContainer">
-                                    <span><input type="checkbox" name="category" value="1"  onChange={this.handleAlbumInputChange}/> Pop</span>
-                                    <span><input type="checkbox" name="category" value="2"  onChange={this.handleAlbumInputChange}/> Hiphop</span>
-                                    <span><input type="checkbox" name="category" value="3"  onChange={this.handleAlbumInputChange}/> Rock</span>
-                                    <span><input type="checkbox" name="category" value="4"  onChange={this.handleAlbumInputChange}/> Ballad</span>
-                                </div>
+                    <div className="modalBody">
+                        <div className="modalFormContainer">
+                            <label><b>Title</b></label>
+                            <input type="text" placeholder="Title" name="title" onChange={this.handleItemInputChange} value={title} required />
+                            <label><b>Album Image</b></label>
+                            <input type="file" name="coverImgUrl" onChange={this.handleItemInputChange} required />
+                            <label><b>Category</b></label>
+                            <div className="modalFormCheckContainer">
+                                {this.renderCategory(defaultCategoryTitle,category,data)}
                             </div>
                         </div>
-                        <div className="modalFooter">
-                            <input type="button" className="button"  value="앨범 생성" onClick={addAlbumSubmitHandler.bind(null,this.state)}/>
-                            <input type="button" className="button" onClick={addItemCancelClickHandler} value="취소" />
-                        </div>
-                {/*</form>*/}
+                    </div>
+                    <div className="modalFooter">
+                            <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state,_id)}/>
+                            <input type="button" className="button" onClick={itemCancelClickHandler} value="취소" />
+                    </div>
                 </div>
             </div>
 
@@ -104,6 +131,14 @@ class Modal extends Component{
 
     }
 }
+
+
+Modal.defaultProps = {
+    defaultCategoryTitle : ["Pop", "Hiphop", "Rock", "Ballad"],
+    btnTitle: "확인",
+    modalTitle: "Modal",
+};
+
 
 //onSubmit={addAlbumSubmitHandler.bind(null,this.state)}
 export default Modal;

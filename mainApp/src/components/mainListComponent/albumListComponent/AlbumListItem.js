@@ -15,7 +15,7 @@ class AlbumListItem extends Component{
     }
 
     render(){
-        let { data, albumClickHandler,idx,deleteAlbumClickHandler } = this.props;
+        let { data, albumClickHandler,idx,deleteAlbumClickHandler,updateItemClickHandler } = this.props;
         let { coverImgUrl,title, totalDuration, _id } = data;
         return(
             <li onClick={albumClickHandler.bind(null,_id,idx)}>
@@ -30,7 +30,7 @@ class AlbumListItem extends Component{
                             <img src="./images/default/menu.png" />
                             <div className="albumMenuBtn">
                                 <button onClick={deleteAlbumClickHandler.bind(null,_id)}>앨범 삭제</button>
-                                <button>앨범 수정</button>
+                                <button onClick={updateItemClickHandler.bind(null,data)}>앨범 수정</button>
                             </div>
                      </div>
 
