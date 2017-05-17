@@ -94,6 +94,8 @@ router.get("/insertAllAlbum",(req,res)=>{
 // 실제 사용 라우팅
 // 전체 AlbumList 가져오는 라우터
 router.get("/getAllAlbumList",(req,res)=>{
+
+  
     Album.find((err,albums)=>{
         if(err)           return res.status(500).send(err);
         if(!albums.length) return res.send({ err: "Album not found" });
