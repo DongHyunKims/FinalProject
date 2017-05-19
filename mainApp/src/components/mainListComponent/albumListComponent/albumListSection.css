@@ -61,13 +61,13 @@
     transition: height 0.5s;
 }
 
-.albumList li > .albumItemCont div{
+.albumList li > .albumItemCont > .albumItemIntro div{
     color: white;
 }
 
 
 
-.albumList > li > .albumItemCont > div:nth-child(1) {
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(1) {
     width: 100%;
     font-size: 1.1em;
     font-weight: bold;
@@ -76,7 +76,7 @@
     /*background-color: #ff4983;*/
 }
 
-.albumList > li > .albumItemCont > div:nth-child(2) {
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(2) {
     width: 100%;
     font-size: 1.1em;
     /*background-color: #2590ff;*/
@@ -84,7 +84,7 @@
     /*visibility: hidden;*/
     display: none;
 }
-.albumList > li > .albumItemCont > div:nth-child(3) {
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(3) {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -96,7 +96,7 @@
 }
 
 
-.albumList > li > .albumItemCont > div:nth-child(3) > img{
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(3) > img{
     width: 100%;
     height: 100%;
     /*background-color: firebrick;*/
@@ -127,7 +127,7 @@
 }
 
 
-.albumList > li:hover > .albumItemCont > div:nth-child(1){
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(1){
     position: absolute;
     top: 40%;
     font-size: 1.3em;
@@ -136,7 +136,7 @@
 }
 
 
-.albumList > li:hover > .albumItemCont > div:nth-child(2)  {
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(2)  {
     position: absolute;
     top: 50%;
     /*visibility: visible;*/
@@ -144,23 +144,29 @@
 }
 
 
-.albumList > li:hover > .albumItemCont > div:nth-child(3){
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3){
     /*visibility: visible;*/
     display: block;
 }
 
-.albumList > li:hover > .albumItemCont > div:nth-child(3):hover{
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3):hover{
     width: 100%;
 }
 
-.albumList > li:hover > .albumItemCont > div:nth-child(3):hover > img{
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3):hover > img{
     width: 20%;
 }
 
-.albumList > li:hover > .albumItemCont > div:nth-child(3):hover  > .albumMenuBtn{
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3):hover  > .albumMenuBtn{
     width: 80%;
     /*visibility: visible;*/
     display: block;
+}
+
+
+
+.albumItemPlay{
+    display: none;
 }
 
 
@@ -241,7 +247,6 @@
 
 .modalFooter {
     padding: 0.3%;
-
     background-color: rgba(0,0,0,0.8); /* Fallback color */
     color: white;
 

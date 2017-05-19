@@ -45,6 +45,7 @@ class App extends Component {
             //선택된 현재 앨범
             currentAlbum: null,
             updateAlbum: null,
+
             isAddClicked : false,
             isAlbumUpdateClicked : false,
 
@@ -76,7 +77,6 @@ class App extends Component {
             items : [],
             nextPageToken : "",
             isSearched : false,
-
             totalDuration : 0,
 
             //mainList
@@ -99,7 +99,6 @@ class App extends Component {
                 volume: 50, // 볼륨 조절
                 soundOn: true,
             },
-
 
 
         };
@@ -172,7 +171,6 @@ class App extends Component {
         this.reRender = this.reRender.bind(this);
 
     }
-
 
     componentDidMount(){
         //console.log(sessionStorage.getItem("email"))
@@ -646,17 +644,19 @@ class App extends Component {
     }
 
     componentWillUnmount(){
-        console.log("fff");
-        sessionStorage.removeItem("id");
-        sessionStorage.removeItem("email");
+
+
+      location.reload();
+
     }
 
 
     reRender(){
-        this.forceUpdate();
+      this.forceUpdate();
     }
 
     render() {
+
       //console.log(this.state.totalDuration)
       let {
           albumList,
@@ -691,16 +691,19 @@ class App extends Component {
       }
 
       let playingData = null;
-
+      let playingAlbum = null;
       if(playingState) {
+          playingAlbum = playingState.playingAlbum;
           playingData = playingState.playingData;
       }
 
-      if(!sessionStorage.getItem("id")){
+      if(sessionStorage.getItem("id") === null){
         return(
           <Redirect to="/auth/login"/>
         )
       }
+
+
 
     return (
       <div className="App">
@@ -738,6 +741,7 @@ class App extends Component {
                 isAddClicked={isAddClicked}
                 isAlbumUpdateClicked={isAlbumUpdateClicked}
                 updateAlbum={updateAlbum}
+                playingAlbum={playingAlbum}
                 albumClickHandler={albumListEvents.albumClickHandler}
                 deleteAlbumClickHandler={albumListEvents.deleteAlbumClickHandler}
                 addAlbumSubmitHandler={albumListEvents.addAlbumSubmitHandler}

@@ -34,7 +34,21 @@ class MainList extends Component {
 
 
     render(){
-        let { albumList, albumClickHandler, deleteAlbumClickHandler,addAlbumSubmitHandler, addItemClickHandler,addItemCancelClickHandler ,isAddClicked,isAlbumUpdateClicked, updateAlbumClickHandler,updateItemClickHandler,updateItemCancelClickHandler,updateAlbum} = this.props;
+        let {
+            albumList,
+            albumClickHandler,
+            deleteAlbumClickHandler,
+            addAlbumSubmitHandler,
+            addItemClickHandler,
+            addItemCancelClickHandler,
+            isAddClicked,
+            isAlbumUpdateClicked,
+            updateAlbumClickHandler,
+            updateItemClickHandler,
+            updateItemCancelClickHandler,
+            updateAlbum,
+            playingAlbum,
+        } = this.props;
 
         return(
             <div>
@@ -42,7 +56,9 @@ class MainList extends Component {
                     searchVideo = {this.searchVideo}
                 />
                 <AlbumList
-                    items={albumList}
+                    albumList={albumList}
+                    playingAlbum={playingAlbum}
+
                     isAddClicked={isAddClicked}
 
                     albumClickHandler={albumClickHandler}

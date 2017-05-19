@@ -105,6 +105,7 @@ export default {
         }
     },
 
+
     initSearchList(){
         this.setState({
             selectedVideoArr : [],

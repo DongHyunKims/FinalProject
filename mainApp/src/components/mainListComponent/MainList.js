@@ -41,6 +41,7 @@ class MainList extends React.Component{
             albumList,
             isAddClicked,
             updateAlbum,
+            playingAlbum,
             isAlbumUpdateClicked,
             albumClickHandler,
             deleteAlbumClickHandler,
@@ -79,6 +80,7 @@ class MainList extends React.Component{
                 albumList={albumList}
                 isAddClicked={isAddClicked}
                 updateAlbum={updateAlbum}
+                playingAlbum={playingAlbum}
                 isAlbumUpdateClicked={isAlbumUpdateClicked}
                 albumClickHandler={albumClickHandler}
                 deleteAlbumClickHandler={deleteAlbumClickHandler}
