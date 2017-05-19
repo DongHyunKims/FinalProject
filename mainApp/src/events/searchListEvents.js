@@ -103,11 +103,12 @@ export default {
     },
 
         initSearchList(){
-            this.setState({
-                selectedVideoArr : [],
-                isSelectedArr : false,
-            isAllClearAddBtn : false,
-            totalDuration : 0
+          console.log("d")
+          this.setState({
+              selectedVideoArr : [],
+              isSelectedArr : false,
+              isAllClearAddBtn : false,
+              totalDuration : 0
         })
     }
 

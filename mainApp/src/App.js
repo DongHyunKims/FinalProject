@@ -102,7 +102,6 @@ class App extends Component {
             },
 
 
-
         };
 
 
@@ -173,7 +172,6 @@ class App extends Component {
         this.reRender = this.reRender.bind(this);
 
     }
-
 
     componentDidMount(){
         //console.log(sessionStorage.getItem("email"))
@@ -632,14 +630,17 @@ class App extends Component {
         }
     }
 
-
+    componentWillUnmount(){
+      location.reload();
+    }
 
 
     reRender(){
-      this.setState({})
+      this.forceUpdate();
     }
 
     render() {
+
       //console.log(this.state.totalDuration)
       let {
           albumList,
@@ -679,11 +680,13 @@ class App extends Component {
           playingData = playingState.playingData;
       }
 
-      if(!sessionStorage.getItem("id")){
+      if(sessionStorage.getItem("id") === null){
         return(
           <Redirect to="/auth/login"/>
         )
       }
+
+      console.log(sessionStorage.getItem("id"))
 
     return (
       <div className="App">

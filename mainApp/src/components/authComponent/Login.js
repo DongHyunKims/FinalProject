@@ -9,14 +9,14 @@ import {
 } from 'react-router-dom'
 //import history from 'history'
 
-/*
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true
-    setTimeout(cb, 100) // fake async
-  }
-}*/
+
+// const fakeAuth = {
+//   isAuthenticated: false,
+//   authenticate(cb) {
+//     this.isAuthenticated = true
+//     setTimeout(cb, 1000) // fake async
+//   }
+// }
 
 
 class Login extends React.Component{
@@ -46,7 +46,7 @@ class Login extends React.Component{
       console.log(obj)
 
       if(typeof obj === "object"){
-        sessionStorage.setItem('id', obj._id);
+        sessionStorage.setItem('id', obj.id);
         sessionStorage.setItem('email', obj.email);
 
         // fakeAuth.authenticate(() => {
@@ -54,7 +54,8 @@ class Login extends React.Component{
         //     redirectToReferrer: true
         //    })
         // })
-
+        //
+        // location.reload();
 
         this.setState({
           redirectToReferrer: true
@@ -71,6 +72,8 @@ class Login extends React.Component{
     }.bind(this), "POST", "/login", JSON.stringify(loginObj), "application/json");
   }
 
+
+
   render(){
 
     const { redirectToReferrer } = this.state
@@ -78,7 +81,7 @@ class Login extends React.Component{
     // here is the important part
     if (redirectToReferrer || sessionStorage.getItem("id")) {
       return (
-        <Redirect to="/"/>
+        <Redirect to="/" />
       )
     }
 
