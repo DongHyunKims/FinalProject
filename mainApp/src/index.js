@@ -5,19 +5,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import App from './App';
 import Auth from './components/authComponent/Auth';
 
-
-
 import './index.css';
-
-/*
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
-*/
-
-
-// sub route set
 
 
 ReactDOM.render((
