@@ -94,37 +94,22 @@ router.get("/insertAllAlbum",(req,res)=>{
 
 // 실제 사용 라우팅
 // 전체 AlbumList 가져오는 라우터
+
+
 router.get("/getAllAlbumList",(req,res)=>{
+    let { _id }  = req.user;
 
 
-
-    Album.find((err,albums)=>{
-        if(err)           return res.status(500).send(err);
-        if(!albums.length) return res.send({ err: "Album not found" });
-        //console.log(albums);
-        //let jsonAlbums = JSON.parse(albums);
-        res.json(albums);
-    });
-
-});
-
-
-router.get("/getAllAlbumList/:userId",(req,res)=>{
-
-    let { userId }   = req.params;
-
-
-    User.find({ _id : userId }, (err,user)=>{
+    User.find({ _id : _id }, (err,user)=>{
         if(err)           return res.status(500).send(err);
         if(!user.length) return res.status(404).send({ err: "User not found" });
         let albumIdList = user[0].albumList;
-        console.log(albumIdList)
 
         Album.find({
             '_id': { $in: albumIdList}
         }, function(err, albums){
             if(err)           return res.status(500).send(err);
-            if(!albums.length) return res.status(404).send({ err: "Albums not found" });
+            if(!albums.length) return res.send({ err: "Albums not found" });
             res.json({jsonAlbumList:albums});
 
         });
@@ -135,13 +120,6 @@ router.get("/getAllAlbumList/:userId",(req,res)=>{
 });
 
 
-router.get("/getAlbum",(req,res)=>{
-    // Album.find((err,albums)=>{
-    //     if(err)           return res.status(500).send(err);
-    //     if(!albums.length) return res.status(404).send({ err: "Album not found" });
-    //     res.send("Albums find successfully:\n" + albums);
-    // })
-});
 
 router.get("/getAlbum/:albumId",(req,res)=>{
     let { albumId }   = req.params;
@@ -156,13 +134,31 @@ router.get("/getAlbum/:albumId",(req,res)=>{
 
 router.get("/deleteAlbum/:albumId",(req,res)=>{
     let { albumId }   = req.params;
-    //console.log("albumId",albumId)
+    let { _id,albumList }  = req.user;
+
+
+    albumList.splice(albumList.indexOf(albumId),1);
+    console.log("albumList",albumList);
     //let objectAlbumId = createObjectId(albumId);
-    Album.findByIdAndRemove( albumId,(err,doc)=>{
+
+
+    Album.findByIdAndRemove(albumId,(err,doc)=>{
         if(err)  return res.status(500).send(err);
         //console.log("album",album);
-        res.json(doc);
-    })
+
+        User.findOne({ _id: _id},(err,user)=>{
+            if(err)  return res.status(500).send(err);
+            user.albumList = albumList;
+            user.save((err,doc)=>{
+                if(err)  return res.status(500).send(err);
+                res.json(doc);
+            })
+
+        });
+
+
+
+    });
 });
 
 
@@ -171,9 +167,11 @@ router.get("/deleteAlbum/:albumId",(req,res)=>{
 
 
 
-router.post("/addAlbum/:userId",upload.single('coverImgUrl'),(req,res)=>{
-    let { userId }   = req.params;
-   // console.log(err);
+router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
+    let { _id }  = req.user;
+
+
+   console.log("req.user",req.user);
     let {title,category} = req.body;
     // // 전송된 파일 데이터 확인
 
@@ -193,7 +191,7 @@ router.post("/addAlbum/:userId",upload.single('coverImgUrl'),(req,res)=>{
     });
 
 
-    User.findOne({_id: userId}, (err, user)=>{
+    User.findOne({_id: _id}, (err, user)=>{
         if(err) return res.status(500).send(err);
 
 
