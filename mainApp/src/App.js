@@ -571,8 +571,6 @@ class App extends Component {
        },  this._setCurrentTime.bind(null, player));
    };
 
-
-
     _setCurrentTime(player) {
         let {eventMap} = this.state;
         if (eventMap.playing){
