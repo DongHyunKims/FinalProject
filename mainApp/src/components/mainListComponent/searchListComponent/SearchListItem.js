@@ -2,6 +2,7 @@ import React from "react"
 
 import timeago from 'timeago.js';
 import utility from '../../../utility/utility';
+import libs from '../../../utility/libs';
 
 class SearchListItem extends React.Component{
   constructor(){
@@ -73,7 +74,7 @@ class SearchListItem extends React.Component{
         <div className="itemCont">
           <p className="title" onClick={this.showPopupVideo}>{data.title}</p>
           <p className="info">
-            <span className="duration">{utility.changeDuration(data.duration)}</span>
+            <span className="duration">{libs.changeDuration(data.duration)}</span>
             <span className="date">{this.changePublishedAtData(data.publishedAt)}</span>
             <span className="viewCount">{data.viewCount} Views</span>
           </p>
