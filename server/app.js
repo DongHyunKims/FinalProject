@@ -185,7 +185,9 @@ app.post('/register', function(req, res, next){
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.json("success")
+  console.log("asdfasdfasdfa");
+  res.redirect("/auth/login");
+  //res.json("success")
 });
 
 

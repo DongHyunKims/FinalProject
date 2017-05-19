@@ -2,8 +2,28 @@
  * Created by donghyunkim on 2017. 5. 2..
  */
 import React,{Component} from "react"
-import utility from '../../../utility/utility';
+import libs from '../../../utility/libs';
 
+const albumListItemStyle = {
+    albumItemContStyle : {
+        "height" : "100%",
+    },
+    albumTitleStyle : {
+         "position": "absolute",
+         "top": "40%",
+         "fontSize": "1.3em",
+         "fontWeight": "bold",
+         "lineHeight": "1",
+         "display" : "block",
+    },
+    albumDurationStyle : {
+        "position": "absolute",
+        "top": "50%",
+        "display": "block",
+    },
+
+
+};
 
 class AlbumListItem extends Component{
     constructor(props) {
@@ -15,24 +35,43 @@ class AlbumListItem extends Component{
     }
 
     render(){
-        let { data, albumClickHandler,idx,deleteAlbumClickHandler,updateItemClickHandler } = this.props;
+        let { data, albumClickHandler,idx,deleteAlbumClickHandler,updateItemClickHandler,playingAlbum } = this.props;
         let { coverImgUrl,title, totalDuration, _id } = data;
+
+        let albumItemContStyle = null;
+        let albumTitleStyle = null;
+        let  albumDurationStyle = null;
+
+        if(playingAlbum){
+            if(_id === playingAlbum._id){
+                albumItemContStyle = albumListItemStyle.albumItemContStyle;
+                albumTitleStyle = albumListItemStyle.albumTitleStyle;
+                albumDurationStyle = albumListItemStyle.albumDurationStyle;
+            }
+        }
+
+
+
+
         return(
             <li onClick={albumClickHandler.bind(null,_id,idx)}>
                 <div className="albumThum">
                     <img src={coverImgUrl} className="albumImg"/>
                 </div>
 
-                <div className="albumItemCont" >
-                    <div className="albumTitle"> {title}</div>
-                    <div className="albumTotDuration">{utility.changeDuration(totalDuration)}</div>
-                     <div className="albumMenu" >
-                            <img src="./images/default/menu.png" />
-                            <div className="albumMenuBtn">
-                                <button onClick={deleteAlbumClickHandler.bind(null,_id)}>앨범 삭제</button>
-                                <button onClick={updateItemClickHandler.bind(null,data)}>앨범 수정</button>
-                            </div>
-                     </div>
+                <div className="albumItemCont" style={albumItemContStyle}>
+
+                    <div className="albumItemIntro">
+                        <div className="albumTitle" style={albumTitleStyle}> {title}</div>
+                        <div className="albumTotDuratison" style={albumDurationStyle}>{libs.changeDuration(totalDuration)}</div>
+                         <div className="albumMenu" >
+                                <img src="./images/default/menu.png" />
+                                <div className="albumMenuBtn">
+                                    <button onClick={deleteAlbumClickHandler.bind(null,_id)}>앨범 삭제</button>
+                                    <button onClick={updateItemClickHandler.bind(null,data)}>앨범 수정</button>
+                                </div>
+                         </div>
+                    </div>
 
                 </div>
 

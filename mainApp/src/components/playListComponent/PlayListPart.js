@@ -2,8 +2,8 @@
  * Created by donghyunkim on 2017. 4. 27..
  */
 import React, {Component} from 'react';
-import utility from '../../utility/utility'
 
+import libs from '../../utility/libs';
 
 const playListPartStyle = {
     playListPartAreaStyle : {
@@ -37,7 +37,7 @@ class PlayListPart extends Component {
     checkToggle(){
         let { isToggled } = this.state;
         let { videoSnippet } = this.props;
-        return isToggled ? <img src='./images/default/Ok-64.png'/> : utility.changeDuration(videoSnippet.duration);
+        return isToggled ? <img src='./images/default/Ok-64.png'/> : libs.changeDuration(videoSnippet.duration);
     }
 
     render() {

@@ -22,21 +22,6 @@ const ACTION_CONFIG = {
 
 
 
-const createFormData = function(data){
-
-    let formData = new FormData();
-    //FormData 에 파일과 이메일을 append 메소드를 통해 등록
-
-    for(let key in data){
-        let inputData = data[key];
-        if(key === "category"){
-            inputData = JSON.stringify(inputData);
-        }
-        formData.append(key, inputData);
-    }
-
-    return formData;
-};
 
 export default {
 
@@ -57,7 +42,8 @@ export default {
 
     addAlbumSubmitHandler(data){
 
-        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",createFormData(data));
+
+        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum/" + this.userId,utility.createFormData(data));
 
     },
 
@@ -91,8 +77,7 @@ export default {
     updateAlbumClickHandler(data,_id,event){
 
 
-        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),"post","/albumList/updateAlbum/"+_id,createFormData(data));
-
+        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),"post","/albumList/updateAlbum/"+_id,utility.createFormData(data));
 
         event.stopPropagation();
     },

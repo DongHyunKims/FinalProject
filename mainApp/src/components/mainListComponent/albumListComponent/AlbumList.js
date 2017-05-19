@@ -26,17 +26,18 @@ class AlbumList extends Component {
 
 
 
-    makeListItem(items,albumClickHandler,deleteAlbumClickHandler,updateItemClickHandler){
+    makeListItem(albumList,albumClickHandler,deleteAlbumClickHandler,updateItemClickHandler,playingAlbum){
 
-        if(!items){
+        if(!albumList){
             return null;
         }
 
-        return items.map((data, idx) => {
+        return albumList.map((data, idx) => {
             //console.log(data)
             return <AlbumListItem
                 key={data._id}
                 data={data}
+                playingAlbum={playingAlbum}
                 albumClickHandler={albumClickHandler}
                 deleteAlbumClickHandler={deleteAlbumClickHandler}
                 updateItemClickHandler={updateItemClickHandler}
@@ -45,11 +46,23 @@ class AlbumList extends Component {
     }
 
     render(){
-        let { items,albumClickHandler,deleteAlbumClickHandler, addAlbumSubmitHandler,addItemClickHandler, addItemCancelClickHandler,updateItemClickHandler,isAddClicked }= this.props;
+        let {
+            albumList,
+            playingAlbum,
+            albumClickHandler,
+            deleteAlbumClickHandler,
+            addAlbumSubmitHandler,
+            addItemClickHandler,
+            addItemCancelClickHandler,
+            updateItemClickHandler,
+            isAddClicked
+        }= this.props;
+
+
 
         let renderingAlbumList = null;
-        if(items){
-            renderingAlbumList = this.makeListItem(items,albumClickHandler,deleteAlbumClickHandler,updateItemClickHandler);
+        if(albumList){
+            renderingAlbumList = this.makeListItem(albumList,albumClickHandler,deleteAlbumClickHandler,updateItemClickHandler,playingAlbum);
         }
 
         return (
@@ -57,10 +70,7 @@ class AlbumList extends Component {
                 <ul className="albumList">
                     {renderingAlbumList}
                     <li id="addItem" onClick={addItemClickHandler}>
-
                     </li>
-
-
                 </ul>
                 {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler)}
             </div>
