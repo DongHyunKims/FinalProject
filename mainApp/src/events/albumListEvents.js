@@ -43,7 +43,7 @@ export default {
     addAlbumSubmitHandler(data){
 
 
-        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum/" + this.userId,utility.createFormData(data));
+        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",utility.createFormData(data));
 
     },
 
