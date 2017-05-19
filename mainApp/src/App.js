@@ -50,7 +50,6 @@ class App extends Component {
 
 
             //playList,
-
             //삭제 하는  video id
             deleteVideoCheckList : [],
             //삭제 하는  video idx
@@ -180,6 +179,7 @@ class App extends Component {
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
+
     //albumList
 
 
@@ -297,11 +297,14 @@ class App extends Component {
                 if(!jsonAlbumList.err){
                     // 최근에 추가된 album을 선택 해야 함
                     let { currentAlbum } = state;
+                    let newCurrentAlbum = jsonAlbumList.filter((val)=> {
+                         return currentAlbum._id === val._id;
+                    })[0];
+
                     return {
                         albumList : jsonAlbumList,
-                        currentAlbum: currentAlbum,
+                        currentAlbum: newCurrentAlbum,
                         isAlbumUpdateClicked : false,
-
                     }
                 }
             });
@@ -316,9 +319,7 @@ class App extends Component {
 
 
     _getAlbumReqListener(action,res){
-
         let jsonData = JSON.parse(res.currentTarget.responseText);
-
         switch (action){
             case  ACTION_CONFIG.addPlayList : this.setState({
                 selectedVideoArr: [],
@@ -513,9 +514,21 @@ class App extends Component {
     navClickHandler(event){
         let navIdx = event.target.id;
         this.setState(()=>{
-            return {
+
+            let newState = {
                 navIdx : navIdx
+            };
+
+            if(navIdx === "1"){
+                return Object.assign({},newState,{
+                    selectedVideoArr : [],
+                    isSelectedArr : false,
+                    isAllClearAddBtn : false,
+                    totalDuration : 0
+                });
             }
+
+            return newState;
         },()=>{
             let { navIdx } = this.state;
             if(navIdx==="2"){
@@ -581,28 +594,28 @@ class App extends Component {
 
             this.interverId = setInterval(() => {
                 let time = Math.ceil(player.getCurrentTime());
-                this.setState((state)=>{
+                            this.setState((state)=>{
 
-                    let {eventMap} = state;
-                    let sound = false;
-                    if(eventMap.soundOn){
-                        sound = true;
-                    }
-                    return {
-                        eventMap: Object.assign({}, eventMap, { curTime: this._toTimeString(time), curProgressBar: time, sound : sound})
-                    }
-                },()=>{
-                    let {eventMap, playingState} = this.state;
-                    let {curProgressBar, maxProgressBar, playing} = eventMap;
-                    //전부 삭제 되었으면
-                    if(!playingState){
-                        let resetEventMap = { playing: false,
-                            curTime: '00:00', // 현재 재생 시간
-                            totalTime: '00:00', // 전체 비디오 재생 시간
-                            curProgressBar: 0,
-                            maxProgressBar: 0,
-                            preVolume: 50, // 볼륨 조절
-                            volume: 50, // 볼륨 조절
+                            let {eventMap} = state;
+                            let sound = false;
+                            if(eventMap.soundOn){
+                                sound = true;
+                            }
+                            return {
+                                eventMap: Object.assign({}, eventMap, { curTime: this._toTimeString(time), curProgressBar: time, sound : sound})
+                            }
+                        },()=>{
+                            let {eventMap, playingState} = this.state;
+                            let {curProgressBar, maxProgressBar, playing} = eventMap;
+                            //전부 삭제 되었으면
+                            if(!playingState){
+                                let resetEventMap = { playing: false,
+                                    curTime: '00:00', // 현재 재생 시간
+                                    totalTime: '00:00', // 전체 비디오 재생 시간
+                                    curProgressBar: 0,
+                                    maxProgressBar: 0,
+                                    preVolume: 50, // 볼륨 조절
+                                    volume: 50, // 볼륨 조절
                             soundOn: true,
                         };
                         clearInterval(this.interverId);
@@ -632,72 +645,15 @@ class App extends Component {
         }
     }
 
-    moveSeekBar(player,event){
-        let bar = utility.$selector("#seekBar");
-        let time = bar.value;
-        // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
-        // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
-
-        player.seekTo(time, true);
-        // this.onPlayVideo(player)
-        // Promise.resolve()
-        //     .then(player.seekTo(time, true))
-        //     .then(this.onPlayVideo.bind(null,player))
-    }
-
-
-    moveVolumeBar(player,event){
-
-        let bar = utility.$selector("#volumeBar");
-        let volumeVal = bar.value;
-        this.setState((state)=>{
-            let {eventMap}  = state;
-            return {
-                eventMap: Object.assign({}, eventMap, { volume: volumeVal ,preVolume: volumeVal}),
-            }
-
-        },()=>{
-            let {eventMap}  = this.state;
-            player.setVolume(volumeVal);
-            //console.log(volumeVal, this.state.event_map.volume);
-            if (eventMap.volume < 1){
-                this.offSound(player);
-            }
-            else {
-                this.onSound(player)
-            }
-        });
-    }
-
-    onSound(player){
-        this.setState((state)=> {
-            let {eventMap} = state;
-            let {preVolume} = eventMap;
-            return {
-                eventMap: Object.assign({}, eventMap, {soundOn: true, volume: preVolume})
-            };
-        },()=>{
-            player.unMute();
-        });
-
-    }
-
-    offSound(player){
-        this.setState((state)=> {
-                let {eventMap} = state;
-                return {
-                    eventMap: Object.assign({}, eventMap, {soundOn: false, volume: 0})
-                }
-            }
-            ,()=>{
-                player.mute();
-
-            });
+    componentWillUnmount(){
+        console.log("fff");
+        sessionStorage.removeItem("id");
+        sessionStorage.removeItem("email");
     }
 
 
     reRender(){
-      this.setState({})
+        this.forceUpdate();
     }
 
     render() {

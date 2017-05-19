@@ -57,10 +57,7 @@ class AlbumList extends Component {
                 <ul className="albumList">
                     {renderingAlbumList}
                     <li id="addItem" onClick={addItemClickHandler}>
-
                     </li>
-
-
                 </ul>
                 {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler)}
             </div>

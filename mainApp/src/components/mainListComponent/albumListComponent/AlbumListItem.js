@@ -2,8 +2,7 @@
  * Created by donghyunkim on 2017. 5. 2..
  */
 import React,{Component} from "react"
-import utility from '../../../utility/utility';
-
+import libs from '../../../utility/libs';
 
 class AlbumListItem extends Component{
     constructor(props) {
@@ -25,7 +24,7 @@ class AlbumListItem extends Component{
 
                 <div className="albumItemCont" >
                     <div className="albumTitle"> {title}</div>
-                    <div className="albumTotDuration">{utility.changeDuration(totalDuration)}</div>
+                    <div className="albumTotDuratison">{libs.changeDuration(totalDuration)}</div>
                      <div className="albumMenu" >
                             <img src="./images/default/menu.png" />
                             <div className="albumMenuBtn">

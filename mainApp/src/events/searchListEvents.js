@@ -13,14 +13,16 @@ const ACTION_CONFIG = {
 export default {
 
     searchVideo(keyword){
-        this.setState({
-            items : [],
-            nextPageToken : "",
-            selectedVideoArr : [],
-            isSearched : true,
-            isSelectedArr : false
 
-        });
+
+            this.setState({
+                items : [],
+                nextPageToken : "",
+                selectedVideoArr : [],
+                isSearched : true,
+                isSelectedArr : false
+
+            });
         let encodedKeword = encodeURI(keyword);
         this.searchUrl = config.DEFAULT_YOUTUBE_SEARCH_URL + "?part=snippet&maxResults=15&q="+encodedKeword+"&key="+config.YOUTUBE_KEY+"&type=video"
 
@@ -88,6 +90,7 @@ export default {
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     },
 
+
     moreVideoList(){
         const url = this.searchUrl.concat("&pageToken="+this.state.nextPageToken);
 
@@ -102,10 +105,10 @@ export default {
         }
     },
 
-        initSearchList(){
-            this.setState({
-                selectedVideoArr : [],
-                isSelectedArr : false,
+    initSearchList(){
+        this.setState({
+            selectedVideoArr : [],
+            isSelectedArr : false,
             isAllClearAddBtn : false,
             totalDuration : 0
         })
