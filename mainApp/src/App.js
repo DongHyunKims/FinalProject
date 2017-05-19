@@ -104,7 +104,6 @@ class App extends Component {
         };
 
 
-        this.userId = sessionStorage.getItem("id");
 
         this._getAlbumReqListener = this._getAlbumReqListener.bind(this);
         this._deletePlayListReqListener = this._deletePlayListReqListener.bind(this);
@@ -175,7 +174,7 @@ class App extends Component {
     componentDidMount(){
 
 
-        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList/"+this.userId);
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
 
 
@@ -185,8 +184,7 @@ class App extends Component {
 
     _albumReqListener(action,res){
 
-        console.log(this.userId);
-        utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList/"+this.userId);
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
 
     }
 
@@ -542,7 +540,7 @@ class App extends Component {
         },()=>{
             let { navIdx } = this.state;
             if(navIdx==="2"){
-                utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList/" + this.userId);
+                utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
             }
         });
 
