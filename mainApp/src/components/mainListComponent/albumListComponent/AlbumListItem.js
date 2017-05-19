@@ -7,7 +7,6 @@ import libs from '../../../utility/libs';
 const albumListItemStyle = {
     albumItemContStyle : {
         "height" : "100%",
-
     },
     albumTitleStyle : {
          "position": "absolute",
@@ -15,7 +14,7 @@ const albumListItemStyle = {
          "fontSize": "1.3em",
          "fontWeight": "bold",
          "lineHeight": "1",
-         "display" : "block"
+         "display" : "block",
     },
     albumDurationStyle : {
         "position": "absolute",

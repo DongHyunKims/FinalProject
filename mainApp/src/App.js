@@ -104,7 +104,7 @@ class App extends Component {
         };
 
 
-
+        this.userId = sessionStorage.getItem("id");
 
         this._getAlbumReqListener = this._getAlbumReqListener.bind(this);
         this._deletePlayListReqListener = this._deletePlayListReqListener.bind(this);
@@ -173,8 +173,9 @@ class App extends Component {
     }
 
     componentDidMount(){
-        //console.log(sessionStorage.getItem("email"))
-        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
+
+
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList/"+this.userId);
     }
 
 
@@ -183,14 +184,22 @@ class App extends Component {
 
 
     _albumReqListener(action,res){
-        //console.log(action);
-        utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
+
+        console.log(this.userId);
+        utility.runAjax(this._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList/"+this.userId);
 
     }
 
 
     _getAllAlbumReqListener(action,res){
+        //console.log("jsonAlbumList",res.currentTarget.responseText);
+
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
+
+        if(!jsonAlbumList.err){
+            jsonAlbumList = jsonAlbumList.jsonAlbumList;
+        }
+        console.log("jsonAlbumList",jsonAlbumList);
 
         switch (action){
 
@@ -451,16 +460,19 @@ class App extends Component {
           let statisticsUrl = config.DEFAULT_YOUTUBE_DATA_URL + "?part=statistics&id="+item.videoId+"&key="+config.YOUTUBE_KEY+"";
           utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
-            let viewCount = data.items[0].statistics.viewCount;
-            videoArr[index].viewCount = viewCount;
-            count++;
-            if(count === videoArr.length){
-              if(typeof videoArr !== "object"){
-                reject("wrong data")
-              }else{
-                resolve(videoArr);
+            let items = data['items'][0];
+              if (typeof (items) != 'undefined') {
+                  let viewCount = items.statistics.viewCount;
+                  videoArr[index].viewCount = viewCount;
+                  count++;
+                  if (count === videoArr.length) {
+                      if (typeof videoArr !== "object") {
+                          reject("wrong data")
+                      } else {
+                          resolve(videoArr);
+                      }
+                  }
               }
-            }
           }.bind(this), "GET", statisticsUrl)
         })
       })
@@ -530,7 +542,7 @@ class App extends Component {
         },()=>{
             let { navIdx } = this.state;
             if(navIdx==="2"){
-                utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
+                utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList/" + this.userId);
             }
         });
 

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
+const User = require('../../database/model/user');
 
 
 
@@ -95,7 +96,8 @@ router.get("/insertAllAlbum",(req,res)=>{
 // 전체 AlbumList 가져오는 라우터
 router.get("/getAllAlbumList",(req,res)=>{
 
-  
+
+
     Album.find((err,albums)=>{
         if(err)           return res.status(500).send(err);
         if(!albums.length) return res.send({ err: "Album not found" });
@@ -107,7 +109,30 @@ router.get("/getAllAlbumList",(req,res)=>{
 });
 
 
+router.get("/getAllAlbumList/:userId",(req,res)=>{
 
+    let { userId }   = req.params;
+
+
+    User.find({ _id : userId }, (err,user)=>{
+        if(err)           return res.status(500).send(err);
+        if(!user.length) return res.status(404).send({ err: "User not found" });
+        let albumIdList = user[0].albumList;
+        console.log(albumIdList)
+
+        Album.find({
+            '_id': { $in: albumIdList}
+        }, function(err, albums){
+            if(err)           return res.status(500).send(err);
+            if(!albums.length) return res.status(404).send({ err: "Albums not found" });
+            res.json({jsonAlbumList:albums});
+
+        });
+
+        //res.json({jsonAlbumList:albumList});
+    });
+
+});
 
 
 router.get("/getAlbum",(req,res)=>{
@@ -146,9 +171,9 @@ router.get("/deleteAlbum/:albumId",(req,res)=>{
 
 
 
-router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
-
-    // console.log("ffffffffff");
+router.post("/addAlbum/:userId",upload.single('coverImgUrl'),(req,res)=>{
+    let { userId }   = req.params;
+   // console.log(err);
     let {title,category} = req.body;
     // // 전송된 파일 데이터 확인
 
@@ -168,11 +193,22 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
     });
 
 
-    album.save((err,doc)=>{
+    User.findOne({_id: userId}, (err, user)=>{
         if(err) return res.status(500).send(err);
-        res.send(doc);
 
+
+        user.albumList.push(album._id);
+        user.save((err,doc)=>{
+            if(err) return res.status(500).send(err);
+            album.save((err,doc)=>{
+                console.log(err);
+                if(err) return res.status(500).send(err);
+                res.send(doc);
+            })
+
+        });
     });
+
 
 });
 
