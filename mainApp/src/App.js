@@ -102,7 +102,6 @@ class App extends Component {
             },
 
 
-
         };
 
 
@@ -173,7 +172,6 @@ class App extends Component {
         this.reRender = this.reRender.bind(this);
 
     }
-
 
     componentDidMount(){
         //console.log(sessionStorage.getItem("email"))
@@ -632,75 +630,17 @@ class App extends Component {
         }
     }
 
-    moveSeekBar(player,event){
-        let bar = utility.$selector("#seekBar");
-        let time = bar.value;
-        // 현재는 play 버튼을 눌러야 seekBar 플레이됨.
-        // [개선필요] seekBar 값을 통해 video durtaion값을 얻어야함.
-
-        player.seekTo(time, true);
-        // this.onPlayVideo(player)
-        // Promise.resolve()
-        //     .then(player.seekTo(time, true))
-        //     .then(this.onPlayVideo.bind(null,player))
-    }
-
-
-    moveVolumeBar(player,event){
-
-        let bar = utility.$selector("#volumeBar");
-        let volumeVal = bar.value;
-        this.setState((state)=>{
-            let {eventMap}  = state;
-            return {
-                eventMap: Object.assign({}, eventMap, { volume: volumeVal ,preVolume: volumeVal}),
-            }
-
-        },()=>{
-            let {eventMap}  = this.state;
-            player.setVolume(volumeVal);
-            //console.log(volumeVal, this.state.event_map.volume);
-            if (eventMap.volume < 1){
-                this.offSound(player);
-            }
-            else {
-                this.onSound(player)
-            }
-        });
-    }
-
-    onSound(player){
-        this.setState((state)=> {
-            let {eventMap} = state;
-            let {preVolume} = eventMap;
-            return {
-                eventMap: Object.assign({}, eventMap, {soundOn: true, volume: preVolume})
-            };
-        },()=>{
-            player.unMute();
-        });
-
-    }
-
-    offSound(player){
-        this.setState((state)=> {
-                let {eventMap} = state;
-                return {
-                    eventMap: Object.assign({}, eventMap, {soundOn: false, volume: 0})
-                }
-            }
-            ,()=>{
-                player.mute();
-
-            });
+    componentWillUnmount(){
+      location.reload();
     }
 
 
     reRender(){
-      this.setState({})
+      this.forceUpdate();
     }
 
     render() {
+
       //console.log(this.state.totalDuration)
       let {
           albumList,
@@ -740,11 +680,13 @@ class App extends Component {
           playingData = playingState.playingData;
       }
 
-      if(!sessionStorage.getItem("id")){
+      if(sessionStorage.getItem("id") === null){
         return(
           <Redirect to="/auth/login"/>
         )
       }
+
+      console.log(sessionStorage.getItem("id"))
 
     return (
       <div className="App">

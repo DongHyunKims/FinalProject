@@ -23,8 +23,9 @@ input:-webkit-autofill {
 .authSection{
   position: absolute;
   left:50%;
-  top:120px;
+  top:50%;
   margin-left:-200px;
+  margin-top:-235px;
   width:400px;
 }
 

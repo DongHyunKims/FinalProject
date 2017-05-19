@@ -1,5 +1,5 @@
 import React from "react"
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 
 import utility from "../../utility/utility"
 import "./header.css"
@@ -16,13 +16,8 @@ class Header extends React.Component{
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("email");
 
-
     utility.runAjax(function(e){
       this.props.reRender();
-      // return (
-      //   <Redirect to="/auth/login"/>
-      // )
-
     }.bind(this), "GET", "/logout")
   }
 
@@ -50,5 +45,6 @@ class Header extends React.Component{
   }
 
 }
+//<button className="logoutBtn" onClick={this.logout}>Logout</button>
 
 export default Header;
