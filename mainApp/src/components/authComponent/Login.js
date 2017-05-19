@@ -86,19 +86,18 @@ class Login extends React.Component{
     }
 
     return(
-      <div>
+      <div className="authBox">
         <h2>Login</h2>
         <div className="loginForm">
-            <div className="inputField">
-              <input type="text" placeholder="Email" name="email" id="email" className="inputText"/>
-            </div>
-            <div className="inputField">
-              <input type="password" placeholder="Password" name="password" id="password" className="inputText"/>
-            </div>
-            <div className="btnSection">
-              <button className="btnSubmit" onClick={this.setLogin}>SUBMIT</button>
-            </div>
-
+          <div className="inputField">
+            <input type="text" placeholder="Email" name="email" id="email" className="inputText"/>
+          </div>
+          <div className="inputField">
+            <input type="password" placeholder="Password" name="password" id="password" className="inputText"/>
+          </div>
+          <div className="btnSection">
+            <button className="btnSubmit" onClick={this.setLogin}>SUBMIT</button>
+          </div>
           <div className="infoSection">
             <p className="message">
               {this.state.message}

@@ -74,7 +74,7 @@ class Register extends React.Component{
 
 
     return(
-      <div>
+      <div className="authBox">
         <h2>Register</h2>
         <div className="loginForm">
           <div className="inputField">
