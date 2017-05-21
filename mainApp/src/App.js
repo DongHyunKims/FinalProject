@@ -715,7 +715,8 @@ class App extends Component {
           playingState,
           isAddClicked,
           isAlbumUpdateClicked,
-          updateAlbum
+          updateAlbum,
+          videoState
 
       } = this.state;
 
@@ -759,6 +760,7 @@ class App extends Component {
                 selectedData={selectedData}
                 selectedKey={selectedKey}
                 playState={playingState}
+                videoState={videoState}
 
 
                 checkIdxList={checkIdxList}

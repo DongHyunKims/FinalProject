@@ -11,6 +11,9 @@ const playListPartStyle = {
     },
     playListPartTitleAreaFontStyle : {
         color: "#FFFFFF"
+    },
+    eqBarStyle : {
+        animationPlayState: "paused"
     }
 };
 
@@ -41,19 +44,24 @@ class PlayListPart extends Component {
     }
 
     render() {
-        let { videoSnippet, selectedKey, idx, onClick, checkClickHandler, isChecked } = this.props;
+        let { videoSnippet, selectedKey, idx, onClick, checkClickHandler, isChecked,videoState } = this.props;
         let { title,_id,videoId,duration } = videoSnippet;
         let iconRendering = null;
         let playlistPartStyle = null;
         let playListFontStyle = null;
+        let eqBarStyle = null;
         if (selectedKey === idx) {
             playlistPartStyle = playListPartStyle.playListPartAreaStyle;
             playListFontStyle = playListPartStyle.playListPartTitleAreaFontStyle;
+            if(videoState === 2) {
+                eqBarStyle = playListPartStyle.eqBarStyle;
+            }
+
             iconRendering = (
                 <div className="eq">
-                    <div className="eq__bar"></div>
-                    <div className="eq__bar"></div>
-                    <div className="eq__bar"></div>
+                    <div className="eq__bar" style={eqBarStyle}></div>
+                    <div className="eq__bar" style={eqBarStyle}></div>
+                    <div className="eq__bar" style={eqBarStyle}></div>
                 </div>
             );
 

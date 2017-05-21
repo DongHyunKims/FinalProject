@@ -125,12 +125,17 @@
     /*justify-content: space-between;*/
     justify-content: space-around;
     align-items: flex-end;
+
 }
 .eq__bar {
+
     width: 4px;
     background: #f5f5ff;
     filter: drop-shadow(0 0 5px #f5f5ff);
+
 }
+
+
 .eq__bar:nth-child(1) {
     animation: eq .8s ease-in-out infinite 0s;
 }
@@ -140,6 +145,8 @@
 .eq__bar:nth-child(3) {
     animation: eq .8s ease-in-out infinite .4s;
 }
+
+
 /*.eq__bar:nth-child(4) {*/
 /*animation: eq .8s ease-in-out infinite .6s;*/
 /*}*/

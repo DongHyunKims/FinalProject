@@ -26,7 +26,7 @@ class PlayListSection extends Component {
 
 
     render(){
-        let {playList, playListClickHandler, selectedKey, deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked} = this.props;
+        let {playList, playListClickHandler, selectedKey, deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,videoState} = this.props;
         let menuStyle = null;
         let sectionStyle = null;
 
@@ -46,6 +46,7 @@ class PlayListSection extends Component {
                     return <PlayListPart
                         key={_id}
                         videoSnippet={val}
+                        videoState={videoState}
                         onClick={playListClickHandler.bind(null,arr,idx)}
                         selectedKey={selectedKey}
                         idx={idx}

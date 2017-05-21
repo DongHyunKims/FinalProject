@@ -7,6 +7,7 @@ import libs from '../../../utility/libs';
 const albumListItemStyle = {
     albumItemContStyle : {
         "height" : "100%",
+        "backgroundColor": "rgba(253,0,97,0.4)"
     },
     albumTitleStyle : {
          "position": "absolute",
