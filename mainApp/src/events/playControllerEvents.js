@@ -128,6 +128,8 @@ const playControllerEvents = {
         let { player } = this.state;
 
         if(player) {
+
+
             let newEventMap = {
                 playing: false,
                 curTime: '00:00', // 현재 재생 시간
@@ -137,7 +139,6 @@ const playControllerEvents = {
             };
 
             let {eventMap,playingState} = this.state;
-
             let { playingAlbum } = playingState;
             let {playList} = playingAlbum;
             if(playList.length === 1){

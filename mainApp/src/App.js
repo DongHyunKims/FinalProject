@@ -333,6 +333,8 @@ class App extends Component {
                     let {playList} = newCurrentAlbum;
 
 
+
+
                     if(!selectAllIsChecked) {
                         if (playingAlbum._id !== currentAlbum._id) {
                             return Object.assign({}, newState, {
