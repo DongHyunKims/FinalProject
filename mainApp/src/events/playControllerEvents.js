@@ -79,6 +79,7 @@ const playControllerEvents = {
             this.setState((state) => {
                 let {playingState, currentAlbum} = state;
                 let {playingAlbum, playingKey} = playingState;
+
                 let currentKey = playingKey + 1;
                 let {playList} = playingAlbum;
                 if (currentKey > playList.length - 1) {
@@ -87,7 +88,7 @@ const playControllerEvents = {
 
                 let newSelectedData = null;
                 let newSelectedKey = -1;
-                if (playingAlbum === currentAlbum) {
+                if (playingAlbum._id === currentAlbum._id) {
                     newSelectedData = playList[currentKey];
                     newSelectedKey = currentKey;
                 }
@@ -140,7 +141,7 @@ const playControllerEvents = {
                 }
                 let newSelectedData = null;
                 let newSelectedKey = -1;
-                if (playingAlbum === currentAlbum) {
+                if (playingAlbum._id === currentAlbum._id) {
                     newSelectedData = playList[currentKey];
                     newSelectedKey = currentKey;
                 }
