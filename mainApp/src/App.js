@@ -328,59 +328,61 @@ class App extends Component {
                 };
 
 
-                if(playingState && !selectAllIsChecked) {
+                if(playingState) {
                     let {playingKey,playingAlbum} = playingState;
                     let {playList} = newCurrentAlbum;
-                    // //
-                    // if(playingAlbum._id !== currentAlbum._id){
-                    //
-                    //     return Object.assign({}, newState, {
-                    //         selectedData: null,
-                    //         // selectedKey: -1,
-                    //     });
-                    //
-                    // }
 
-                    //삭제 리스트에 있는 경우
-                    if (checkIdxList.indexOf(playingKey) !== -1) {
+
+                    if(!selectAllIsChecked) {
+                        if (playingAlbum._id !== currentAlbum._id) {
+                            return Object.assign({}, newState, {
+                                selectedData: null,
+                                selectedKey: -1,
+                            });
+                        }
+
+                        //삭제 리스트에 있는 경우
+                        if (checkIdxList.indexOf(playingKey) !== -1) {
+                            return Object.assign({}, newState, {
+                                playingState: Object.assign({}, playingState, {
+                                    playingAlbum: newCurrentAlbum,
+                                    playingData: playList[0],
+                                    playingKey: 0,
+                                }),
+                                selectedData: playList[0],
+                                selectedKey: 0,
+                            });
+                        }
+
+                        let length = checkIdxList.filter((val) => {
+                            return val < playingKey;
+                        }).length;
+
+                        let currentPlayingKey = playingKey - length;
                         return Object.assign({}, newState, {
                             playingState: Object.assign({}, playingState, {
                                 playingAlbum: newCurrentAlbum,
-                                playingData: playList[0],
-                                playingKey: 0,
+                                playingData: playList[currentPlayingKey],
+                                playingKey: currentPlayingKey,
                             }),
-                            selectedData: playList[0],
-                            selectedKey: 0,
+                            selectedData: playList[currentPlayingKey],
+                            selectedKey: currentPlayingKey,
                         });
+
+                    }else{
+                        if(playingAlbum._id !== currentAlbum._id){
+                            return Object.assign({}, newState, {
+                                selectedData: null,
+                                selectedKey: -1,
+                            });
+                        }
+
                     }
-
-                    let length = checkIdxList.filter((val) => {
-                        return val < playingKey;
-                    }).length;
-
-                    let currentPlayingKey = playingKey - length;
-                    return Object.assign({}, newState, {
-                        playingState: Object.assign({}, playingState, {
-                            playingAlbum: newCurrentAlbum,
-                            playingData: playList[currentPlayingKey],
-                            playingKey: currentPlayingKey,
-                        }),
-                        selectedData: playList[currentPlayingKey],
-                        selectedKey: currentPlayingKey,
-                    });
                 }
 
                 //
-                // if(playingState && selectAllIsChecked) {
-                //
-                //
-                //
-                //     return Object.assign({}, newState, {
-                //         selectedData: null,
-                //         selectedKey: -1,
-                //     });
-                // }
-                //
+
+
 
 
                 //여기 수정
@@ -430,8 +432,7 @@ class App extends Component {
                         };
                     }
 
-                    console.log("playingData",playingData);
-                    console.log("playingKey",playingKey);
+
                     return {
                         selectedData: playingData,
                         selectedKey: playingKey,

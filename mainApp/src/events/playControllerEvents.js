@@ -60,8 +60,6 @@ const playControllerEvents = {
         // this.setState({ videoId: selectedVideo.id.next });
 
 
-
-
         let { player } = this.state;
 
         if(player) {
