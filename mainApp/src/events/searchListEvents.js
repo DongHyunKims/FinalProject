@@ -13,16 +13,14 @@ const ACTION_CONFIG = {
 export default {
 
     searchVideo(keyword){
+        this.setState({
+            items : [],
+            nextPageToken : "",
+            selectedVideoArr : [],
+            isSearched : true,
+            isSelectedArr : false
 
-
-            this.setState({
-                items : [],
-                nextPageToken : "",
-                selectedVideoArr : [],
-                isSearched : true,
-                isSelectedArr : false
-
-            });
+        });
         let encodedKeword = encodeURI(keyword);
         this.searchUrl = config.DEFAULT_YOUTUBE_SEARCH_URL + "?part=snippet&maxResults=15&q="+encodedKeword+"&key="+config.YOUTUBE_KEY+"&type=video"
 
