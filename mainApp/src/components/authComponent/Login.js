@@ -69,7 +69,7 @@ class Login extends React.Component{
 
       //history.push('/');
 
-    }.bind(this), "POST", "/login", JSON.stringify(loginObj), "application/json");
+    }.bind(this), "POST", "/auth/login", JSON.stringify(loginObj), "application/json");
   }
 
 

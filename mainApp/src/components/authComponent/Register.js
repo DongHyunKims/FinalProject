@@ -59,7 +59,7 @@ class Register extends React.Component{
 
 
 
-    }.bind(this), "POST", "/register", JSON.stringify(userInfoObj), "application/json");
+    }.bind(this), "POST", "/auth/register", JSON.stringify(userInfoObj), "application/json");
   }
 
   render(){
