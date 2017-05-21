@@ -48,7 +48,7 @@ const utility = {
 
         for(let key in data){
             let inputData = data[key];
-            if(key === "category"){
+            if(Array.isArray(data[key])){
                 inputData = JSON.stringify(inputData);
             }
             formData.append(key, inputData);
