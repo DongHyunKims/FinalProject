@@ -372,10 +372,13 @@ class App extends Component {
                     }else{
                         if(playingAlbum._id !== currentAlbum._id){
                             return Object.assign({}, newState, {
+
                                 selectedData: null,
                                 selectedKey: -1,
                             });
                         }
+
+
 
                     }
                 }
@@ -396,6 +399,7 @@ class App extends Component {
 
                 //전부 삭제되면 막아야 한다.
                 return Object.assign({}, newState, {
+                    player:null,
                     playingState : null,
                     selectedData: null,
                     selectedKey: -1,
