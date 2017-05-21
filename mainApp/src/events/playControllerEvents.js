@@ -72,14 +72,21 @@ const playControllerEvents = {
                 maxProgressBar: 0,
             };
 
-            let {eventMap} = this.state;
+            let {playingState} = this.state;
+            let { playingAlbum } = playingState;
+            let {playList} = playingAlbum;
+            if(playList.length === 1){
+                return ;
+            }
+
 
             this.setState((state) => {
-                let {playingState, currentAlbum} = state;
+                let {playingState, currentAlbum, eventMap} = state;
                 let {playingAlbum, playingKey} = playingState;
 
                 let currentKey = playingKey + 1;
                 let {playList} = playingAlbum;
+
                 if (currentKey > playList.length - 1) {
                     currentKey = 0;
                 }
@@ -89,7 +96,10 @@ const playControllerEvents = {
                 if (playingAlbum._id === currentAlbum._id) {
                     newSelectedData = playList[currentKey];
                     newSelectedKey = currentKey;
+
                 }
+
+
 
                 return {
                     playingState: Object.assign({}, playingState, {
@@ -115,8 +125,6 @@ const playControllerEvents = {
     onChangePrevVideo() {
 
 
-
-
         let { player } = this.state;
 
         if(player) {
@@ -128,13 +136,28 @@ const playControllerEvents = {
                 maxProgressBar: 0,
             };
 
-            let {eventMap} = this.state;
+            let {eventMap,playingState} = this.state;
+
+            let { playingAlbum } = playingState;
+            let {playList} = playingAlbum;
+            if(playList.length === 1){
+                return ;
+            }
+
+
+
             this.setState((state) => {
                 let {playingState, currentAlbum} = state;
                 let {playingAlbum, playingKey} = playingState;
                 let currentKey = playingKey - 1;
                 let {playList} = playingAlbum;
+                //
+                //
+
+
+
                 if (currentKey < 0) {
+
                     currentKey = playList.length - 1;
                 }
                 let newSelectedData = null;
@@ -142,7 +165,13 @@ const playControllerEvents = {
                 if (playingAlbum._id === currentAlbum._id) {
                     newSelectedData = playList[currentKey];
                     newSelectedKey = currentKey;
+
+
+
+
                 }
+
+
                 return {
                     playingState: Object.assign({}, playingState, {
                         playingData: playList[currentKey],
@@ -152,6 +181,9 @@ const playControllerEvents = {
                     selectedKey: newSelectedKey,
                     eventMap: Object.assign({}, eventMap, newEventMap),
                 };
+
+
+
             }, () => {
                 let {player} = this.state;
                 if (player) {

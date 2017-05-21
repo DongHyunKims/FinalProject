@@ -380,10 +380,6 @@ class App extends Component {
                     }
                 }
 
-                //
-
-
-
 
                 //여기 수정
                 let resetEventMap= {
