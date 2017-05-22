@@ -73,12 +73,8 @@ export default {
         event.stopPropagation();
     },
 
-
     updateAlbumClickHandler(data,_id,event){
-
-
         utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),"post","/albumList/updateAlbum/"+_id,utility.createFormData(data));
-
         event.stopPropagation();
     },
 

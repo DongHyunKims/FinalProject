@@ -650,7 +650,8 @@ class App extends Component {
                             }
                         },()=>{
                             let {eventMap, playingState} = this.state;
-                            let {curProgressBar, maxProgressBar, playing} = eventMap;
+                            let {curProgressBar, maxProgressBar} = eventMap;
+
                             //전부 삭제 되었으면
                             if(!playingState){
                                 let resetEventMap = { playing: false,
@@ -666,10 +667,18 @@ class App extends Component {
                         this.setState(()=>{
                             return { eventMap: Object.assign({}, eventMap, resetEventMap)};
                         });
-                    }else if(curProgressBar >= maxProgressBar){
+                        }else if(curProgressBar >= maxProgressBar){
+                                let { playingAlbum } = playingState;
+                                let { playList }  = playingAlbum;
 
-                        //끝나고 다음 행동을 여기서 정하면된다
-                        playControllerEvents.onChangeNextVideo();
+
+                                if(playList.length === 1) {
+                                    console.log("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf");
+                                    //끝나고 다음 행동을 여기서 정하면된다
+                                    player.playVideo();
+                                }else{
+                                    playControllerEvents.onChangeNextVideo();
+                                }
 
 
                         /*
