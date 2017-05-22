@@ -305,12 +305,25 @@ class App extends Component {
     _getAlbumReqListener(action,res){
         let jsonData = JSON.parse(res.currentTarget.responseText);
         switch (action){
-            case  ACTION_CONFIG.addPlayList : this.setState({
-                selectedVideoArr: [],
-                isSelectedArr: false,
-                isAllClearAddBtn: true,
-                totalDuration:0,
-                currentAlbum: jsonData
+            case  ACTION_CONFIG.addPlayList : this.setState((state)=>{
+                let { playingState } = state;
+                let newPlayingState = null;
+
+                if(playingState){
+                    newPlayingState = Object.assign({},playingState,{
+                        playingAlbum:jsonData,
+                    });
+                }
+
+                return {
+                        playingState : newPlayingState,
+                        selectedVideoArr: [],
+                        isSelectedArr: false,
+                        isAllClearAddBtn: true,
+                        totalDuration:0,
+                        currentAlbum: jsonData
+                    }
+
             });
             break;
 
@@ -530,7 +543,7 @@ class App extends Component {
               if(typeof videoArr !== "object"){
                 reject("wrong data")
               }else{
-                resolve(videoArr);
+                  resolve(videoArr);
               }
             }
           }.bind(this), "GET", contentDetailsUrl)
@@ -651,6 +664,8 @@ class App extends Component {
                         },()=>{
                             let {eventMap, playingState} = this.state;
                             let {curProgressBar, maxProgressBar} = eventMap;
+                            let {playingAlbum} = playingState;
+                            let {playList} = playingAlbum;
 
                             //전부 삭제 되었으면
                             if(!playingState){
@@ -661,30 +676,21 @@ class App extends Component {
                                     maxProgressBar: 0,
                                     preVolume: 50, // 볼륨 조절
                                     volume: 50, // 볼륨 조절
-                            soundOn: true,
-                        };
+                                    soundOn: true,
+                                };
+
                         clearInterval(this.interverId);
                         this.setState(()=>{
                             return { eventMap: Object.assign({}, eventMap, resetEventMap)};
                         });
                         }else if(curProgressBar >= maxProgressBar){
-                                let { playingAlbum } = playingState;
-                                let { playList }  = playingAlbum;
 
-
-                                if(playList.length === 1) {
-                                    console.log("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf");
-                                    //끝나고 다음 행동을 여기서 정하면된다
-                                    player.playVideo();
-                                }else{
-                                    playControllerEvents.onChangeNextVideo();
-                                }
-
-
+                            if(playList.length === 1){
+                                player.seekTo(0);
+                            }
+                            playControllerEvents.onChangeNextVideo();
                         /*
                             한곡 연속 재생일시 초기화 설정을 해주면 된다
-
-                            this.onPauseVideo(player);
                          */
                     }else{
                         return;

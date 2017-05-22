@@ -28,8 +28,6 @@ describe("utility selector test",function(){
 
 
 describe("utility Ajax test",function(){
-
-
     //Create Test
     it("should get Album data when receive runAjax request and response", function(done){
         const url = "./albumListData.json";
@@ -45,27 +43,19 @@ describe("utility Ajax test",function(){
         utility.runAjax(reqListener,"GET",url);
 
     });
-
-
-
-
 });
 
 
 
 describe("utility createFormData test",function(){
 
-
     //Create Test
     it("should get formData when input Object", function(){
-
-
         let testObj = {
             title : "title",
             // coverImgUrl : file,
             category : [1,2]
         };
-
 
 
         let resultFormData = utility.createFormData(testObj);

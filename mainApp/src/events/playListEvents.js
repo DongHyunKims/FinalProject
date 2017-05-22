@@ -2,8 +2,6 @@
  * Created by donghyunkim on 2017. 5. 15..
  */
 
-
-
 import utility from '../utility/utility';
 
 
@@ -86,13 +84,17 @@ export default {
 
     playListClickHandler(playList,key){
 
+
+
         let {eventMap} = this.state;
+        let prevKey = 0;
 
         this.setState((state) => {
             let {currentAlbum, playingState} = state;
             let newEventMap = null;
             if(playingState) {
                 let {playingKey} = playingState;
+                prevKey = playingKey;
                 if (key !== playingKey) {
                     newEventMap = {
                         playing: false,
@@ -102,6 +104,8 @@ export default {
                         maxProgressBar: 0,
                     };
                 }
+
+
             }
 
             return {
@@ -116,8 +120,16 @@ export default {
 
             };
         }, ()=>{
+
+
+            if(key === prevKey){
+                //clearInterval(this.interverId);
+                return;
+            }
             let {player} = this.state;
+
             if(player) {
+
                 this._setDuration(player);
             }
         });

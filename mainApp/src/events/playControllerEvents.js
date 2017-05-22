@@ -15,8 +15,12 @@ const playControllerEvents = {
     onPlayVideo(player) {
 
         if(player){
+
             let {eventMap} = this.state;
             let {playing} = eventMap;
+
+            console.log("player",player);
+            console.log("playing",playing);
             if(!playing) {
                 this.setState((state)=>{
                     return {
@@ -72,16 +76,18 @@ const playControllerEvents = {
                 maxProgressBar: 0,
             };
 
-            let {playingState} = this.state;
+            let { playingState } = this.state;
             let { playingAlbum } = playingState;
-            let {playList} = playingAlbum;
+            let { playList } = playingAlbum;
+
+
             if(playList.length === 1){
                 return ;
             }
 
 
             this.setState((state) => {
-                let {playingState, currentAlbum, eventMap} = state;
+                let {playingState, currentAlbum, eventMap,selectedData} = state;
                 let {playingAlbum, playingKey} = playingState;
 
                 let currentKey = playingKey + 1;
@@ -112,8 +118,16 @@ const playControllerEvents = {
 
                 };
             }, () => {
+
+
+
+
                 let {player} = this.state;
+
+
+
                 if (player) {
+                    clearInterval(this.interverId);
                     this._setDuration(player);
                 }
             });
@@ -148,8 +162,8 @@ const playControllerEvents = {
 
 
             this.setState((state) => {
-                let {playingState, currentAlbum} = state;
-                let {playingAlbum, playingKey} = playingState;
+                let {playingState, currentAlbum,selectedData} = state;
+                let {playingAlbum, playingKey, playingData} = playingState;
                 let currentKey = playingKey - 1;
                 let {playList} = playingAlbum;
                 //
@@ -166,11 +180,9 @@ const playControllerEvents = {
                 if (playingAlbum._id === currentAlbum._id) {
                     newSelectedData = playList[currentKey];
                     newSelectedKey = currentKey;
-
-
-
-
                 }
+
+
 
 
                 return {
@@ -183,11 +195,13 @@ const playControllerEvents = {
                     eventMap: Object.assign({}, eventMap, newEventMap),
                 };
 
-
-
             }, () => {
                 let {player} = this.state;
+
+
+
                 if (player) {
+                    clearInterval(this.interverId);
                     this._setDuration(player);
                 }
             });
