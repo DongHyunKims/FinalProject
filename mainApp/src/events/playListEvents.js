@@ -86,17 +86,23 @@ export default {
     playListClickHandler(playList,key){
 
         let {eventMap} = this.state;
+
+
         let prevPlayingData = null;
+        let prevPlayingAlbum = null;
 
         let prevKey = 0;
+
 
         this.setState((state) => {
             let {currentAlbum, playingState} = state;
             let newEventMap = null;
             if(playingState) {
-                let {playingKey,playingData} = playingState;
+
+                let {playingKey,playingData, playingAlbum} = playingState;
                 prevKey = playingKey;
                 prevPlayingData = playingData;
+                prevPlayingAlbum = playingAlbum;
                 if (key !== playingKey) {
                     newEventMap = {
                         playing: false,
@@ -123,21 +129,40 @@ export default {
             };
         }, ()=>{
 
-
-            if(key === prevKey){
-                //clearInterval(this.interverId);
-                return;
-            }
-
-
-
-
-
-            let {player, playingState, eventMap} = this.state;
+            let {player, playingState, eventMap,selectedData,currentAlbum} = this.state;
             let {playingData} = playingState;
+
+            
+
+
+
+                if(prevPlayingAlbum) {
+                    if (key === prevKey && currentAlbum._id === prevPlayingAlbum._id) {
+                        return;
+                        //clearInterval(this.interverId);
+
+                    }
+
+
+                    if (selectedData.videoId === prevPlayingData.videoId && currentAlbum._id !== prevPlayingAlbum._id) {
+                        clearInterval(this.interverId);
+                        player.seekTo(0);
+                    }
+                }
+
+
+
+
             let {playing} = eventMap;
+
             if(prevPlayingData) {
-                if (prevPlayingData.videoId === playingData.videoId && key !== prevKey) {
+
+
+
+
+
+
+                if (prevPlayingData.videoId === playingData.videoId && key !== prevKey ) {
                     clearInterval(this.interverId);
                     player.seekTo(0);
 
@@ -148,6 +173,7 @@ export default {
 
                 }
             }
+
 
 
 

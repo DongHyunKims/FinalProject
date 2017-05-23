@@ -41,7 +41,7 @@ class AlbumListItem extends Component{
 
         let albumItemContStyle = null;
         let albumTitleStyle = null;
-        let  albumDurationStyle = null;
+        let albumDurationStyle = null;
 
         if(playingAlbum){
             if(_id === playingAlbum._id){
@@ -50,8 +50,6 @@ class AlbumListItem extends Component{
                 albumDurationStyle = albumListItemStyle.albumDurationStyle;
             }
         }
-
-
 
 
         return(

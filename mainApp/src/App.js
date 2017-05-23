@@ -45,7 +45,7 @@ class App extends Component {
             //선택된 현재 앨범
             currentAlbum: null,
             updateAlbum: null,
-
+            deletedAlbumId : null,
             isAddClicked : false,
             isAlbumUpdateClicked : false,
 
@@ -206,34 +206,34 @@ class App extends Component {
 
 
     _getAllAlbumReqListener(action,res){
-        //console.log("jsonAlbumList",res.currentTarget.responseText);
 
         let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
 
         if(!jsonAlbumList.err){
             jsonAlbumList = jsonAlbumList.jsonAlbumList;
         }
-       // console.log("jsonAlbumList",jsonAlbumList);
 
         switch (action){
             // album 삭제 시
             case ACTION_CONFIG.deleteAlbum: this.setState((state)=>{
                 //console.log(jsonAlbumList);
                 // 엘범 리스크가 존재 하는 경우
+
+                let { playingState, currentAlbum, deletedAlbumId, albumList} = state;
                 let newState = {
                     deleteVideoCheckList : [],
                     checkIdxList : [],
                     selectAllIsChecked : false,
                 };
                 if(!jsonAlbumList.err){
-                    let { playingState, currentAlbum } = state;
+
 
                     //현재 play되고 있는 album이 존재하고 선택된 album과 play 되고 있는 album이 다를 경우
+
+
                     if(playingState){
                         let { playingAlbum,playingData, playingKey } = playingState;
-
-                        if(currentAlbum._id !== playingAlbum._id) {
-
+                        if(currentAlbum._id !== playingAlbum._id || deletedAlbumId !== playingAlbum._id) {
                             //현재 살아 있다면
                             return Object.assign({}, newState, {
                                 albumList: jsonAlbumList,
@@ -242,6 +242,7 @@ class App extends Component {
                                 selectedKey: playingKey,
                             });
                         }
+                        clearInterval(this.interverId);
                     }
                     return Object.assign({}, newState, {
                         albumList : jsonAlbumList,
@@ -252,7 +253,27 @@ class App extends Component {
                         playingState : null,
                     });
                 }
+
+
+
+
+                // if(playingState){
+                //     clearInterval(this.interverId);
+                // }
                 // 마지막 앨범을 삭제 한 경우
+
+                clearInterval(this.interverId);
+                let resetEventMap= {
+                    playing: false,
+                    curTime: '00:00', // 현재 재생 시간
+                    totalTime: '00:00', // 전체 비디오 재생 시간
+                    curProgressBar: 0,
+                    maxProgressBar: 0,
+                    preVolume: 50, // 볼륨 조절
+                    volume: 50, // 볼륨 조절
+                    soundOn: true,
+                };
+
                 return Object.assign({}, newState, {
                     albumList : null,
                     currentAlbum: null,
@@ -260,6 +281,7 @@ class App extends Component {
                     selectedKey : -1,
                     player: null,
                     playingState : null,
+                    eventMap : resetEventMap
                 });
             });
             break;
@@ -410,7 +432,6 @@ class App extends Component {
 
 
                 //
-                console.log("전체삭");
                 let resetEventMap= {
                     playing: false,
                     curTime: '00:00', // 현재 재생 시간
@@ -695,6 +716,7 @@ class App extends Component {
 
                             //전부 삭제 되었으면
                             if(!playingState){
+                                clearInterval(this.interverId);
                                 let resetEventMap = { playing: false,
                                     curTime: '00:00', // 현재 재생 시간
                                     totalTime: '00:00', // 전체 비디오 재생 시간
@@ -710,7 +732,7 @@ class App extends Component {
                             return { eventMap: Object.assign({}, eventMap, resetEventMap)};
                         });
                         }else if(curProgressBar >= maxProgressBar){
-
+                            clearInterval(this.interverId);
                             if(playList.length === 1){
                                 player.seekTo(0);
                             }
