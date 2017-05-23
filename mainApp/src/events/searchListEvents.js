@@ -13,16 +13,14 @@ const ACTION_CONFIG = {
 export default {
 
     searchVideo(keyword){
+        this.setState({
+            items : [],
+            nextPageToken : "",
+            selectedVideoArr : [],
+            isSearched : true,
+            isSelectedArr : false
 
-
-            this.setState({
-                items : [],
-                nextPageToken : "",
-                selectedVideoArr : [],
-                isSearched : true,
-                isSelectedArr : false
-
-            });
+        });
         let encodedKeword = encodeURI(keyword);
         this.searchUrl = config.DEFAULT_YOUTUBE_SEARCH_URL + "?part=snippet&maxResults=15&q="+encodedKeword+"&key="+config.YOUTUBE_KEY+"&type=video"
 
@@ -86,10 +84,22 @@ export default {
         let jsonData = JSON.stringify(insertData);
 
         utility.runAjaxData(function(e){
+          let status = e.target.status;
+          if(status === 500){
+            console.log("No Album")
+            //alert("album을 등록해주세요.")
+            this.showBanner("album을 등록해주세요.");
+            this.setState({
+                selectedVideoArr: [],
+                isSelectedArr: false,
+                isAllClearAddBtn: true,
+                totalDuration:0
+            });
+          }else{
             utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
+          }
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     },
-
 
     moreVideoList(){
         const url = this.searchUrl.concat("&pageToken="+this.state.nextPageToken);

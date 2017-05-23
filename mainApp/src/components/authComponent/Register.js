@@ -20,6 +20,7 @@ class Register extends React.Component{
     }
 
     this.postRegisterInfo = this.postRegisterInfo.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
 
@@ -59,7 +60,17 @@ class Register extends React.Component{
 
 
 
-    }.bind(this), "POST", "/register", JSON.stringify(userInfoObj), "application/json");
+    }.bind(this), "POST", "/auth/register", JSON.stringify(userInfoObj), "application/json");
+  }
+
+  handleKeyPress(e){
+    if(e.charCode===13){
+      this.postRegisterInfo();
+    }
+  }
+
+  componentDidMount(){
+    document.querySelector("#email").focus();
   }
 
   render(){
@@ -76,7 +87,7 @@ class Register extends React.Component{
     return(
       <div className="authBox">
         <h2>Register</h2>
-        <div className="loginForm">
+        <div className="loginForm" onKeyPress={this.handleKeyPress}>
           <div className="inputField">
             <input type="text" placeholder="Email" name="email" className="inputText" id="email"/>
           </div>

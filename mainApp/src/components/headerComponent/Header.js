@@ -18,7 +18,7 @@ class Header extends React.Component{
 
     utility.runAjax(function(e){
       this.props.reRender();
-    }.bind(this), "GET", "/logout")
+    }.bind(this), "GET", "/auth/logout")
   }
 
   render(){
