@@ -97,13 +97,15 @@ router.get("/insertAllAlbum",(req,res)=>{
 
 
 router.get("/getAllAlbumList",(req,res)=>{
+  console.log(req.user+" allllll")
     let { _id }  = req.user;
-
 
     User.find({ _id : _id }, (err,user)=>{
         if(err)           return res.status(500).send(err);
         if(!user.length) return res.status(404).send({ err: "User not found" });
         let albumIdList = user[0].albumList;
+
+        console.log(albumIdList)
 
         Album.find({
             '_id': { $in: albumIdList}
@@ -160,10 +162,6 @@ router.get("/deleteAlbum/:albumId",(req,res)=>{
 
     });
 });
-
-
-
-
 
 
 

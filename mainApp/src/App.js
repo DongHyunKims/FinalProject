@@ -147,6 +147,8 @@ class App extends Component {
         this._promiseGetDuration=this._promiseGetDuration.bind(this);
 
 
+
+
         //nav
         this.navClickHandler = this.navClickHandler.bind(this);
 
@@ -169,13 +171,27 @@ class App extends Component {
 
         this.reRender = this.reRender.bind(this);
 
+
+        //
+
+        this.showBanner = this.showBanner.bind(this);
+
     }
 
     componentDidMount(){
-
-
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
+
+    showBanner(words){
+      let snackbar = document.querySelector("#snackbar");
+      snackbar.innerHTML = words;
+      snackbar.classList.add("show");
+      setTimeout(function(){
+         snackbar.classList.remove("show");
+         snackbar.innerHTML = "";
+       }, 4000);
+    }
+
 
 
     //albumList
@@ -459,18 +475,22 @@ class App extends Component {
           utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
             let items = data['items'][0];
-              if (typeof (items) != 'undefined') {
-                  let viewCount = items.statistics.viewCount;
-                  videoArr[index].viewCount = viewCount;
-                  count++;
-                  if (count === videoArr.length) {
-                      if (typeof videoArr !== "object") {
-                          reject("wrong data")
-                      } else {
-                          resolve(videoArr);
-                      }
-                  }
-              }
+
+            if(typeof items === "undefined"){
+              videoArr[index].viewCount = 0;
+            }else{
+              let viewCount = items.statistics.viewCount;
+              videoArr[index].viewCount = viewCount;
+            }
+
+            count++;
+            if (count === videoArr.length) {
+                if (typeof videoArr !== "object") {
+                    reject("wrong data")
+                } else {
+                    resolve(videoArr);
+                }
+            }
           }.bind(this), "GET", statisticsUrl)
         })
       })
@@ -485,10 +505,17 @@ class App extends Component {
           let contentDetailsUrl =config.DEFAULT_YOUTUBE_DATA_URL +"?part=contentDetails&id="+item.videoId+"&key="+config.YOUTUBE_KEY+"";
           utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
-            let duration = data.items[0].contentDetails.duration;
-            let changedDuration = "";
-            changedDuration = moment.duration(duration, moment.ISO_8601)
-            videoArr[index].duration = changedDuration._milliseconds;
+            let items = data.items[0];
+
+            if(typeof items === "undefined"){
+              videoArr[index].duration = 0;
+            }else{
+              let duration = items.contentDetails.duration;
+              let changedDuration = "";
+              changedDuration = moment.duration(duration, moment.ISO_8601)
+              videoArr[index].duration = changedDuration._milliseconds;
+            }
+
             count++;
             if(count === videoArr.length){
               if(typeof videoArr !== "object"){
@@ -594,8 +621,6 @@ class App extends Component {
        },  this._setCurrentTime.bind(null, player));
    };
 
-
-
     _setCurrentTime(player) {
         let {eventMap} = this.state;
         if (eventMap.playing){
@@ -654,10 +679,7 @@ class App extends Component {
     }
 
     componentWillUnmount(){
-
-
       location.reload();
-
     }
 
 
@@ -796,6 +818,8 @@ class App extends Component {
                 offSound={playControllerEvents.offSound.bind(null,player)}
             />
 
+
+          <div id="snackbar"></div>
       </div>
     );
   }

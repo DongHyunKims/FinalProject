@@ -49,6 +49,11 @@ function convertObjToArr(arr,key){
 
 
 router.post("/videos", (req, res)=>{
+  if(req.body.albumId === null){
+    console.log("err",err);
+    return res.status(500).send(err);
+  }
+
   let { albumId, selectedVideoArr, totalDuration } = req.body;
 
   Album.find({_id:albumId}, (err, doc)=>{
