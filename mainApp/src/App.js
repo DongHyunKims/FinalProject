@@ -360,9 +360,7 @@ class App extends Component {
                 if(playingState) {
                     let {playingKey,playingAlbum} = playingState;
                     let {playList} = newCurrentAlbum;
-
-
-
+                    clearInterval(this.interverId);
 
                     if(!selectAllIsChecked) {
                         if (playingAlbum._id !== currentAlbum._id) {
@@ -403,19 +401,16 @@ class App extends Component {
                     }else{
                         if(playingAlbum._id !== currentAlbum._id){
                             return Object.assign({}, newState, {
-
                                 selectedData: null,
                                 selectedKey: -1,
                             });
                         }
-
-
-
                     }
                 }
 
 
-                //여기 수정
+                //
+                console.log("전체삭");
                 let resetEventMap= {
                     playing: false,
                     curTime: '00:00', // 현재 재생 시간
@@ -463,7 +458,6 @@ class App extends Component {
                         };
                     }
 
-
                     return {
                         selectedData: playingData,
                         selectedKey: playingKey,
@@ -473,8 +467,6 @@ class App extends Component {
                         currentAlbum: jsonData
                     };
                 }
-
-
 
                 return {
                     selectedData: null,
@@ -601,6 +593,8 @@ class App extends Component {
         }.bind(this))
     }
 
+
+
     //navComponent
     navClickHandler(event){
         let navIdx = event.target.id;
@@ -711,7 +705,7 @@ class App extends Component {
                                     soundOn: true,
                                 };
 
-                        clearInterval(this.interverId);
+
                         this.setState(()=>{
                             return { eventMap: Object.assign({}, eventMap, resetEventMap)};
                         });

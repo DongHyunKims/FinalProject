@@ -68,8 +68,11 @@ class AlbumListItem extends Component{
                          <div className="albumMenu" >
                                 <img src="./images/default/menu.png" />
                                 <div className="albumMenuBtn">
-                                    <button onClick={deleteAlbumClickHandler.bind(null,_id)}>앨범 삭제</button>
-                                    <button onClick={updateItemClickHandler.bind(null,data)}>앨범 수정</button>
+                                    <div className="floater"></div>
+                                    <div className="albumMenuBtnArea">
+                                    <button onClick={deleteAlbumClickHandler.bind(null,_id)} className="button">앨범 삭제</button>
+                                    <button onClick={updateItemClickHandler.bind(null,data)} className="button">앨범 수정</button>
+                                    </div>
                                 </div>
                          </div>
                     </div>

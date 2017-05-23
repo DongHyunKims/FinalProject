@@ -85,8 +85,6 @@ export default {
 
     playListClickHandler(playList,key){
 
-
-
         let {eventMap} = this.state;
         let prevPlayingData = null;
 
@@ -159,14 +157,11 @@ export default {
     },
 
     onReady(event) {
-        //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
-        // console.log(event);
+
         this.setState((state)=>{
             return { player: event.target }
         });
-        // this.state.player ? this._setDuration() : null;
-        //this.state.player ? this.getDuration() : null
-        //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
+
     },
 
 
