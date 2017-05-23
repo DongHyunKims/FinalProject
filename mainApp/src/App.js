@@ -147,6 +147,8 @@ class App extends Component {
         this._promiseGetDuration=this._promiseGetDuration.bind(this);
 
 
+
+
         //nav
         this.navClickHandler = this.navClickHandler.bind(this);
 
@@ -169,13 +171,27 @@ class App extends Component {
 
         this.reRender = this.reRender.bind(this);
 
+
+        //
+
+        this.showBanner = this.showBanner.bind(this);
+
     }
 
     componentDidMount(){
-
-
         utility.runAjax(this._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
+
+    showBanner(words){
+      let snackbar = document.querySelector("#snackbar");
+      snackbar.innerHTML = words;
+      snackbar.classList.add("show");
+      setTimeout(function(){
+         snackbar.classList.remove("show");
+         snackbar.innerHTML = "";
+       }, 4000);
+    }
+
 
 
     //albumList
@@ -802,6 +818,8 @@ class App extends Component {
                 offSound={playControllerEvents.offSound.bind(null,player)}
             />
 
+
+          <div id="snackbar"></div>
       </div>
     );
   }

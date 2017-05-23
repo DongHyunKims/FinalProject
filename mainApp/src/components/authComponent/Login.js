@@ -28,6 +28,7 @@ class Login extends React.Component{
     }
 
     this.setLogin = this.setLogin.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
 
@@ -72,7 +73,15 @@ class Login extends React.Component{
     }.bind(this), "POST", "/auth/login", JSON.stringify(loginObj), "application/json");
   }
 
+  handleKeyPress(e){
+    if(e.charCode===13){
+      this.setLogin();
+    }
+  }
 
+  componentDidMount(){
+    document.querySelector("#email").focus();
+  }
 
   render(){
 
@@ -86,7 +95,7 @@ class Login extends React.Component{
     }
 
     return(
-      <div className="authBox">
+      <div className="authBox" onKeyPress={this.handleKeyPress}>
         <h2>Login</h2>
         <div className="loginForm">
           <div className="inputField">
