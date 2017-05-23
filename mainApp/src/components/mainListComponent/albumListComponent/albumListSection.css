@@ -194,10 +194,19 @@
 
 
 #addItem{
-    background-color: #ff5366;
+    border : 1px solid lightgray;
 }
 
+#addItem > img{
+    width: 30%;
+    height: 30%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
 
+}
 
 
 

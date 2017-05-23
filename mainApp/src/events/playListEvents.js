@@ -136,16 +136,17 @@ export default {
             let {player, playingState, eventMap} = this.state;
             let {playingData} = playingState;
             let {playing} = eventMap;
+            if(prevPlayingData) {
+                if (prevPlayingData.videoId === playingData.videoId && key !== prevKey) {
+                    clearInterval(this.interverId);
+                    player.seekTo(0);
 
-            if(prevPlayingData.videoId === playingData.videoId && key !== prevKey){
-                clearInterval(this.interverId);
-                player.seekTo(0);
+                    if (!playing) {
+                        playControllerEvents.onPlayVideo(player);
+                        return;
+                    }
 
-                if(!playing){
-                    playControllerEvents.onPlayVideo(player);
-                    return;
                 }
-
             }
 
 
