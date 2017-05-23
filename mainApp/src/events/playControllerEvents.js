@@ -39,10 +39,7 @@ const playControllerEvents = {
     },
 
     onPauseVideo(player) {
-
-
         if(player) {
-
             let {eventMap} = this.state;
             if (eventMap.playing) {
                 this.setState((state) => {
@@ -66,6 +63,10 @@ const playControllerEvents = {
 
         let { player } = this.state;
 
+        let prevKey = -1;
+        let prevPlayingData = null;
+
+
         if(player) {
 
             let newEventMap = {
@@ -77,7 +78,9 @@ const playControllerEvents = {
             };
 
             let { playingState } = this.state;
-            let { playingAlbum } = playingState;
+            let { playingAlbum, playingKey, playingData } = playingState;
+            prevKey = playingKey;
+            prevPlayingData = playingData;
             let { playList } = playingAlbum;
 
 
@@ -87,7 +90,7 @@ const playControllerEvents = {
 
 
             this.setState((state) => {
-                let {playingState, currentAlbum, eventMap,selectedData} = state;
+                let {playingState, currentAlbum, eventMap} = state;
                 let {playingAlbum, playingKey} = playingState;
 
                 let currentKey = playingKey + 1;
@@ -102,7 +105,6 @@ const playControllerEvents = {
                 if (playingAlbum._id === currentAlbum._id) {
                     newSelectedData = playList[currentKey];
                     newSelectedKey = currentKey;
-
                 }
 
 
@@ -118,13 +120,20 @@ const playControllerEvents = {
 
                 };
             }, () => {
+                let {player,playingState,eventMap} = this.state;
+                let {playingData,playingKey} = playingState;
+                let {playing} = eventMap;
 
+                if(prevPlayingData.videoId === playingData.videoId && playingKey !== prevKey){
+                    clearInterval(this.interverId);
+                    player.seekTo(0);
+                    if(!playing){
 
+                        playControllerEvents.onPlayVideo(player);
+                        return;
+                    }
 
-
-                let {player} = this.state;
-
-
+                }
 
                 if (player) {
                     clearInterval(this.interverId);
@@ -140,10 +149,10 @@ const playControllerEvents = {
 
 
         let { player } = this.state;
+        let prevKey = -1;
+        let prevPlayingData = null;
 
         if(player) {
-
-
             let newEventMap = {
                 playing: false,
                 curTime: '00:00', // 현재 재생 시간
@@ -153,24 +162,19 @@ const playControllerEvents = {
             };
 
             let {eventMap,playingState} = this.state;
-            let { playingAlbum } = playingState;
+            let { playingAlbum,playingKey, playingData } = playingState;
+            prevKey = playingKey;
+            prevPlayingData = playingData;
             let {playList} = playingAlbum;
             if(playList.length === 1){
                 return ;
             }
 
-
-
             this.setState((state) => {
-                let {playingState, currentAlbum,selectedData} = state;
-                let {playingAlbum, playingKey, playingData} = playingState;
+                let {playingState, currentAlbum} = state;
+                let {playingAlbum, playingKey} = playingState;
                 let currentKey = playingKey - 1;
                 let {playList} = playingAlbum;
-                //
-                //
-
-
-
                 if (currentKey < 0) {
 
                     currentKey = playList.length - 1;
@@ -181,10 +185,6 @@ const playControllerEvents = {
                     newSelectedData = playList[currentKey];
                     newSelectedKey = currentKey;
                 }
-
-
-
-
                 return {
                     playingState: Object.assign({}, playingState, {
                         playingData: playList[currentKey],
@@ -194,12 +194,21 @@ const playControllerEvents = {
                     selectedKey: newSelectedKey,
                     eventMap: Object.assign({}, eventMap, newEventMap),
                 };
-
             }, () => {
-                let {player} = this.state;
+                let {player,playingState,eventMap} = this.state;
+                let {playingData,playingKey} = playingState;
+                let {playing} = eventMap;
 
+                if(prevPlayingData.videoId === playingData.videoId && playingKey !== prevKey){
+                    clearInterval(this.interverId);
+                    player.seekTo(0);
+                    if(!playing){
 
+                        playControllerEvents.onPlayVideo(player);
+                        return;
+                    }
 
+                }
                 if (player) {
                     clearInterval(this.interverId);
                     this._setDuration(player);
@@ -209,21 +218,17 @@ const playControllerEvents = {
 
     },
 
-    moveSeekBar(player,event){
+    moveSeekBar(player){
         let bar = utility.$selector("#seekBar");
         let maxVal = bar.max;
         let curVal = bar.value;
-
         //2초 전까지 클릭을 막는다
-        if(maxVal-2 > curVal){
+        if(maxVal-2 > curVal) {
             player.seekTo(curVal, true);
         }
-
-
     },
 
-
-    moveVolumeBar(player,event){
+    moveVolumeBar(player){
         if(player) {
             let bar = utility.$selector("#volumeBar");
             let volumeVal = bar.value;
@@ -232,8 +237,7 @@ const playControllerEvents = {
                 return {
                     eventMap: Object.assign({}, eventMap, {volume: volumeVal, preVolume: volumeVal}),
                 }
-
-            }, () => {
+            },() => {
                 let {eventMap}  = this.state;
                 player.setVolume(volumeVal);
                 if (eventMap.volume < 1) {
@@ -270,7 +274,7 @@ const playControllerEvents = {
                         eventMap: Object.assign({}, eventMap, {soundOn: false, volume: 0})
                     }
                 }
-                , () => {
+                ,() => {
                     player.mute();
 
                 });
