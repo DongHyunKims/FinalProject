@@ -18,16 +18,13 @@ const utility = {
         xhr.send();
     },
     runAjaxData : function(reqListener, method, url, data, contentType){
-
         let xhr = new XMLHttpRequest();
         //reqListener 제일 마지막에 실행된다.
-
         xhr.open(method, url);
         //xhr.setRequestHeader("Content-Type","application/json");
         if(contentType !== undefined){
             xhr.setRequestHeader("Content-Type",contentType);
         }
-
         xhr.send(data);
         xhr.addEventListener("load", reqListener);
     },
@@ -59,4 +56,3 @@ const utility = {
 
 };
 
-export default utility;

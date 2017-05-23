@@ -2,9 +2,8 @@
  * Created by donghyunkim on 2017. 5. 15..
  */
 
-
-
 import utility from '../utility/utility';
+import playControllerEvents from './playControllerEvents';
 
 
 
@@ -86,13 +85,20 @@ export default {
 
     playListClickHandler(playList,key){
 
+
+
         let {eventMap} = this.state;
+        let prevPlayingData = null;
+
+        let prevKey = 0;
 
         this.setState((state) => {
             let {currentAlbum, playingState} = state;
             let newEventMap = null;
             if(playingState) {
-                let {playingKey} = playingState;
+                let {playingKey,playingData} = playingState;
+                prevKey = playingKey;
+                prevPlayingData = playingData;
                 if (key !== playingKey) {
                     newEventMap = {
                         playing: false,
@@ -102,6 +108,8 @@ export default {
                         maxProgressBar: 0,
                     };
                 }
+
+
             }
 
             return {
@@ -116,7 +124,34 @@ export default {
 
             };
         }, ()=>{
-            let {player} = this.state;
+
+
+            if(key === prevKey){
+                //clearInterval(this.interverId);
+                return;
+            }
+
+
+
+
+
+            let {player, playingState, eventMap} = this.state;
+            let {playingData} = playingState;
+            let {playing} = eventMap;
+
+            if(prevPlayingData.videoId === playingData.videoId && key !== prevKey){
+                clearInterval(this.interverId);
+                player.seekTo(0);
+
+                if(!playing){
+                    playControllerEvents.onPlayVideo(player);
+                    return;
+                }
+
+            }
+
+
+
             if(player) {
                 this._setDuration(player);
             }

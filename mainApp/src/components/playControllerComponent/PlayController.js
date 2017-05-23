@@ -21,15 +21,7 @@ class PlayController extends React.Component {
   }
 
 
-  // onEndVideo() {
-  //   this.setState({
-  //     event_map: Object.assign({}, this.state.event_map, { playing: false }),
-  //   });
-  //   this.state.player.endVideo();
-  //   this.onChangeNextVideo();
-  // }
-  //
-  //
+
 
   
   render() {

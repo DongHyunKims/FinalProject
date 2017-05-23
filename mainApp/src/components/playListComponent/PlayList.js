@@ -13,31 +13,11 @@ class PlayList extends Component {
     constructor(props){
         super(props);
     }
-    //
-    // componentDidMount(){
-    //
-    //
-    //     let {onReady, onPlayerStateChange} = this.props;
-    //     let opts = {
-    //         // playerVars: { // https://developers.google.com/youtube/player_parameters
-    //         //     autoplay: 1
-    //         // },
-    //         width: "100%",
-    //         height: "100%",
-    //         playerVars: { // https://developers.google.com/youtube/player_parameters
-    //             autoplay: 0
-    //         }
-    //     };
-    //
-    //     this.youtubePlayer= <YoutubePlayerComponent videoId={"FqRgAs0SOpU"} opts={opts} onReady={onReady} onStateChange={onPlayerStateChange}/>;
-    //     console.log(this.youtubePlayer);
-    // }
-    //
-    //
+
 
 
     render(){
-        let {playState,playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,playListClickHandler,selectedKey,onReady,onPlayerStateChange} = this.props;
+        let {playState,playList,deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,playListClickHandler,selectedKey,onReady,onPlayerStateChange,videoState} = this.props;
        const opts = {
             playerVars: { // https://developers.google.com/youtube/player_parameters
                 autoplay:1,
@@ -49,7 +29,6 @@ class PlayList extends Component {
         let youtubePlayer = <div>loading...</div>;
         if(playState){
             let {playingData} = playState;
-
             let {videoId} = playingData;
              youtubePlayer = <YoutubePlayerComponent videoId={videoId} opts={opts} onReady={onReady}  onStateChange={onPlayerStateChange} />;
 
@@ -63,6 +42,7 @@ class PlayList extends Component {
               <PlayListSection
 
                   playList={playList}
+                  videoState={videoState}
                   playListClickHandler={playListClickHandler}
                   selectedKey={selectedKey}
                   deletePlayListBtnClickHandler={deletePlayListBtnClickHandler}
