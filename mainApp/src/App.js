@@ -865,6 +865,7 @@ class App extends Component {
                 isSelectedArr={isSelectedArr}
                 isAllClearAddBtn={isAllClearAddBtn}
                 isSearched = {isSearched}
+                player={player}
 
 
 

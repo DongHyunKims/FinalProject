@@ -132,34 +132,19 @@ export default {
             let {player, playingState, eventMap,selectedData,currentAlbum} = this.state;
             let {playingData} = playingState;
 
-            
-
-
-
-                if(prevPlayingAlbum) {
-                    if (key === prevKey && currentAlbum._id === prevPlayingAlbum._id) {
-                        return;
-                        //clearInterval(this.interverId);
-
-                    }
-
-
-                    if (selectedData.videoId === prevPlayingData.videoId && currentAlbum._id !== prevPlayingAlbum._id) {
-                        clearInterval(this.interverId);
-                        player.seekTo(0);
-                    }
-                }
-
-
-
 
             let {playing} = eventMap;
 
             if(prevPlayingData) {
 
+                 if (key === prevKey && currentAlbum._id === prevPlayingAlbum._id) {
+                        return;
+                 }
 
-
-
+                 if (selectedData.videoId === prevPlayingData.videoId && currentAlbum._id !== prevPlayingAlbum._id) {
+                     clearInterval(this.interverId);
+                     player.seekTo(0);
+                 }
 
 
                 if (prevPlayingData.videoId === playingData.videoId && key !== prevKey ) {
@@ -173,9 +158,6 @@ export default {
 
                 }
             }
-
-
-
 
             if(player) {
                 this._setDuration(player);
