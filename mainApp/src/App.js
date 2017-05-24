@@ -11,12 +11,10 @@ import MainList from './components/mainListComponent/MainList'
 import PlayListComponent from './components/playListComponent/PlayList';
 import PlayController from './components/playControllerComponent/PlayController';
 
-
 //libs, config
 import utility from './utility/utility';
 import config from './utility/config';
 import moment from 'moment'
-
 
 //events
 import playListEvents from "./events/playListEvents";
@@ -99,7 +97,6 @@ class App extends Component {
                 volume: 50, // 볼륨 조절
                 soundOn: true,
             },
-
 
         };
 
@@ -230,7 +227,7 @@ class App extends Component {
                     soundOn: true,
                 };
 
-                let { playingState, currentAlbum, deletedAlbumId, albumList} = state;
+                let { playingState, currentAlbum, deletedAlbumId} = state;
                 let newState = {
                     deleteVideoCheckList : [],
                     checkIdxList : [],
@@ -665,6 +662,8 @@ class App extends Component {
 
         }
         return "00:00";
+
+
 
     }
 
