@@ -14,7 +14,6 @@ class SearchInputSection extends React.Component{
 
     if(e.charCode===13){
         //console.log(e.target.value);
-
     }
 }
 

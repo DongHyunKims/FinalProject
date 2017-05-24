@@ -72,7 +72,7 @@ class SearchListItem extends React.Component{
           <p className="info">
             <span className="duration">{libs.changeDuration(data.duration)}</span>
             <span className="date">{this.changePublishedAtData(data.publishedAt)}</span>
-            <span className="viewCount">{data.viewCount} Views</span>
+            <span className="viewCount">{libs.checkNumUnit(data.viewCount)} Views</span>
           </p>
           <button
             className={this.state.isClickedAddBtn ? "addBtn add" : "addBtn"}

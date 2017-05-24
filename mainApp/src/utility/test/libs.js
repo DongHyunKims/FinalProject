@@ -54,6 +54,10 @@ const libs = {
       let figure = 0;
       let rest= 0;
 
+      if(num === 0){
+        str = "0"
+      }
+
       while(num !== 0){
         if(Math.floor(num / 1000) > 0){
 

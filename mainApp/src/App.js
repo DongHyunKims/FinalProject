@@ -568,11 +568,6 @@ class App extends Component {
           let contentDetailsUrl =config.DEFAULT_YOUTUBE_DATA_URL +"?part=contentDetails&id="+item.videoId+"&key="+config.YOUTUBE_KEY+"";
           utility.runAjax(function(e){
             let data = JSON.parse(e.target.responseText);
-
-            let duration = data.items[0].contentDetails.duration;
-            let changedDuration = moment.duration(duration, moment.ISO_8601)
-            videoArr[index].duration = changedDuration._milliseconds;
-
             let items = data.items[0];
 
             if(typeof items === "undefined"){
@@ -876,7 +871,10 @@ class App extends Component {
                 moreVideoList={searchListEvents.moreVideoList}
                 initSearchList = {searchListEvents.initSearchList}
             />
-            <Nav navClickHandler={this.navClickHandler}/>
+            <Nav
+              navClickHandler={this.navClickHandler}
+              navIdx={navIdx}
+            />
 
         </div>
             <PlayController
