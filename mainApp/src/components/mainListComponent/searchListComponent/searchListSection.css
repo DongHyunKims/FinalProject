@@ -45,6 +45,10 @@
   border-top:1px solid #d9d9d9;
 }
 
+.searchList li:hover{
+  background-color:#d9d9d9;
+}
+
 .searchList li:first-child{
   border-top:none;
 }
@@ -100,7 +104,7 @@
 
 .searchList li .itemCont .addBtn.add{
   color:#fff;
-  border:1px solid #d9d9d9;
+  border:1px solid #fff;
   background-color:#d9d9d9;
 }
 

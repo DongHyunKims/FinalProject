@@ -108,8 +108,6 @@ export default {
                         maxProgressBar: 0,
                     };
                 }
-
-
             }
 
             return {
