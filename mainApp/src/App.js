@@ -219,6 +219,17 @@ class App extends Component {
                 //console.log(jsonAlbumList);
                 // 엘범 리스크가 존재 하는 경우
 
+                let resetEventMap= {
+                    playing: false,
+                    curTime: '00:00', // 현재 재생 시간
+                    totalTime: '00:00', // 전체 비디오 재생 시간
+                    curProgressBar: 0,
+                    maxProgressBar: 0,
+                    preVolume: 50, // 볼륨 조절
+                    volume: 50, // 볼륨 조절
+                    soundOn: true,
+                };
+
                 let { playingState, currentAlbum, deletedAlbumId, albumList} = state;
                 let newState = {
                     deleteVideoCheckList : [],
@@ -234,6 +245,8 @@ class App extends Component {
                     if(playingState){
                         let { playingAlbum,playingData, playingKey } = playingState;
                         if(currentAlbum._id !== playingAlbum._id || deletedAlbumId !== playingAlbum._id) {
+
+
                             //현재 살아 있다면
                             return Object.assign({}, newState, {
                                 albumList: jsonAlbumList,
@@ -244,6 +257,8 @@ class App extends Component {
                         }
                         clearInterval(this.interverId);
                     }
+
+
                     return Object.assign({}, newState, {
                         albumList : jsonAlbumList,
                         currentAlbum: jsonAlbumList[0],
@@ -251,6 +266,7 @@ class App extends Component {
                         selectedKey : -1,
                         player: null,
                         playingState : null,
+                        eventMap : resetEventMap
                     });
                 }
 
@@ -263,16 +279,7 @@ class App extends Component {
                 // 마지막 앨범을 삭제 한 경우
 
                 clearInterval(this.interverId);
-                let resetEventMap= {
-                    playing: false,
-                    curTime: '00:00', // 현재 재생 시간
-                    totalTime: '00:00', // 전체 비디오 재생 시간
-                    curProgressBar: 0,
-                    maxProgressBar: 0,
-                    preVolume: 50, // 볼륨 조절
-                    volume: 50, // 볼륨 조절
-                    soundOn: true,
-                };
+
 
                 return Object.assign({}, newState, {
                     albumList : null,
@@ -344,23 +351,26 @@ class App extends Component {
         let jsonData = JSON.parse(res.currentTarget.responseText);
         switch (action){
             case  ACTION_CONFIG.addPlayList : this.setState((state)=>{
-                let { playingState } = state;
-                let newPlayingState = null;
+                // let { playingState } = state;
+                // let newPlayingState = null;
 
-                if(playingState){
-                    newPlayingState = Object.assign({},playingState,{
-                        playingAlbum:jsonData,
-                    });
+                // if(playingState){
+                //     newPlayingState = Object.assign({},playingState,{
+                //         playingAlbum:jsonData,
+                //     });
+                //
+                // }
+                return {
+                    // playingState : newPlayingState,
+                    selectedVideoArr: [],
+                    isSelectedArr: false,
+                    isAllClearAddBtn: true,
+                    totalDuration:0,
+                    currentAlbum: jsonData,
+                    selectedData: null,
+                    selectedKey: -1,
                 }
 
-                return {
-                        playingState : newPlayingState,
-                        selectedVideoArr: [],
-                        isSelectedArr: false,
-                        isAllClearAddBtn: true,
-                        totalDuration:0,
-                        currentAlbum: jsonData
-                    }
 
             });
             break;
