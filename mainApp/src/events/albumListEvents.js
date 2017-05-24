@@ -48,9 +48,20 @@ export default {
     },
 
     deleteAlbumClickHandler(albumId,event){
-        utility.runAjax(this._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
+
+        console.log("dddd",albumId);
+
+        this.setState(()=>{
+            return {deletedAlbumId:albumId}
+
+        },()=>{
+            utility.runAjax(this._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
+        });
+
+
         event.stopPropagation();
     },
+
 
     updateItemClickHandler(data,event){
         this.setState(()=>{

@@ -41,7 +41,7 @@ class AlbumListItem extends Component{
 
         let albumItemContStyle = null;
         let albumTitleStyle = null;
-        let  albumDurationStyle = null;
+        let albumDurationStyle = null;
 
         if(playingAlbum){
             if(_id === playingAlbum._id){
@@ -50,8 +50,6 @@ class AlbumListItem extends Component{
                 albumDurationStyle = albumListItemStyle.albumDurationStyle;
             }
         }
-
-
 
 
         return(
@@ -68,8 +66,11 @@ class AlbumListItem extends Component{
                          <div className="albumMenu" >
                                 <img src="./images/default/menu.png" />
                                 <div className="albumMenuBtn">
-                                    <button onClick={deleteAlbumClickHandler.bind(null,_id)}>앨범 삭제</button>
-                                    <button onClick={updateItemClickHandler.bind(null,data)}>앨범 수정</button>
+                                    <div className="floater"></div>
+                                    <div className="albumMenuBtnArea">
+                                    <button onClick={deleteAlbumClickHandler.bind(null,_id)} className="button">앨범 삭제</button>
+                                    <button onClick={updateItemClickHandler.bind(null,data)} className="button">앨범 수정</button>
+                                    </div>
                                 </div>
                          </div>
                     </div>

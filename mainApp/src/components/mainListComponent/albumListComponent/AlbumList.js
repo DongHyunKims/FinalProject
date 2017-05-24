@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import AlbumListItem from './AlbumListItem';
 import Modal from './Modal';
+import config from '../../../utility/config'
 
 
 
@@ -70,6 +71,8 @@ class AlbumList extends Component {
                 <ul className="albumList">
                     {renderingAlbumList}
                     <li id="addItem" onClick={addItemClickHandler}>
+                            <img src={config.DEFAULT_SERVER_URL + "/images/default/Add-100.png"} className="icon"/>
+
                     </li>
                 </ul>
                 {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler)}

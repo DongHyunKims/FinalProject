@@ -85,20 +85,24 @@ export default {
 
     playListClickHandler(playList,key){
 
-
-
         let {eventMap} = this.state;
+
+
         let prevPlayingData = null;
+        let prevPlayingAlbum = null;
 
         let prevKey = 0;
+
 
         this.setState((state) => {
             let {currentAlbum, playingState} = state;
             let newEventMap = null;
             if(playingState) {
-                let {playingKey,playingData} = playingState;
+
+                let {playingKey,playingData, playingAlbum} = playingState;
                 prevKey = playingKey;
                 prevPlayingData = playingData;
+                prevPlayingAlbum = playingAlbum;
                 if (key !== playingKey) {
                     newEventMap = {
                         playing: false,
@@ -125,30 +129,51 @@ export default {
             };
         }, ()=>{
 
-
-            if(key === prevKey){
-                //clearInterval(this.interverId);
-                return;
-            }
-
-
-
-
-
-            let {player, playingState, eventMap} = this.state;
+            let {player, playingState, eventMap,selectedData,currentAlbum} = this.state;
             let {playingData} = playingState;
-            let {playing} = eventMap;
 
-            if(prevPlayingData.videoId === playingData.videoId && key !== prevKey){
-                clearInterval(this.interverId);
-                player.seekTo(0);
+            
 
-                if(!playing){
-                    playControllerEvents.onPlayVideo(player);
-                    return;
+
+
+                if(prevPlayingAlbum) {
+                    if (key === prevKey && currentAlbum._id === prevPlayingAlbum._id) {
+                        return;
+                        //clearInterval(this.interverId);
+
+                    }
+
+
+                    if (selectedData.videoId === prevPlayingData.videoId && currentAlbum._id !== prevPlayingAlbum._id) {
+                        clearInterval(this.interverId);
+                        player.seekTo(0);
+                    }
                 }
 
+
+
+
+            let {playing} = eventMap;
+
+            if(prevPlayingData) {
+
+
+
+
+
+
+                if (prevPlayingData.videoId === playingData.videoId && key !== prevKey ) {
+                    clearInterval(this.interverId);
+                    player.seekTo(0);
+
+                    if (!playing) {
+                        playControllerEvents.onPlayVideo(player);
+                        return;
+                    }
+
+                }
             }
+
 
 
 
@@ -159,14 +184,11 @@ export default {
     },
 
     onReady(event) {
-        //console.log(`재생 될 비디오 아이디 : "${this.state.videoId}"`);
-        // console.log(event);
+
         this.setState((state)=>{
             return { player: event.target }
         });
-        // this.state.player ? this._setDuration() : null;
-        //this.state.player ? this.getDuration() : null
-        //console.log("재생 될 비디오 아이디", this.state.event_map.totalTime);
+
     },
 
 
