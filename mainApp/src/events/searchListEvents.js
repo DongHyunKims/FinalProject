@@ -1,5 +1,8 @@
 import utility from '../utility/utility';
 import config from '../utility/config';
+import libs from '../utility/libs';
+import privatePlayList from "../privateMethod/playList"
+import privateSearchList from "../privateMethod/searchList"
 
 const ACTION_CONFIG = {
     addPlayList : "addPlayList",
@@ -25,7 +28,7 @@ export default {
         this.searchUrl = config.DEFAULT_YOUTUBE_SEARCH_URL + "?part=snippet&maxResults=15&q="+encodedKeword+"&key="+config.YOUTUBE_KEY+"&type=video"
 
         //this._searchAgainVideo(this.searchUrl);
-        this._getVideoInfo(this.searchUrl);
+        privateSearchList._getVideoInfo(this.searchUrl);
     },
 
     addSelectedVideo(index){
@@ -88,7 +91,7 @@ export default {
           if(status === 500){
             console.log("No Album")
             //alert("album을 등록해주세요.")
-            this.showBanner("album을 등록해주세요.");
+            libs.showBanner("album을 등록해주세요.");
             this.setState({
                 selectedVideoArr: [],
                 isSelectedArr: false,
@@ -96,7 +99,7 @@ export default {
                 totalDuration:0
             });
           }else{
-            utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
+            utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
           }
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     },
@@ -111,7 +114,7 @@ export default {
 
         if((scrollHeight - scrollTop) === clientHeight){
             //this._searchAgainVideo(url)
-            this._getVideoInfo(url)
+            privateSearchList._getVideoInfo(url)
         }
     },
 

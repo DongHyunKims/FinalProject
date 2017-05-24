@@ -1,4 +1,5 @@
 import utility from '../utility/utility';
+import privatePlayController from "../privateMethod/playController"
 
 
 const ACTION_CONFIG = {
@@ -32,7 +33,7 @@ const playControllerEvents = {
                     }
                 },()=>{
                     player.playVideo();
-                    this._setDuration(player);
+                    privatePlayController._setDuration(player);
                 });
             }
         }
@@ -48,7 +49,7 @@ const playControllerEvents = {
                     }
                 }, () => {
                     player.pauseVideo(); //  이게 state를 바꾸고 2번으로 바꾸는 작업 계속 발생한다
-                    this._setCurrentTime(player)
+                    privatePlayController._setCurrentTime(player)
                 });
             }
 
@@ -137,7 +138,7 @@ const playControllerEvents = {
 
                 if (player) {
                     clearInterval(this.interverId);
-                    this._setDuration(player);
+                    privatePlayController._setDuration(player);
                 }
             });
 
@@ -211,7 +212,7 @@ const playControllerEvents = {
                 }
                 if (player) {
                     clearInterval(this.interverId);
-                    this._setDuration(player);
+                    privatePlayController._setDuration(player);
                 }
             });
         }
@@ -279,6 +280,26 @@ const playControllerEvents = {
 
                 });
         }
+    },
+
+    onPlayerStateChange(player,event) {
+        console.log("onPlayerStateChange");
+        if (event !== undefined){
+            this.setState({ videoState: event.data },()=>{
+                let { videoState } = this.state;
+                if(videoState===1){
+                    playControllerEvents.onPlayVideo(player);
+                }else if(videoState===2) {
+                    playControllerEvents.onPauseVideo(player);
+                }
+                else{
+                    return;
+                }
+            });
+
+
+        }
+
     }
 };
 

@@ -47,7 +47,17 @@ const libs = {
         //console.log(str)
         //console.log("hour = "+hour+" min = "+min+" sec = "+sec)
         return str
+    },
+    showBanner(words){
+        let snackbar = document.querySelector("#snackbar");
+        snackbar.innerHTML = words;
+        snackbar.classList.add("show");
+        setTimeout(function(){
+            snackbar.classList.remove("show");
+            snackbar.innerHTML = "";
+        }, 4000);
     }
+
 };
 
-module.exports = libs;
+export default libs

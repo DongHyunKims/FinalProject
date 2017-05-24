@@ -4,6 +4,7 @@
 
 import utility from '../utility/utility';
 import playControllerEvents from './playControllerEvents';
+import privatePlayList from "../privateMethod/playList"
 
 
 
@@ -18,7 +19,7 @@ export default {
             deleteList: deleteVideoCheckList
         };
         let jsonData = JSON.stringify(deleteData);
-        utility.runAjaxData(this._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
+        utility.runAjaxData(privatePlayList._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
     },
     //check click handler
     checkClickHandler(_id, duration,checkIdx, isChecked, event) {
