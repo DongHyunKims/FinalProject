@@ -20,8 +20,8 @@ const playControllerEvents = {
             let {eventMap} = this.state;
             let {playing} = eventMap;
 
-            console.log("player",player);
-            console.log("playing",playing);
+            //console.log("player",player);
+            //console.log("playing",playing);
             if(!playing) {
                 this.setState((state)=>{
                     return {
@@ -78,7 +78,7 @@ const playControllerEvents = {
                 maxProgressBar: 0,
             };
 
-            let { playingState } = this.state;
+            let { playingState,eventMap } = this.state;
             let { playingAlbum, playingKey, playingData } = playingState;
             prevKey = playingKey;
             prevPlayingData = playingData;
@@ -86,6 +86,9 @@ const playControllerEvents = {
 
 
             if(playList.length === 1){
+                this.setState(()=>{
+                     return {eventMap: Object.assign({}, eventMap, newEventMap)};
+                });
                 return ;
             }
 
@@ -168,7 +171,11 @@ const playControllerEvents = {
             prevPlayingData = playingData;
             let {playList} = playingAlbum;
             if(playList.length === 1){
-                return ;
+                this.setState(()=>{
+                    return {eventMap: Object.assign({}, eventMap, newEventMap)};
+                });
+                return;
+
             }
 
             this.setState((state) => {
@@ -195,6 +202,8 @@ const playControllerEvents = {
                     selectedKey: newSelectedKey,
                     eventMap: Object.assign({}, eventMap, newEventMap),
                 };
+
+
             }, () => {
                 let {player,playingState,eventMap} = this.state;
                 let {playingData,playingKey} = playingState;
@@ -204,7 +213,6 @@ const playControllerEvents = {
                     clearInterval(this.interverId);
                     player.seekTo(0);
                     if(!playing){
-
                         playControllerEvents.onPlayVideo(player);
                         return;
                     }
@@ -288,10 +296,10 @@ const playControllerEvents = {
             this.setState({ videoState: event.data },()=>{
                 let { videoState } = this.state;
                 if(videoState===1){
-                    console.log("1");
+                    //console.log("1");
                     playControllerEvents.onPlayVideo(player);
                 }else if(videoState===2) {
-                    console.log("2");
+                    //console.log("2");
                     playControllerEvents.onPauseVideo(player);
                 }
                 else{

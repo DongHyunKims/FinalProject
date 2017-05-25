@@ -24,7 +24,6 @@ const privatePlayList = {
 
                     let newPlayingState = {
                         playingAlbum : jsonData
-
                     };
 
                     if(playingState){
@@ -35,7 +34,6 @@ const privatePlayList = {
 
                         if(playingAlbum._id !== currentAlbum._id){
                             return {
-                                playingState : Object.assign({},playingState,newPlayingState),
                                 selectedVideoArr: [],
                                 isSelectedArr: false,
                                 isAllClearAddBtn: true,
@@ -76,6 +74,8 @@ const privatePlayList = {
                     let newCurrentAlbum = jsonData;
 
                     let {playingState, checkIdxList, selectAllIsChecked, currentAlbum, eventMap}  = state;
+                    //
+                    // let prePlayingDataId = null;
 
 
                     //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
@@ -90,7 +90,8 @@ const privatePlayList = {
                     if (playingState) {
 
 
-                        let {playingKey, playingAlbum} = playingState;
+                        let {playingKey, playingAlbum,playingData} = playingState;
+                        // prePlayingDataId = playingData._id;
                         let {playList} = newCurrentAlbum;
 
 
@@ -178,7 +179,8 @@ const privatePlayList = {
 
                 },()=>{
                     let {playingState} = this.state;
-                    if(playingState){
+                    let {playingAlbum} = playingState;
+                    if(playingAlbum.playList.length !== 1){
                         clearInterval(this.interverId);
                     }
 
