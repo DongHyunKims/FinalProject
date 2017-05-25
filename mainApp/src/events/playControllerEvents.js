@@ -288,8 +288,10 @@ const playControllerEvents = {
             this.setState({ videoState: event.data },()=>{
                 let { videoState } = this.state;
                 if(videoState===1){
+                    console.log("1");
                     playControllerEvents.onPlayVideo(player);
                 }else if(videoState===2) {
+                    console.log("2");
                     playControllerEvents.onPauseVideo(player);
                 }
                 else{

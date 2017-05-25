@@ -20,11 +20,33 @@ const privatePlayList = {
         switch (action) {
             case  ACTION_CONFIG.addPlayList :
                 this.setState((state) => {
-                    let { playingState } = state;
+                    let { playingState, currentAlbum } = state;
+
+                    let newPlayingState = {
+                        playingAlbum : jsonData
+
+                    };
 
                     if(playingState){
+
+                        let {playingAlbum} = playingState;
+
+
+
+                        if(playingAlbum._id !== currentAlbum._id){
+                            return {
+                                playingState : Object.assign({},playingState,newPlayingState),
+                                selectedVideoArr: [],
+                                isSelectedArr: false,
+                                isAllClearAddBtn: true,
+                                totalDuration: 0,
+                                currentAlbum: jsonData,
+                                selectedData: null,
+                                selectedKey: -1,
+                            }
+                        }
                         return {
-                            // playingState : newPlayingState,
+                            playingState : Object.assign({},playingState,newPlayingState),
                             selectedVideoArr: [],
                             isSelectedArr: false,
                             isAllClearAddBtn: true,
@@ -53,7 +75,9 @@ const privatePlayList = {
 
                     let newCurrentAlbum = jsonData;
 
-                    let {playingState, checkIdxList, selectAllIsChecked, currentAlbum}  = state;
+                    let {playingState, checkIdxList, selectAllIsChecked, currentAlbum, eventMap}  = state;
+
+
                     //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
                     let newState = {
                         deleteVideoCheckList: [],
@@ -62,11 +86,13 @@ const privatePlayList = {
                         currentAlbum: newCurrentAlbum
                     };
 
-
+                    //플레이 되고 있다면
                     if (playingState) {
+
+
                         let {playingKey, playingAlbum} = playingState;
                         let {playList} = newCurrentAlbum;
-                        clearInterval(this.interverId);
+
 
                         if (!selectAllIsChecked) {
                             if (playingAlbum._id !== currentAlbum._id) {
@@ -78,14 +104,25 @@ const privatePlayList = {
 
                             //삭제 리스트에 있는 경우
                             if (checkIdxList.indexOf(playingKey) !== -1) {
+
+                                //clearInterval(this.interverId);
+                                let newEventMap = {
+                                    playing: false,
+                                    curTime: '00:00', // 현재 재생 시간
+                                    totalTime: '00:00', // 전체 비디오 재생 시간
+                                    curProgressBar: 0,
+                                    maxProgressBar: 0,
+                                };
+
                                 return Object.assign({}, newState, {
-                                    playingState: Object.assign({}, playingState, {
+                                    playingState:  {
                                         playingAlbum: newCurrentAlbum,
                                         playingData: playList[0],
                                         playingKey: 0,
-                                    }),
+                                    },
                                     selectedData: playList[0],
                                     selectedKey: 0,
+                                    eventMap : Object.assign({}, eventMap, newEventMap),
                                 });
                             }
 
@@ -115,7 +152,8 @@ const privatePlayList = {
                     }
 
 
-                    //
+
+                    clearInterval(this.interverId);
                     let resetEventMap = {
                         playing: false,
                         curTime: '00:00', // 현재 재생 시간
@@ -138,9 +176,18 @@ const privatePlayList = {
                     });
 
 
-                }, () => {
-                    utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), "GET", "/albumList/getAllAlbumList");
+                },()=>{
+                    let {playingState} = this.state;
+                    if(playingState){
+                        clearInterval(this.interverId);
+                    }
+
                 });
+
+
+                    // () => {
+                    //     utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), "GET", "/albumList/getAllAlbumList");
+                    // }
                 break;
             case ACTION_CONFIG.resetPlayList :
                 this.setState((state, props) => {
