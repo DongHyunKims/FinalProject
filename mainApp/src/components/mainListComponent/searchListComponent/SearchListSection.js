@@ -13,8 +13,6 @@ import SearchList from "./SearchList"
  this.delSelectedVideo = this.delSelectedVideo.bind(this);
  this.changeIsAllClearAddBtn = this.changeIsAllClearAddBtn.bind(this);
  this.addSelectedVideoToAlbum = this.addSelectedVideoToAlbum.bind(this);
-
-
  */
 class MainList extends React.Component{
   constructor(){
