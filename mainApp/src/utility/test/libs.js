@@ -49,11 +49,14 @@ const libs = {
         return str
     },
 
-
     checkNumUnit : function(num){
       let str = "";
       let figure = 0;
       let rest= 0;
+
+      if(num === 0){
+        str = "0"
+      }
 
       while(num !== 0){
         if(Math.floor(num / 1000) > 0){
@@ -74,22 +77,7 @@ const libs = {
       }
 
       return str;
-
-    },
-
-
-
-    showBanner(words){
-        let snackbar = document.querySelector("#snackbar");
-        snackbar.innerHTML = words;
-        snackbar.classList.add("show");
-        setTimeout(function () {
-            snackbar.classList.remove("show");
-            snackbar.innerHTML = "";
-        }, 4000);
     }
-
 };
 
-
-export default libs
+module.exports = libs;

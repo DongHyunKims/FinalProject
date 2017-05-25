@@ -20,15 +20,19 @@ const privatePlayList = {
         switch (action) {
             case  ACTION_CONFIG.addPlayList :
                 this.setState((state) => {
-                    // let { playingState } = state;
-                    // let newPlayingState = null;
+                    let { playingState } = state;
 
-                    // if(playingState){
-                    //     newPlayingState = Object.assign({},playingState,{
-                    //         playingAlbum:jsonData,
-                    //     });
-                    //
-                    // }
+                    if(playingState){
+                        return {
+                            // playingState : newPlayingState,
+                            selectedVideoArr: [],
+                            isSelectedArr: false,
+                            isAllClearAddBtn: true,
+                            totalDuration: 0,
+                            currentAlbum: jsonData,
+                        }
+
+                    }
                     return {
                         // playingState : newPlayingState,
                         selectedVideoArr: [],
@@ -184,7 +188,7 @@ const privatePlayList = {
 
 
     _deletePlayListReqListener(_id, res){
-        utility.runAjax(privateAlbumList._getAlbumReqListener.bind(null, ACTION_CONFIG.deletePlayList), "GET", "/albumList/getAlbum/" + _id);
+        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null, ACTION_CONFIG.deletePlayList), "GET", "/albumList/getAlbum/" + _id);
     },
 
 };

@@ -65,9 +65,6 @@ const privateSearchList = {
                 utility.runAjax(function (e) {
                     let data = JSON.parse(e.target.responseText);
 
-                    let duration = data.items[0].contentDetails.duration;
-                    let changedDuration = moment.duration(duration, moment.ISO_8601)
-                    videoArr[index].duration = changedDuration._milliseconds;
 
                     let items = data.items[0];
 

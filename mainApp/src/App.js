@@ -43,6 +43,7 @@ class App extends Component {
         super(props);
         this.state = {
 
+
             //albumList
             albumList : null,
 
@@ -168,13 +169,8 @@ class App extends Component {
         playControllerEvents.onSound = playControllerEvents.onSound.bind(this);
         playControllerEvents.offSound = playControllerEvents.offSound.bind(this);
 
-        //
-
+        
         this.reRender = this.reRender.bind(this);
-
-
-        //
-
         libs.showBanner = libs.showBanner.bind(this);
 
     }
@@ -182,9 +178,6 @@ class App extends Component {
     componentDidMount(){
         utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
     }
-
-
-
 
 
 
@@ -342,7 +335,10 @@ class App extends Component {
                 moreVideoList={searchListEvents.moreVideoList}
                 initSearchList = {searchListEvents.initSearchList}
             />
-            <Nav navClickHandler={this.navClickHandler}/>
+            <Nav
+              navClickHandler={this.navClickHandler}
+              navIdx={navIdx}
+            />
 
         </div>
             <PlayController

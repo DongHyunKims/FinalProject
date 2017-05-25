@@ -9,6 +9,7 @@
 
 import utility from '../utility/utility';
 import privateAlbumList from "../privateMethod/albumList"
+import privatePlayList from "../privateMethod/playList"
 
 
 const ACTION_CONFIG = {
@@ -92,7 +93,7 @@ export default {
 
 
     albumClickHandler(_id,idx,event){
-        utility.runAjax(privateAlbumList._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
+        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
     }
 
 

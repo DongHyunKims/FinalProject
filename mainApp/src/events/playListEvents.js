@@ -5,6 +5,7 @@
 import utility from '../utility/utility';
 import playControllerEvents from './playControllerEvents';
 import privatePlayList from "../privateMethod/playList"
+import privatePlayController from "../privateMethod/playController"
 
 
 
@@ -113,8 +114,6 @@ export default {
                         maxProgressBar: 0,
                     };
                 }
-
-
             }
 
             return {
@@ -161,7 +160,7 @@ export default {
             }
 
             if(player) {
-                this._setDuration(player);
+                privatePlayController._setDuration(player);
             }
         });
     },
