@@ -15,45 +15,11 @@ import SearchList from "./SearchList"
  this.addSelectedVideoToAlbum = this.addSelectedVideoToAlbum.bind(this);
  */
 class MainList extends React.Component{
-  constructor(){
-    super()
-    this.state = {
-      // items : [],
-      // nextPageToken : "",
-      // selectedVideoArr : [],
-      // isSelectedArr : false,
-      // isAllClearAddBtn : false
-    };
-    //
-    // this.UTUBEKEY = "AIzaSyDIkMgAKPVBeKhZcwdDo_ijqPiiK8DbYsA";
-    // this.searchUrl = "";
-    // this.videoArr = [];
-    // this.nextPageToken = "";
-    // this.searchVideo = this.searchVideo.bind(this);
-
-    // this.addSelectedVideo = this.addSelectedVideo.bind(this);
-    // this.delSelectedVideo = this.delSelectedVideo.bind(this);
-    // this.addSelectedVideoToAlbum = this.addSelectedVideoToAlbum.bind(this);
-    // this.moreVideoList = this.moreVideoList.bind(this);
-    // this.searchAgainVideo = this.searchAgainVideo.bind(this);
-    // this.getVideoDuration = this.getVideoDuration.bind(this);
-    // this.getVideoViewCount = this.getVideoViewCount.bind(this);
-    // this.changeIsAllClearAddBtn = this.changeIsAllClearAddBtn.bind(this);
+  constructor(props){
+    super(props)
   }
 
-  // searchVideo(keyword){
-  //   this.setState({
-  //     items : [],
-  //     nextPageToken : "",
-  //     selectedVideoArr : []
-  //   });
-  //
-  //
-  //   let encodedKeword = encodeURI(keyword);
-  //   this.searchUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q="+encodedKeword+"&key="+this.UTUBEKEY+"&type=video"
-  //
-  //   this.searchAgainVideo(this.searchUrl);
-  // }
+
 
 /*
 map은 순서대로 도네?
@@ -75,152 +41,18 @@ render할때 그려지지 않았다.
 생긴다고 판단 하였다. 그래서 마지막 setState로 render해줄때 setTimeout을 사용하여 data가 모두 받아올 수 있는 시간을 확보하였다.
 */
 
-//   searchAgainVideo(searchUrl){
-//     utility.runAjax(function(e){
-//       let data = JSON.parse(e.target.responseText);
-//       this.nextPageToken = data.nextPageToken;
-//
-//
-//       this.videoArr = data.items.map((item, index) => {
-//         return {
-//           videoId : item.id.videoId,
-//           title : item.snippet.title,
-//           publishedAt : item.snippet.publishedAt,
-//           thumnail : item.snippet.thumbnails.default.url
-//         }
-//       })
-//
-//       this.getVideoViewCount();
-//
-//     }.bind(this), "GET", searchUrl)
-//   }
-//
-//   getVideoViewCount(){
-//     let count = 0;
-//     this.videoArr.map((item, index) => {
-//       let statisticsUrl = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id="+item.videoId+"&key="+this.UTUBEKEY+"";
-//       utility.runAjax(function(e){
-//
-//         let data = JSON.parse(e.target.responseText);
-//         let viewCount = data.items[0].statistics.viewCount;
-//         this.videoArr[index].viewCount = viewCount;
-//         count++;
-//         if(count === this.videoArr.length){
-//           this.getVideoDuration();
-//         }
-//       }.bind(this), "GET", statisticsUrl)
-//     })
-//   }
-// //함수형 setState, jsWeekly - redux를 써봐라, component를 가볍게 순수하게 component는 UI Render하는것에 집중, config 분리, 주석정리, 디버거사용 소스맵, map(forEach)
-//   getVideoDuration(){
-//     let count = 0;
-//     this.videoArr.map((item, index) => {
-//       let contentDetailsUrl = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id="+item.videoId+"&key="+this.UTUBEKEY+"";
-//       utility.runAjax(function(e){
-//         let data = JSON.parse(e.target.responseText);
-//         let duration = data.items[0].contentDetails.duration;
-//         let changedDuration = "";
-//
-//         changedDuration = moment.duration(duration, moment.ISO_8601)
-//         this.videoArr[index].duration = changedDuration._milliseconds;
-//
-//         count++;
-//         if(count === this.videoArr.length){
-//           this.setState({
-//             items : this.state.items.concat(this.videoArr),
-//             nextPageToken : this.nextPageToken
-//           })
-//         }
-//       }.bind(this), "GET", contentDetailsUrl)
-//     })
-//   }
-
-
-  // addSelectedVideo(index){
-  //   this.setState({
-  //     selectedVideoArr : this.state.selectedVideoArr.concat(this.state.items[index]),
-  //     isSelectedArr : true
-  //   })
-  // }
-
-  // delSelectedVideo(videoId){
-  //   let selectedVideoArr = [];
-  //   let isSelectedArr = false;
-  //
-  //   selectedVideoArr = [...this.state.selectedVideoArr];
-  //
-  //   selectedVideoArr.forEach((data, index)=>{
-  //     if(data.videoId === videoId){
-  //       selectedVideoArr.splice(index, 1);
-  //     }
-  //   })
-  //
-  //   if(selectedVideoArr.length !== 0){
-  //     isSelectedArr = true;
-  //   }
-  //
-  //   this.setState({
-  //     selectedVideoArr : [...selectedVideoArr],
-  //     isSelectedArr : isSelectedArr
-  //   })
-  // }
-
-  // addSelectedVideoToAlbum(_id){
-  //   let utilLayer = document.querySelector(".utilLayer");
-  //   utilLayer.classList.remove("show");
-  //
-  //   let insertData = {
-  //       albumId : _id,
-  //       selectedVideoArr : this.state.selectedVideoArr
-  //   };
-  //
-  //   let jsonData = JSON.stringify(insertData);
-  //   //console.log(jsonData)
-  //   utility.runAjaxData(function(e){
-  //     console.log(e)
-  //     this.setState({
-  //       selectedVideoArr : [],
-  //       isSelectedArr : false,
-  //       isAllClearAddBtn : true
-  //     })
-  //   }.bind(this), "POST", "/mainList/videos", jsonData, "application/json")
-  // }
-
-  // changeIsAllClearAddBtn(){
-  //   this.setState({
-  //     isAllClearAddBtn : false
-  //   })
-  // }
-
-
-
-  //utility.runAjaxData(this.deleteReqListener,"POST","/playList/deletePlayList", jsonData, "application/json");
-
-
-  // moreVideoList(){
-  //   const url = this.searchUrl.concat("&pageToken="+this.state.nextPageToken);
-  //
-  //   let searchList = document.querySelector(".searchList");
-  //   let scrollHeight  = searchList.scrollHeight;
-  //   let clientHeight  = searchList.clientHeight;
-  //   let scrollTop  = searchList.scrollTop;
-  //
-  //   if((scrollHeight - scrollTop) === clientHeight){
-  //     this.searchAgainVideo(url)
-  //   }
-  // }
-  //
 
   render(){
 
     //console.log(this.props)
     //console.log(this.state.selectedVideoArr);
 
-    let {addSelectedVideo,delSelectedVideo,changeIsAllClearAddBtn,addSelectedVideoToAlbum, items, moreVideoList,isSelectedArr,isAllClearAddBtn,searchVideo, isSearched} = this.props;
+    let {addSelectedVideo,delSelectedVideo,changeIsAllClearAddBtn,addSelectedVideoToAlbum, items, moreVideoList,isSelectedArr,isAllClearAddBtn,searchVideo, isSearched,player} = this.props;
 
     let renderSearchList = <div className="beforeSearchList">Search Youtube videos using the search bar!</div>
     if(isSearched){
       renderSearchList = <SearchList
+        player={player}
         items={items}
         addSelectedVideo={addSelectedVideo}
         delSelectedVideo={delSelectedVideo}

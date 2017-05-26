@@ -27,6 +27,7 @@ class MainList extends React.Component{
             searchVideo,
 
             isSearched,
+            player,
 
             //albumList
             albumList,
@@ -52,7 +53,7 @@ class MainList extends React.Component{
         let renderingMain = null;
         switch (navIdx){
             case "1" : renderingMain =  < SearchList
-
+                player={player}
                 items={items}
                 isSelectedArr={isSelectedArr}
                 isAllClearAddBtn={isAllClearAddBtn}

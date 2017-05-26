@@ -9,7 +9,7 @@ class Modal extends Component{
     constructor(props){
         super(props);
         this.state = {
-            title : "",
+            title : "Album",
             coverImgUrl : null,
             category : [],
         };

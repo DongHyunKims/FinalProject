@@ -4,8 +4,6 @@ import SearchListItem from "./SearchListItem"
 class SearchList extends React.Component{
   constructor(){
     super();
-
-
     this.makeListItem = this.makeListItem.bind(this);
   }
 
@@ -19,16 +17,12 @@ class SearchList extends React.Component{
               delSelectedVideo={this.props.delSelectedVideo}
               isAllClearAddBtn={this.props.isAllClearAddBtn}
               changeIsAllClearAddBtn={this.props.changeIsAllClearAddBtn}
+              player={this.props.player}
             />
     })
   }
 
   render(){
-
-    //let utilLayer = document.querySelector(".utilLayer");
-    //utilLayer.classList.remove("show");
-
-
     return(
       <div className="searchListWrap">
         <ul className="searchList" onScroll={this.props.moreVideoList}>

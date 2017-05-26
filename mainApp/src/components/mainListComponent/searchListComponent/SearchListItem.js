@@ -3,10 +3,11 @@ import React from "react"
 import timeago from 'timeago.js';
 import utility from '../../../utility/utility';
 import libs from '../../../utility/libs';
+import playControllerEvents from "../../../events/playControllerEvents"
 
 class SearchListItem extends React.Component{
-  constructor(){
-    super()
+  constructor(props){
+    super(props);
     this.state = {
       isClickedAddBtn : false,
       isPopupVideo :false
@@ -32,6 +33,8 @@ class SearchListItem extends React.Component{
 
 
   showPopupVideo(){
+
+    playControllerEvents.onPauseVideo(this.props.player);
     let videoId = this.props.data.videoId;
     let videoTitle = this.props.data.title;
     let videoUrl = "http://www.youtube.com/embed/"+videoId+"?autoplay=1&showinfo=0&rel=0&origin=http://example.com&controls=1"
@@ -53,7 +56,8 @@ class SearchListItem extends React.Component{
       }
 
       target.closest(".popupVideoWrap").remove();
-    })
+      playControllerEvents.onPlayVideo(this.props.player);
+    }.bind(this))
   }
 
 // 상위 콤포넌트에서 setState호출로 하위콤포넌트의 props값이 변경되었을때 하위콤포넌트의 값을 setState해주기 위해
