@@ -179,9 +179,11 @@ const privatePlayList = {
 
                 },()=>{
                     let {playingState} = this.state;
-                    let {playingAlbum} = playingState;
-                    if(playingAlbum.playList.length !== 1){
-                        clearInterval(this.interverId);
+                    if(playingState) {
+                        let {playingAlbum} = playingState;
+                        if (playingAlbum.playList.length !== 1) {
+                            clearInterval(this.interverId);
+                        }
                     }
 
                 });
