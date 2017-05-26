@@ -49,6 +49,7 @@ const libs = {
         return str
     },
 
+
     checkNumUnit : function(num){
       let str = "";
       let figure = 0;
@@ -73,7 +74,22 @@ const libs = {
       }
 
       return str;
+
+    },
+
+
+
+    showBanner(words){
+        let snackbar = document.querySelector("#snackbar");
+        snackbar.innerHTML = words;
+        snackbar.classList.add("show");
+        setTimeout(function () {
+            snackbar.classList.remove("show");
+            snackbar.innerHTML = "";
+        }, 4000);
     }
+
 };
 
-module.exports = libs;
+
+export default libs

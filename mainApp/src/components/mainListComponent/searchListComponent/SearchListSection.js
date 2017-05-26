@@ -49,11 +49,12 @@ render할때 그려지지 않았다.
     //console.log(this.props)
     //console.log(this.state.selectedVideoArr);
 
-    let {addSelectedVideo,delSelectedVideo,changeIsAllClearAddBtn,addSelectedVideoToAlbum, items, moreVideoList,isSelectedArr,isAllClearAddBtn,searchVideo, isSearched} = this.props;
+    let {addSelectedVideo,delSelectedVideo,changeIsAllClearAddBtn,addSelectedVideoToAlbum, items, moreVideoList,isSelectedArr,isAllClearAddBtn,searchVideo, isSearched,player} = this.props;
 
     let renderSearchList = <div className="beforeSearchList">Search Youtube videos using the search bar!</div>
     if(isSearched){
       renderSearchList = <SearchList
+        player={player}
         items={items}
         addSelectedVideo={addSelectedVideo}
         delSelectedVideo={delSelectedVideo}

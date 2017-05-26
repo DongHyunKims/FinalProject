@@ -19,6 +19,7 @@ class SearchList extends React.Component{
               delSelectedVideo={this.props.delSelectedVideo}
               isAllClearAddBtn={this.props.isAllClearAddBtn}
               changeIsAllClearAddBtn={this.props.changeIsAllClearAddBtn}
+              player={this.props.player}
             />
     })
   }

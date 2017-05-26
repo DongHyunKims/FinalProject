@@ -4,6 +4,8 @@
 
 import utility from '../utility/utility';
 import playControllerEvents from './playControllerEvents';
+import privatePlayList from "../privateMethod/playList"
+import privatePlayController from "../privateMethod/playController"
 
 
 
@@ -18,7 +20,7 @@ export default {
             deleteList: deleteVideoCheckList
         };
         let jsonData = JSON.stringify(deleteData);
-        utility.runAjaxData(this._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
+        utility.runAjaxData(privatePlayList._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
     },
     //check click handler
     checkClickHandler(_id, duration,checkIdx, isChecked, event) {
@@ -130,34 +132,19 @@ export default {
             let {player, playingState, eventMap,selectedData,currentAlbum} = this.state;
             let {playingData} = playingState;
 
-            
-
-
-
-                if(prevPlayingAlbum) {
-                    if (key === prevKey && currentAlbum._id === prevPlayingAlbum._id) {
-                        return;
-                        //clearInterval(this.interverId);
-
-                    }
-
-
-                    if (selectedData.videoId === prevPlayingData.videoId && currentAlbum._id !== prevPlayingAlbum._id) {
-                        clearInterval(this.interverId);
-                        player.seekTo(0);
-                    }
-                }
-
-
-
 
             let {playing} = eventMap;
 
             if(prevPlayingData) {
 
+                 if (key === prevKey && currentAlbum._id === prevPlayingAlbum._id) {
+                        return;
+                 }
 
-
-
+                 if (selectedData.videoId === prevPlayingData.videoId && currentAlbum._id !== prevPlayingAlbum._id) {
+                     clearInterval(this.interverId);
+                     player.seekTo(0);
+                 }
 
 
                 if (prevPlayingData.videoId === playingData.videoId && key !== prevKey ) {
@@ -172,11 +159,8 @@ export default {
                 }
             }
 
-
-
-
             if(player) {
-                this._setDuration(player);
+                privatePlayController._setDuration(player);
             }
         });
     },

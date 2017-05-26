@@ -8,6 +8,8 @@
 
 
 import utility from '../utility/utility';
+import privateAlbumList from "../privateMethod/albumList"
+import privatePlayList from "../privateMethod/playList"
 
 
 const ACTION_CONFIG = {
@@ -43,7 +45,7 @@ export default {
     addAlbumSubmitHandler(data){
 
 
-        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",utility.createFormData(data));
+        utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",utility.createFormData(data));
 
     },
 
@@ -55,7 +57,7 @@ export default {
             return {deletedAlbumId:albumId}
 
         },()=>{
-            utility.runAjax(this._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
+            utility.runAjax(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
         });
 
 
@@ -85,13 +87,13 @@ export default {
     },
 
     updateAlbumClickHandler(data,_id,event){
-        utility.runAjaxData(this._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),"post","/albumList/updateAlbum/"+_id,utility.createFormData(data));
+        utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),"post","/albumList/updateAlbum/"+_id,utility.createFormData(data));
         event.stopPropagation();
     },
 
 
     albumClickHandler(_id,idx,event){
-        utility.runAjax(this._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
+        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
     }
 
 
