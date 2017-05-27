@@ -35,9 +35,11 @@ Git 관리
       |        |        |
     기능01   기능02    기능03
 
-배포된 코드는 Master branch로 관리합니다
-그 밑에 Develop branch를 생성하여 개발과 리뷰가 끝난 코드를 관리합니다
-그 밑에 각각 팀원이 맡은 기능별로 branch를 만들어 해당 기능을 코딩합니다
+배포된 코드는 Master branch로 관리합니다.<br/>
+그 밑에 Develop branch를 생성하여 개발과 리뷰가 끝난 코드를 관리합니다.<br/>
+그 밑에 각각 팀원이 맡은 기능별로 branch를 만들어 해당 기능을 코딩합니다.<br/>
+해당 기능별 branch에서 작업이끝나면 pullrequest를 남기고 각팀원은 해당코드를 리뷰하여 이상이 없는지 확인한 뒤 Merge합니다
+.
 
 아래 URL에 있는 자료를 참고하였습니다
 https://guides.github.com/introduction/flow/
