@@ -41,20 +41,23 @@ class SearchListItem extends React.Component{
     let app = document.querySelector(".App");
     app.insertAdjacentHTML("beforeend",
     '<div class="popupVideoWrap"><div class="popup"><div class="title">'+videoTitle+'<button class="btnClose">X</button></div><iframe id="ytplayer" type="text/html" width="633" height="356" src='+videoUrl+' frameborder="0"/></div></div>;')
-    let btnClose = document.querySelector(".popupVideoWrap .btnClose");
-    this.hidePopupVideo(btnClose);
+
+    let popupVideoWrap = document.querySelector(".popupVideoWrap");
+    this.hidePopupVideo(popupVideoWrap);
   }
 
-  hidePopupVideo(btnClose){
-    btnClose.addEventListener("click", (e)=>{
-
+  hidePopupVideo(ele){
+    let popup = document.querySelector(".popupVideoWrap .popup")
+    ele.addEventListener("click", function(e){
       let target = e.target;
+
+      if(target.classList.contains("popup") || target.classList.contains("title")){
+        return;
+      }
+
       target.closest(".popupVideoWrap").remove();
-        playControllerEvents.onPlayVideo(this.props.player);
-
-
-
-    })
+      playControllerEvents.onPlayVideo(this.props.player);
+    }.bind(this))
   }
 
 // 상위 콤포넌트에서 setState호출로 하위콤포넌트의 props값이 변경되었을때 하위콤포넌트의 값을 setState해주기 위해
