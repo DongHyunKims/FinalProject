@@ -3,6 +3,7 @@
  */
 
 import utility from '../utility/utility';
+import config from '../utility/config';
 import privateAlbumList from  './albumList'
 const ACTION_CONFIG = {
     addPlayList : "addPlayList",
@@ -174,6 +175,7 @@ const privatePlayList = {
 
 
                 },()=>{
+                    const {HTTP_METHOD} = config;
                     let {playingState} = this.state;
                     if(playingState) {
                         let {playingAlbum} = playingState;
@@ -181,7 +183,7 @@ const privatePlayList = {
                             clearInterval(this.interverId);
                         }
                     }
-                    utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), "GET", "/albumList/getAllAlbumList");
+                    utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), HTTP_METHOD.GET, "/albumList/albums");
 
                 });
                 break;
@@ -229,8 +231,9 @@ const privatePlayList = {
     },
 
 
-    _deletePlayListReqListener(_id, res){
-        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null, ACTION_CONFIG.deletePlayList), "GET", "/albumList/getAlbum/" + _id);
+    _deletePlayListReqListener(albumId, res){
+        const {HTTP_METHOD} = config;
+        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null, ACTION_CONFIG.deletePlayList), HTTP_METHOD.GET, "/albumList/albums/" + albumId);
     },
 
 };

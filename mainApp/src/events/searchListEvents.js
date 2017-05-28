@@ -64,7 +64,6 @@ export default {
         this.setState({
             selectedVideoArr : [...selectedVideoArr],
             isSelectedArr : isSelectedArr,
-
             totalDuration : totalDuration
         })
     },
@@ -103,7 +102,7 @@ export default {
           }else{
             utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), HTTP_METHOD.GET, "/albumList/albums/"+albumId);
           }
-        }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
+        }.bind(this), HTTP_METHOD.POST, "/playList/videos", jsonData, "application/json")
     },
 
     moreVideoList(){
