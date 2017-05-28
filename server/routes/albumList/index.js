@@ -97,27 +97,30 @@ router.get("/insertAllAlbum",(req,res)=>{
 // 전체 AlbumList 가져오는 라우터
 
 
+
+
 router.get("/albums",(req,res)=>{
     let { _id }  = req.user;
 
-    User.find({ _id : _id }, (err,user)=>{
-        if(err)           return res.status(500).send(err);
-        if(!user.length) return res.status(404).send({ err: "User not found" });
-        let albumIdList = user[0].albumList;
-
-        console.log(albumIdList)
-
-        Album.find({
-            '_id': { $in: albumIdList}
-        }, function(err, albums){
+    User.find({ _id : _id }).exec()
+        .then((user)=>{
+            console.log("ffff",user);
+            let albumIdList = user[0].albumList;
+            return  Album.find({
+                '_id': { $in: albumIdList}
+            }).exec();
+        })
+        .catch((err)=>{
+            if(err)           return res.status(500).send(err);
+            if(!user.length) return res.status(404).send({ err: "User not found" });
+        })
+        .then((albums)=>{
+            console.log("ddd",albums);
+            res.json({jsonAlbumList:albums});
+        }).catch((err)=>{
             if(err)           return res.status(500).send(err);
             if(!albums.length) return res.send({ err: "Albums not found" });
-            res.json({jsonAlbumList:albums});
-
         });
-
-        //res.json({jsonAlbumList:albumList});
-    });
 
 });
 
