@@ -6,6 +6,8 @@ import config from '../utility/config';
 import moment from 'moment'
 const privateSearchList = {
     _promiseSearch(url){
+
+        const {HTTP_METHOD} = config;
         return new Promise(function (resolve, reject) {
             utility.runAjax(function (e) {
                 let data = JSON.parse(e.target.responseText);
@@ -23,11 +25,12 @@ const privateSearchList = {
                 } else {
                     resolve(videoArr);
                 }
-            }.bind(this), "GET", url)
+            }.bind(this), HTTP_METHOD.GET, url)
         }.bind(this))
     },
 
     _promiseGetViewCount(videoArr){
+        const {HTTP_METHOD} = config;
         let count = 0;
         return new Promise(function (resolve, reject) {
             videoArr.forEach((item, index) => {
@@ -51,13 +54,13 @@ const privateSearchList = {
                             resolve(videoArr);
                         }
                     }
-                }.bind(this), "GET", statisticsUrl)
+                }.bind(this), HTTP_METHOD.GET, statisticsUrl)
             })
         })
     },
 
     _promiseGetDuration(videoArr){
-
+        const {HTTP_METHOD} = config;
         let count = 0;
         return new Promise(function (resolve, reject) {
             videoArr.forEach((item, index) => {
@@ -86,7 +89,7 @@ const privateSearchList = {
                             resolve(videoArr);
                         }
                     }
-                }.bind(this), "GET", contentDetailsUrl)
+                }.bind(this), HTTP_METHOD.GET, contentDetailsUrl)
             })
         })
     },

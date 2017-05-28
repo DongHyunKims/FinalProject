@@ -3,6 +3,7 @@
  */
 
 import utility from '../utility/utility';
+import config from '../utility/config';
 import playControllerEvents from './playControllerEvents';
 import privatePlayList from "../privateMethod/playList"
 import privatePlayController from "../privateMethod/playController"
@@ -13,6 +14,7 @@ import privatePlayController from "../privateMethod/playController"
 export default {
     //삭제버튼 클릭 handler
     deletePlayListBtnClickHandler(){
+        const {HTTP_METHOD} = config;
         let { deleteVideoCheckList,currentAlbum } = this.state;
         let { _id } = currentAlbum;
         let deleteData = {
@@ -20,7 +22,7 @@ export default {
             deleteList: deleteVideoCheckList
         };
         let jsonData = JSON.stringify(deleteData);
-        utility.runAjaxData(privatePlayList._deletePlayListReqListener.bind(null,_id),"POST","/playList/deletePlayList", jsonData, "application/json");
+        utility.runAjaxData(privatePlayList._deletePlayListReqListener.bind(null,_id),HTTP_METHOD.DELETE,"/playList/videos", jsonData, "application/json");
     },
     //check click handler
     checkClickHandler(_id, duration,checkIdx, isChecked, event) {

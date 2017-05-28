@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({extended : true}));
 
 
 
-router.post("/deletePlayList",(req,res)=>{
+router.delete("/videos",(req,res)=>{
 
 
     let { deleteList,albumId }= req.body;

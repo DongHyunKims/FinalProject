@@ -22,7 +22,6 @@ const privatePlayList = {
             case  ACTION_CONFIG.addPlayList :
                 this.setState((state) => {
                     let { playingState, currentAlbum } = state;
-
                     let newPlayingState = {
                         playingAlbum : jsonData
                     };
@@ -69,7 +68,6 @@ const privatePlayList = {
                 this.setState((state) => {
 
                     let newCurrentAlbum = jsonData;
-
                     let {playingState, checkIdxList, selectAllIsChecked, currentAlbum, eventMap}  = state;
                     //
                     // let prePlayingDataId = null;
@@ -85,8 +83,6 @@ const privatePlayList = {
 
                     //플레이 되고 있다면
                     if (playingState) {
-
-
                         let {playingKey, playingAlbum,playingData} = playingState;
                         // prePlayingDataId = playingData._id;
                         let {playList} = newCurrentAlbum;
