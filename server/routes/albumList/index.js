@@ -167,25 +167,6 @@ router.delete("/albums/:albumId",(req,res)=>{
             if(err)  return res.status(500).send(err);
         });
 
-
-
-
-    // Album.findByIdAndRemove(albumId,(err,doc)=>{
-    //
-    //
-    //     User.findOne({ _id: _id},(err,user)=>{
-    //         if(err)  return res.status(500).send(err);
-    //         user.albumList = albumList;
-    //         user.save((err,doc)=>{
-    //             if(err)  return res.status(500).send(err);
-    //             res.json(doc);
-    //         })
-    //
-    //     });
-    //
-    //
-    //
-    // });
 });
 
 
@@ -214,21 +195,28 @@ router.post("/albums",upload.single('coverImgUrl'),(req,res)=>{
     });
 
 
-    User.findOne({_id: _id}, (err, user)=>{
-        if(err) return res.status(500).send(err);
-
-
-        user.albumList.push(album._id);
-        user.save((err,doc)=>{
+    User.findOne({_id: _id}).exec()
+        .then((user)=>{
+            user.albumList.push(album._id);
+            user.save();
+        })
+        .catch((err)=>{
             if(err) return res.status(500).send(err);
-            album.save((err,doc)=>{
-                console.log(err);
-                if(err) return res.status(500).send(err);
-                res.send(doc);
-            })
-
+        })
+        .then(()=>{
+            album.save();
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
+        })
+        .then((doc)=>{
+            res.send(doc);
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
         });
-    });
+
+
 
 
 });
@@ -248,19 +236,24 @@ router.put("/albums/:albumId",upload.single('coverImgUrl'),(req,res)=>{
         path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
     }
 
-    Album.findOne({_id: albumId}, (err, doc)=>{
 
-        if(err) return res.status(500).send(err);
-        doc.title = title;
-        doc.category = JSON.parse(category);
-        doc.coverImgUrl = path;
-        doc.save((err,doc)=>{
-            console.log(err);
+    Album.findOne({_id: albumId}).exec()
+        .then((doc)=>{
+            doc.title = title;
+            doc.category = JSON.parse(category);
+            doc.coverImgUrl = path;
+            return  doc.save();
+        })
+        .catch((err)=>{
             if(err) return res.status(500).send(err);
+        })
+        .then((doc)=>{
             res.send(doc);
-
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
         });
-    });
+
 
 
 
