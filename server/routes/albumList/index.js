@@ -97,7 +97,7 @@ router.get("/insertAllAlbum",(req,res)=>{
 
 
 router.get("/getAllAlbumList",(req,res)=>{
-  console.log(req.user+" allllll")
+  //console.log(req.user+" allllll")
     let { _id }  = req.user;
 
     User.find({ _id : _id }, (err,user)=>{

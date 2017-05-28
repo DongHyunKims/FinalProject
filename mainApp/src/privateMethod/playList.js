@@ -27,11 +27,7 @@ const privatePlayList = {
                     };
 
                     if(playingState){
-
                         let {playingAlbum} = playingState;
-
-
-
                         if(playingAlbum._id !== currentAlbum._id){
                             return {
                                 selectedVideoArr: [],
@@ -185,17 +181,12 @@ const privatePlayList = {
                             clearInterval(this.interverId);
                         }
                     }
+                    utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), "GET", "/albumList/getAllAlbumList");
 
                 });
-
-
-                    // () => {
-                    //     utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), "GET", "/albumList/getAllAlbumList");
-                    // }
                 break;
             case ACTION_CONFIG.resetPlayList :
                 this.setState((state, props) => {
-
 
                     let {playingState}  = state;
                     //무언가 play 되고있다

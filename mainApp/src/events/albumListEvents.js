@@ -44,14 +44,11 @@ export default {
 
     addAlbumSubmitHandler(data){
 
-
         utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",utility.createFormData(data));
 
     },
 
     deleteAlbumClickHandler(albumId,event){
-
-        console.log("dddd",albumId);
 
         this.setState(()=>{
             return {deletedAlbumId:albumId}
