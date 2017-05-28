@@ -58,8 +58,6 @@ https://github.com/DongHyunKims/jinniecast/wiki/Daily-Note
 
 https://github.com/DongHyunKims/jinniecast/milestones
 
-## Team Rule
-
 ## Project management
 
 1. versition control system
