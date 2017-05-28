@@ -9,13 +9,13 @@ jinniecast는 Youtube에서 검색되어진 동영상을 자신만의 앨범별�
 적용된 기술
 ============
 
-## Front-End
+### Front-End
 * HTML5
 * CSS3
 * JavaScript
 * React.js
 
-## Back-End
+### Back-End
 * Node.js
 * Express.js
 * MongoDB
