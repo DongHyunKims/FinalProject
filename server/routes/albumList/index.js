@@ -104,7 +104,6 @@ router.get("/albums",(req,res)=>{
 
     User.find({ _id : _id }).exec()
         .then((user)=>{
-            console.log("ffff",user);
             let albumIdList = user[0].albumList;
             return  Album.find({
                 '_id': { $in: albumIdList}
@@ -115,7 +114,6 @@ router.get("/albums",(req,res)=>{
             if(!user.length) return res.status(404).send({ err: "User not found" });
         })
         .then((albums)=>{
-            console.log("ddd",albums);
             res.json({jsonAlbumList:albums});
         }).catch((err)=>{
             if(err)           return res.status(500).send(err);
@@ -139,31 +137,55 @@ router.get("/albums/:albumId",(req,res)=>{
 
 router.delete("/albums/:albumId",(req,res)=>{
     let { albumId }   = req.params;
-    let { _id,albumList }  = req.user;
 
-
+    let { _id ,albumList}  = req.user;
     albumList.splice(albumList.indexOf(albumId),1);
-    console.log("albumList",albumList);
+
     //let objectAlbumId = createObjectId(albumId);
 
 
-    Album.findByIdAndRemove(albumId,(err,doc)=>{
-        if(err)  return res.status(500).send(err);
-        //console.log("album",album);
+    //console.log("_id",_id);
 
-        User.findOne({ _id: _id},(err,user)=>{
-            if(err)  return res.status(500).send(err);
+    Album.findByIdAndRemove(albumId).exec()
+        .then((doc)=>{
+            return User.findOne({ _id: _id}).exec();
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
+        })
+        .then((user)=>{
             user.albumList = albumList;
-            user.save((err,doc)=>{
-                if(err)  return res.status(500).send(err);
-                res.json(doc);
-            })
-
+            return user.save();
+        })
+        .catch((err)=>{
+            if(err)  return res.status(500).send(err);
+        })
+        .then((doc)=>{
+            res.json(doc);
+        })
+        .catch((err)=>{
+            if(err)  return res.status(500).send(err);
         });
 
 
 
-    });
+
+    // Album.findByIdAndRemove(albumId,(err,doc)=>{
+    //
+    //
+    //     User.findOne({ _id: _id},(err,user)=>{
+    //         if(err)  return res.status(500).send(err);
+    //         user.albumList = albumList;
+    //         user.save((err,doc)=>{
+    //             if(err)  return res.status(500).send(err);
+    //             res.json(doc);
+    //         })
+    //
+    //     });
+    //
+    //
+    //
+    // });
 });
 
 
