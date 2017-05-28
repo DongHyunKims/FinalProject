@@ -45,20 +45,20 @@ https://guides.github.com/introduction/flow/
 
 프로젝트 관리
 ============
-## 일일단위 회의
+### 일일단위 회의
 매일 팀원들과 전날까지 각자 진행했던 업무와 겪은 문제점을 공유합니다.<br/>
 그리고 오늘 하루 어떠한 업무를 진행할 예정인지도 파악한 후 Daily-Note에 기록을 저장하여 관리하고 있습니다.<br/>
 
 https://github.com/DongHyunKims/jinniecast/wiki/Daily-Note
 
-## 주단위 회의
+### 주단위 회의
 한주간 진행할 업무의 내용을 milestones으로 미리 정해두었습니다.<br/>
 매주 한주의 업무가 끝날때 마다 예정된 일정대로 업무가 제대로 진행되었는지 파악하고 한주를 되돌아보는 시간을 갖습니다.<br/>
 그리고 차주에 진행할 업무사항을 금요일 오후 마다 논의하고 .<br/>
 
 https://github.com/DongHyunKims/jinniecast/milestones
 
-## Project management
+### Project management
 
 1. versition control system
    github
@@ -71,7 +71,7 @@ https://github.com/DongHyunKims/jinniecast/milestones
 5. document
    google docs
 
-## Common Rule
+### Common Rule
 
 1. 매일 오전에 10분수준의 스탠드업 미팅. (업무보고가 아니다) 10시 30분, 최대한 개인 작업 전 진행 
    어제 한일 
@@ -81,7 +81,7 @@ https://github.com/DongHyunKims/jinniecast/milestones
 4. 우리팀 활동에 대해 잘한점, 개선할점을 이야기.
 5. 팀이 모든 것을 변경할 수 있고, 지속적으로 개선하려고 노력.
 
-## Team Rule
+### Team Rule
 
 - 출석 : 참여 못할지 전날에 슬랙으로 알려준다. 
 - daily note : 12시 전까지 작성해서 wiki daily note 페이지 업로드. 다음날 목표, done, ready, doing, 궁금한점, 회고 2~4줄
@@ -91,7 +91,7 @@ https://github.com/DongHyunKims/jinniecast/milestones
 - 공부 기록도 이슈로 남기기
 - 일주일에 한번 외식(맛집 탐방) 및 카페코딩(즐거움은 더 생각 하도록) 
 
-## Team code convention
+### Team code convention
 
 - editor는 자유
 - commit 로그 통일
@@ -105,7 +105,7 @@ https://github.com/DongHyunKims/jinniecast/milestones
 - 이슈 close 이후 완성된 내용 comment
 - 백로그(엑셀) 있는 것을 GITHUB이슈에 작성한다. 설명에 기능, 소요시간, 완료조건등 작성
 
-## Issue log Rule
+### Issue log Rule
 - 제목 : [Common],[Study],[할일] ~ 구현 / 수정 / 추가 / 삭제
 - 설명 : 
 ~~~
@@ -135,7 +135,7 @@ playlist 삭제
  -[] 4. 오른쪽 상단 '휴지통'아이콘 클릭시 선택된 playlist 삭제.
 ~~~
 
-## Commit log Rule
+### Commit log Rule
 
 - 제목과 본문을 모두 작성하여 commit한다
 - commit -m 옵션을 사용하지 않고 vim등과 같은 에디터를 사용하여 작성한다
