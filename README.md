@@ -7,6 +7,7 @@
 jinniecast는 Youtube에서 검색되어진 동영상을 자신만의 앨범별로 관리할 수 있는 웹서비스 입니다.
 
 <img src="https://github.com/kimseyoon/blue/blob/master/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202017-05-28%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.23.png" width="40%">
+<img src="https://github.com/kimseyoon/blue/blob/master/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202017-05-28%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.46.11.png" width="40%">
 
 적용된 기술
 ============
