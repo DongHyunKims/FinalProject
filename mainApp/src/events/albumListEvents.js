@@ -54,7 +54,7 @@ export default {
             return {deletedAlbumId:albumId}
 
         },()=>{
-            utility.runAjax(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
+            utility.runAjax(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "DELETE", "/albumList/albums/"+albumId);
         });
 
 

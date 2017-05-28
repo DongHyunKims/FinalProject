@@ -134,7 +134,7 @@ router.get("/getAlbum/:albumId",(req,res)=>{
 });
 
 
-router.get("/deleteAlbum/:albumId",(req,res)=>{
+router.delete("/albums/:albumId",(req,res)=>{
     let { albumId }   = req.params;
     let { _id,albumList }  = req.user;
 
