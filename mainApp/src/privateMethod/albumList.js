@@ -2,6 +2,7 @@
  * Created by donghyunkim on 2017. 5. 24..
  */
 import utility from '../utility/utility';
+import config from '../utility/config';
 const ACTION_CONFIG = {
     addPlayList : "addPlayList",
     deletePlayList : "deletePlayList",
@@ -142,8 +143,9 @@ const privateAlbumList = {
     },
 
     _albumReqListener(action,res){
+        const {HTTP_METHOD} =  config;
 
-        utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null,action),"GET","/albumList/getAllAlbumList");
+        utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null,action),HTTP_METHOD.GET,"/albumList/albums");
 
     },
 

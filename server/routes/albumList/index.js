@@ -9,6 +9,7 @@ const User = require('../../database/model/user');
 
 
 
+
 router.use(express.static('public'));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
@@ -96,8 +97,7 @@ router.get("/insertAllAlbum",(req,res)=>{
 // 전체 AlbumList 가져오는 라우터
 
 
-router.get("/getAllAlbumList",(req,res)=>{
-  //console.log(req.user+" allllll")
+router.get("/albums",(req,res)=>{
     let { _id }  = req.user;
 
     User.find({ _id : _id }, (err,user)=>{
@@ -123,7 +123,7 @@ router.get("/getAllAlbumList",(req,res)=>{
 
 
 
-router.get("/getAlbum/:albumId",(req,res)=>{
+router.get("/albums/:albumId",(req,res)=>{
     let { albumId }   = req.params;
     //let objectAlbumId = createObjectId(albumId);
     Album.findOne({ _id: albumId },(err,album)=>{
@@ -165,7 +165,7 @@ router.delete("/albums/:albumId",(req,res)=>{
 
 
 
-router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
+router.post("/albums",upload.single('coverImgUrl'),(req,res)=>{
     let { _id }  = req.user;
 
 
@@ -211,11 +211,9 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
 
 
 
-
-
-router.post("/updateAlbum/:_id",upload.single('coverImgUrl'),(req,res)=>{
-    let { _id }   = req.params;
-     //console.log(_id);
+router.put("/albums/:albumId",upload.single('coverImgUrl'),(req,res)=>{
+    let { albumId }   = req.params;
+     console.log(albumId);
     let {title,category,coverImgUrl} = req.body;
     // // 전송된 파일 데이터 확인
 
@@ -225,7 +223,7 @@ router.post("/updateAlbum/:_id",upload.single('coverImgUrl'),(req,res)=>{
         path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
     }
 
-    Album.findOne({_id: _id}, (err, doc)=>{
+    Album.findOne({_id: albumId}, (err, doc)=>{
 
         if(err) return res.status(500).send(err);
         doc.title = title;

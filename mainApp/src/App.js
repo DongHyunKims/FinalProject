@@ -14,6 +14,7 @@ import PlayController from './components/playControllerComponent/PlayController'
 //libs, config
 import utility from './utility/utility';
 import libs from './utility/libs'
+import config from './utility/config';
 
 
 //listener
@@ -176,13 +177,15 @@ class App extends Component {
     }
 
     componentDidMount(){
-        utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
+        const {HTTP_METHOD} = config;
+        utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),HTTP_METHOD.GET,"/albumList/albums");
     }
 
 
 
     //navComponent
     navClickHandler(event){
+        const {HTTP_METHOD} = config;
         let navIdx = event.target.id;
         this.setState(()=>{
 
@@ -203,7 +206,7 @@ class App extends Component {
         },()=>{
             let { navIdx } = this.state;
             if(navIdx==="2"){
-                utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),"GET","/albumList/getAllAlbumList");
+                utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null,ACTION_CONFIG.getAllAlbum),HTTP_METHOD.GET,"/albumList/albums");
             }
         });
 

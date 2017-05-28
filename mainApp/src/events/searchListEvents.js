@@ -75,12 +75,14 @@ export default {
         })
     },
 
-    addSelectedVideoToAlbum(_id){
+    addSelectedVideoToAlbum(albumId){
+
+        const {HTTP_METHOD} = config;
         let utilLayer = document.querySelector(".utilLayer");
         utilLayer.classList.remove("show");
 
         let insertData = {
-            albumId : _id,
+            albumId : albumId,
             selectedVideoArr : this.state.selectedVideoArr,
             totalDuration : this.state.totalDuration
         };
@@ -89,7 +91,7 @@ export default {
         utility.runAjaxData(function(e){
           let status = e.target.status;
           if(status === 500){
-            console.log("No Album")
+            console.log("No Album");
             //alert("album을 등록해주세요.")
             libs.showBanner("album을 등록해주세요.");
             this.setState({
@@ -99,7 +101,7 @@ export default {
                 totalDuration:0
             });
           }else{
-            utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), "GET", "/albumList/getAlbum/"+_id);
+            utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.addPlayList), HTTP_METHOD.GET, "/albumList/albums/"+albumId);
           }
         }.bind(this), "POST", "/playList/videos", jsonData, "application/json")
     },
