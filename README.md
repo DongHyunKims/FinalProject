@@ -74,7 +74,6 @@ https://github.com/DongHyunKims/jinniecast/milestones
 project 관리를 통해 현재 진행되고 있는 issue, 종료된 issue 또는 pull request를 통해 merge한 상태 등을 관리합니다.<br/>
 
 https://github.com/DongHyunKims/jinniecast/issues
-
 https://github.com/DongHyunKims/jinniecast/projects/1
 
 ### Project management
