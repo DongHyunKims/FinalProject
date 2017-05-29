@@ -68,6 +68,15 @@ https://github.com/DongHyunKims/jinniecast/wiki/Daily-Note
 
 https://github.com/DongHyunKims/jinniecast/milestones
 
+### issue / project 관리
+프로젝트 작업사항, 버그 등을 이슈로 생성하고 관리합니다.<br/>
+서비스 사용 중 발생되는 버그가 있다면 해당 기능을 구현한 사람에게 issue를 생성하고 피드백을 통해 버그를 수정합니다.<br/>
+project 관리를 통해 현재 진행되고 있는 issue, 종료된 issue 또는 pull request를 통해 merge한 상태 등을 관리합니다.<br/>
+
+https://github.com/DongHyunKims/jinniecast/issues
+
+https://github.com/DongHyunKims/jinniecast/projects/1
+
 ### Project management
 
 1. versition control system
