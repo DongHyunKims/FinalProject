@@ -8,6 +8,7 @@
 
 
 import utility from '../utility/utility';
+import config from '../utility/config';
 import privateAlbumList from "../privateMethod/albumList"
 import privatePlayList from "../privateMethod/playList"
 
@@ -44,20 +45,18 @@ export default {
 
     addAlbumSubmitHandler(data){
 
-
-        utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),"post","/albumList/addAlbum",utility.createFormData(data));
+        let {HTTP_METHOD} = config;
+        utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),HTTP_METHOD.POST,"/albumList/albums",utility.createFormData(data));
 
     },
 
     deleteAlbumClickHandler(albumId,event){
-
-        console.log("dddd",albumId);
-
+        let {HTTP_METHOD} = config;
         this.setState(()=>{
             return {deletedAlbumId:albumId}
 
         },()=>{
-            utility.runAjax(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum), "GET", "/albumList/deleteAlbum/"+albumId);
+            utility.runAjax(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.deleteAlbum),HTTP_METHOD.DELETE, "/albumList/albums/"+albumId);
         });
 
 
@@ -86,14 +85,16 @@ export default {
         event.stopPropagation();
     },
 
-    updateAlbumClickHandler(data,_id,event){
-        utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),"post","/albumList/updateAlbum/"+_id,utility.createFormData(data));
+    updateAlbumClickHandler(data,albumId,event){
+        let {HTTP_METHOD} = config;
+        utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),HTTP_METHOD.PUT,"/albumList/albums/"+albumId,utility.createFormData(data));
         event.stopPropagation();
     },
 
 
-    albumClickHandler(_id,idx,event){
-        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), "GET", "/albumList/getAlbum/"+_id);
+    albumClickHandler(albumId,idx,event){
+        let {HTTP_METHOD} = config;
+        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null,ACTION_CONFIG.resetPlayList), HTTP_METHOD.GET, "/albumList/albums/"+albumId);
     }
 
 

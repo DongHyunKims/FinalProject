@@ -291,7 +291,7 @@ const playControllerEvents = {
     },
 
     onPlayerStateChange(player,event) {
-        console.log("onPlayerStateChange");
+        //console.log("onPlayerStateChange");
         if (event !== undefined){
             this.setState({ videoState: event.data },()=>{
                 let { videoState } = this.state;

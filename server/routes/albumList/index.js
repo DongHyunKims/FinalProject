@@ -9,6 +9,7 @@ const User = require('../../database/model/user');
 
 
 
+
 router.use(express.static('public'));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
@@ -96,34 +97,34 @@ router.get("/insertAllAlbum",(req,res)=>{
 // 전체 AlbumList 가져오는 라우터
 
 
-router.get("/getAllAlbumList",(req,res)=>{
-  console.log(req.user+" allllll")
+
+
+router.get("/albums",(req,res)=>{
     let { _id }  = req.user;
 
-    User.find({ _id : _id }, (err,user)=>{
-        if(err)           return res.status(500).send(err);
-        if(!user.length) return res.status(404).send({ err: "User not found" });
-        let albumIdList = user[0].albumList;
-
-        console.log(albumIdList)
-
-        Album.find({
-            '_id': { $in: albumIdList}
-        }, function(err, albums){
+    User.find({ _id : _id }).exec()
+        .then((user)=>{
+            let albumIdList = user[0].albumList;
+            return  Album.find({
+                '_id': { $in: albumIdList}
+            }).exec();
+        })
+        .catch((err)=>{
+            if(err)           return res.status(500).send(err);
+            if(!user.length) return res.status(404).send({ err: "User not found" });
+        })
+        .then((albums)=>{
+            res.json({jsonAlbumList:albums});
+        }).catch((err)=>{
             if(err)           return res.status(500).send(err);
             if(!albums.length) return res.send({ err: "Albums not found" });
-            res.json({jsonAlbumList:albums});
-
         });
-
-        //res.json({jsonAlbumList:albumList});
-    });
 
 });
 
 
 
-router.get("/getAlbum/:albumId",(req,res)=>{
+router.get("/albums/:albumId",(req,res)=>{
     let { albumId }   = req.params;
     //let objectAlbumId = createObjectId(albumId);
     Album.findOne({ _id: albumId },(err,album)=>{
@@ -134,38 +135,43 @@ router.get("/getAlbum/:albumId",(req,res)=>{
 });
 
 
-router.get("/deleteAlbum/:albumId",(req,res)=>{
+router.delete("/albums/:albumId",(req,res)=>{
     let { albumId }   = req.params;
-    let { _id,albumList }  = req.user;
 
-
+    let { _id ,albumList}  = req.user;
     albumList.splice(albumList.indexOf(albumId),1);
-    console.log("albumList",albumList);
+
     //let objectAlbumId = createObjectId(albumId);
 
 
-    Album.findByIdAndRemove(albumId,(err,doc)=>{
-        if(err)  return res.status(500).send(err);
-        //console.log("album",album);
+    //console.log("_id",_id);
 
-        User.findOne({ _id: _id},(err,user)=>{
-            if(err)  return res.status(500).send(err);
+    Album.findByIdAndRemove(albumId).exec()
+        .then((doc)=>{
+            return User.findOne({ _id: _id}).exec();
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
+        })
+        .then((user)=>{
             user.albumList = albumList;
-            user.save((err,doc)=>{
-                if(err)  return res.status(500).send(err);
-                res.json(doc);
-            })
-
+            return user.save();
+        })
+        .catch((err)=>{
+            if(err)  return res.status(500).send(err);
+        })
+        .then((doc)=>{
+            res.json(doc);
+        })
+        .catch((err)=>{
+            if(err)  return res.status(500).send(err);
         });
 
-
-
-    });
 });
 
 
 
-router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
+router.post("/albums",upload.single('coverImgUrl'),(req,res)=>{
     let { _id }  = req.user;
 
 
@@ -189,21 +195,28 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
     });
 
 
-    User.findOne({_id: _id}, (err, user)=>{
-        if(err) return res.status(500).send(err);
-
-
-        user.albumList.push(album._id);
-        user.save((err,doc)=>{
+    User.findOne({_id: _id}).exec()
+        .then((user)=>{
+            user.albumList.push(album._id);
+            user.save();
+        })
+        .catch((err)=>{
             if(err) return res.status(500).send(err);
-            album.save((err,doc)=>{
-                console.log(err);
-                if(err) return res.status(500).send(err);
-                res.send(doc);
-            })
-
+        })
+        .then(()=>{
+            album.save();
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
+        })
+        .then((doc)=>{
+            res.send(doc);
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
         });
-    });
+
+
 
 
 });
@@ -211,11 +224,9 @@ router.post("/addAlbum",upload.single('coverImgUrl'),(req,res)=>{
 
 
 
-
-
-router.post("/updateAlbum/:_id",upload.single('coverImgUrl'),(req,res)=>{
-    let { _id }   = req.params;
-     //console.log(_id);
+router.put("/albums/:albumId",upload.single('coverImgUrl'),(req,res)=>{
+    let { albumId }   = req.params;
+     console.log(albumId);
     let {title,category,coverImgUrl} = req.body;
     // // 전송된 파일 데이터 확인
 
@@ -225,19 +236,24 @@ router.post("/updateAlbum/:_id",upload.single('coverImgUrl'),(req,res)=>{
         path = DEFAULT_IMG_URL+ path.slice(path.indexOf("/"));
     }
 
-    Album.findOne({_id: _id}, (err, doc)=>{
 
-        if(err) return res.status(500).send(err);
-        doc.title = title;
-        doc.category = JSON.parse(category);
-        doc.coverImgUrl = path;
-        doc.save((err,doc)=>{
-            console.log(err);
+    Album.findOne({_id: albumId}).exec()
+        .then((doc)=>{
+            doc.title = title;
+            doc.category = JSON.parse(category);
+            doc.coverImgUrl = path;
+            return  doc.save();
+        })
+        .catch((err)=>{
             if(err) return res.status(500).send(err);
+        })
+        .then((doc)=>{
             res.send(doc);
-
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
         });
-    });
+
 
 
 

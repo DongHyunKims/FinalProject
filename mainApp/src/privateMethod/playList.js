@@ -3,6 +3,7 @@
  */
 
 import utility from '../utility/utility';
+import config from '../utility/config';
 import privateAlbumList from  './albumList'
 const ACTION_CONFIG = {
     addPlayList : "addPlayList",
@@ -21,17 +22,12 @@ const privatePlayList = {
             case  ACTION_CONFIG.addPlayList :
                 this.setState((state) => {
                     let { playingState, currentAlbum } = state;
-
                     let newPlayingState = {
                         playingAlbum : jsonData
                     };
 
                     if(playingState){
-
                         let {playingAlbum} = playingState;
-
-
-
                         if(playingAlbum._id !== currentAlbum._id){
                             return {
                                 selectedVideoArr: [],
@@ -72,7 +68,6 @@ const privatePlayList = {
                 this.setState((state) => {
 
                     let newCurrentAlbum = jsonData;
-
                     let {playingState, checkIdxList, selectAllIsChecked, currentAlbum, eventMap}  = state;
                     //
                     // let prePlayingDataId = null;
@@ -88,8 +83,6 @@ const privatePlayList = {
 
                     //플레이 되고 있다면
                     if (playingState) {
-
-
                         let {playingKey, playingAlbum,playingData} = playingState;
                         // prePlayingDataId = playingData._id;
                         let {playList} = newCurrentAlbum;
@@ -178,6 +171,7 @@ const privatePlayList = {
 
 
                 },()=>{
+                    const {HTTP_METHOD} = config;
                     let {playingState} = this.state;
                     if(playingState) {
                         let {playingAlbum} = playingState;
@@ -185,17 +179,12 @@ const privatePlayList = {
                             clearInterval(this.interverId);
                         }
                     }
+                    utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), HTTP_METHOD.GET, "/albumList/albums");
 
                 });
-
-
-                    // () => {
-                    //     utility.runAjax(privateAlbumList._getAllAlbumReqListener.bind(null, ACTION_CONFIG.getAllAlbum), "GET", "/albumList/getAllAlbumList");
-                    // }
                 break;
             case ACTION_CONFIG.resetPlayList :
                 this.setState((state, props) => {
-
 
                     let {playingState}  = state;
                     //무언가 play 되고있다
@@ -238,8 +227,9 @@ const privatePlayList = {
     },
 
 
-    _deletePlayListReqListener(_id, res){
-        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null, ACTION_CONFIG.deletePlayList), "GET", "/albumList/getAlbum/" + _id);
+    _deletePlayListReqListener(albumId, res){
+        const {HTTP_METHOD} = config;
+        utility.runAjax(privatePlayList._getAlbumReqListener.bind(null, ACTION_CONFIG.deletePlayList), HTTP_METHOD.GET, "/albumList/albums/" + albumId);
     },
 
 };

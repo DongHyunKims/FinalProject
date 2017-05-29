@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded({extended : true}));
 
 
 
-router.post("/deletePlayList",(req,res)=>{
+router.delete("/videos",(req,res)=>{
 
 
     let { deleteList,albumId }= req.body;
@@ -21,21 +21,22 @@ router.post("/deletePlayList",(req,res)=>{
             return pre + post;
     },0);
 
-    console.log(deleteVideoIdList);
-
-    //console.log("body",req.body);
-
-    Album.find({_id:albumId}, (err, doc)=> {
-        if (err) {
-            console.log("err", err);
-            return res.status(500).send(err);
-        }
-        let totalDuration = doc[0].totalDuration - deleteTotalDuration;
-        Album.update({_id: albumId}, {$pull: {playList: {_id: {$in: deleteVideoIdList}}}, totalDuration:totalDuration}, (err, doc) => {
+    Album.find({_id:albumId}).exec()
+        .then((doc)=>{
+            let totalDuration = doc[0].totalDuration - deleteTotalDuration;
+            return  Album.update({_id: albumId}, {$pull: {playList: {_id: {$in: deleteVideoIdList}}}, totalDuration:totalDuration}).exec();
+        })
+        .catch((err)=>{
             if (err) return res.status(500).send(err);
+        })
+        .then(()=>{
             res.status(200).send();
+        })
+        .catch((err)=>{
+            if (err) return res.status(500).send(err);
         });
-    });
+
+
 
 });
 
@@ -56,30 +57,26 @@ router.post("/videos", (req, res)=>{
 
   let { albumId, selectedVideoArr, totalDuration } = req.body;
 
-  Album.find({_id:albumId}, (err, doc)=>{
-    if(err) {
-      console.log("err",err);
-      return res.status(500).send(err);
-    }
+    Album.find({_id:albumId}).exec()
+        .then((doc)=>{
+            let totalDurationSum = doc[0].totalDuration + totalDuration;
+            return Album.update({_id:albumId}, {$push:{playList:{$each:selectedVideoArr}}, totalDuration:totalDurationSum }).exec();
+        })
+        .catch((err)=>{
 
-    let totalDurationSum = doc[0].totalDuration + totalDuration;
-    Album.update(
-      {_id:albumId}, {$push:{playList:{$each:selectedVideoArr}}, totalDuration:totalDurationSum }, (err, doc)=>{
-        if(err) {
-          console.log("err",err);
-          return res.status(500).send(err);
-        }
-        res.status(200).send();
-      }
-    )
+            if(err) return res.status(500).send(err);
+        })
+        .then(()=>{
+            res.status(200).send();
+        })
+        .catch((err)=>{
+            if(err) return res.status(500).send(err);
+        });
 
-  })
+
 });
 
 
 
-function createObjectId(id){
-    return mongoose.Types.ObjectId(id);
-}
 
 module.exports = router;
