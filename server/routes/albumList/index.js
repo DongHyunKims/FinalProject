@@ -104,6 +104,7 @@ router.get("/albums",(req,res)=>{
 
     User.find({ _id : _id }).exec()
         .then((user)=>{
+            if(!user.length) return res.status(404).send({ err: "User not found" });
             let albumIdList = user[0].albumList;
             return  Album.find({
                 '_id': { $in: albumIdList}
@@ -111,13 +112,12 @@ router.get("/albums",(req,res)=>{
         })
         .catch((err)=>{
             if(err)           return res.status(500).send(err);
-            if(!user.length) return res.status(404).send({ err: "User not found" });
         })
         .then((albums)=>{
+            if(!albums.length) return res.send({ err: "Albums not found" });
             res.json({jsonAlbumList:albums});
         }).catch((err)=>{
             if(err)           return res.status(500).send(err);
-            if(!albums.length) return res.send({ err: "Albums not found" });
         });
 
 });
