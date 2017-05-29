@@ -21,8 +21,6 @@ router.delete("/videos",(req,res)=>{
             return pre + post;
     },0);
 
-
-
     Album.find({_id:albumId}).exec()
         .then((doc)=>{
             let totalDuration = doc[0].totalDuration - deleteTotalDuration;
@@ -37,9 +35,6 @@ router.delete("/videos",(req,res)=>{
         .catch((err)=>{
             if (err) return res.status(500).send(err);
         });
-
-
-
 
 
 
