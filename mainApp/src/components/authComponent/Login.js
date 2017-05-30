@@ -44,7 +44,7 @@ class Login extends React.Component{
 
     utility.runAjaxData(function(e){
       let obj = JSON.parse(e.target.responseText);
-      console.log(obj)
+      //console.log(obj)
 
       if(typeof obj === "object"){
         sessionStorage.setItem('id', obj.id);
@@ -85,7 +85,7 @@ class Login extends React.Component{
 
   render(){
 
-    const { redirectToReferrer } = this.state
+    const { redirectToReferrer } = this.state;
 
     // here is the important part
     if (redirectToReferrer || sessionStorage.getItem("id")) {

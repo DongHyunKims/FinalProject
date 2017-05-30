@@ -44,7 +44,7 @@ export default {
     },
 
     addAlbumSubmitHandler(data,albumId,titleChecked){
-        console.log(titleChecked);
+        //console.log(titleChecked);
 
         if(!titleChecked){
             return;

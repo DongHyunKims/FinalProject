@@ -8,7 +8,7 @@ import "./header.css"
 class Header extends React.Component{
 
   constructor(props){
-    super(props)
+    super(props);
 
     this.logout = this.logout.bind(this);
   }

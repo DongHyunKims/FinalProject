@@ -145,8 +145,6 @@ const privatePlayList = {
                         }
                     }
 
-                    //console.log("ddd");
-
                     //clearInterval(this.interverId);
                     let resetEventMap = {
                         playing: false,

@@ -38,7 +38,7 @@ class Register extends React.Component{
 
     utility.runAjaxData(function(e){
       let obj = JSON.parse(e.target.responseText);
-      console.log(obj)
+      //console.log(obj)
 
       if(typeof obj === "object"){
         // fakeAuth.authenticate(() => {

@@ -44,8 +44,6 @@ const libs = {
             str = str.concat(sec);
         }
 
-        //console.log(str)
-        //console.log("hour = "+hour+" min = "+min+" sec = "+sec)
         return str
     },
 
