@@ -1,5 +1,6 @@
 import React from "react"
 import {Redirect, Link} from 'react-router-dom';
+import config from '../../utility/config';
 
 import utility from "../../utility/utility"
 import "./header.css"
@@ -32,7 +33,8 @@ class Header extends React.Component{
 
     return(
       <header className="mainHeader">
-        <h1>JinnieCast</h1>
+        {/*<h1>JinnieCast</h1>*/}
+        <img src={config.DEFAULT_SERVER_URL + "/images/default/logo.png"} />
         <div className="albumTitleArea"><h2 className="albumTitle">{albumTitle}</h2></div>
         <div className="util">
           <p className="user">

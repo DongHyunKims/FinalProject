@@ -1,10 +1,20 @@
-.mainHeader h1{
-  position:absolute;
-  top:30px;
-  left:30px;
-  font-weight: bold;
-  font-size:2rem;
-  color:rgb(253, 0, 97);
+/*.mainHeader h1{*/
+  /*position:absolute;*/
+  /*top:30px;*/
+  /*left:30px;*/
+  /*font-weight: bold;*/
+  /*font-size:2rem;*/
+  /*color:rgb(253, 0, 97);*/
+/*}*/
+
+.mainHeader > img{
+  position: absolute;
+  top: 4px;
+  left: 20px;
+  /* font-weight: bold; */
+  /* font-size: 2rem; */
+  /* color: rgb(253, 0, 97); */
+  width: 140px;
 }
 
 

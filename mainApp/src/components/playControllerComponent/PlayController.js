@@ -34,6 +34,8 @@ class PlayController extends React.Component {
       //
       // console.log(eventMap.volume);
 
+      //console.log("ddddd");
+
 
       let playingImg = null;
       let playingTitle = null;
