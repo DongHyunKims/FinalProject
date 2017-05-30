@@ -7,12 +7,25 @@
   color:rgb(253, 0, 97);
 }
 
-.mainHeader .albumTitle{
+
+.albumTitleArea{
   text-align: center;
+  width: 250px;
+  margin-left: 40%;
+}
+.mainHeader .albumTitleArea .albumTitle{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding:31px 0 31px 0;
   font-size:1.5rem;
   color:#999;
+
+
 }
+
+
+
 
 .mainHeader .util{
   position:absolute;

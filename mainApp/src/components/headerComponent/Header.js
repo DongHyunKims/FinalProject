@@ -33,7 +33,7 @@ class Header extends React.Component{
     return(
       <header className="mainHeader">
         <h1>JinnieCast</h1>
-        <h2 className="albumTitle">{albumTitle}</h2>
+        <div className="albumTitleArea"><h2 className="albumTitle">{albumTitle}</h2></div>
         <div className="util">
           <p className="user">
             <span className="name">{email}</span> 님 안녕하세요

@@ -37,7 +37,6 @@ describe("utility Ajax test",function(){
                 assert.equal(Array.isArray(val.playList),Array.isArray([]));
             });
             //done은 비동기가 정상적으로 완료 되었을때 실행시켜 주면 된다
-
             done();
         };
         utility.runAjax(reqListener,"GET",url);
@@ -56,7 +55,6 @@ describe("utility createFormData test",function(){
             // coverImgUrl : file,
             category : [1,2]
         };
-
 
         let resultFormData = utility.createFormData(testObj);
 
