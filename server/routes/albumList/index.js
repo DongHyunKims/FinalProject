@@ -14,8 +14,10 @@ router.use(express.static('public'));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
 
-const DEFAULT_IMG_URL = "http://localhost:3000";
+//const DEFAULT_IMG_URL = "http://localhost:3000";
 //const DEFAULT_URL = "http://localhost:3000";
+
+const DEFAULT_IMG_URL = "http://localhost:3000";
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
