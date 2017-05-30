@@ -150,8 +150,6 @@ class App extends Component {
         privateSearchList._promiseGetDuration=privateSearchList._promiseGetDuration.bind(this);
 
 
-
-
         //nav
         this.navClickHandler = this.navClickHandler.bind(this);
 

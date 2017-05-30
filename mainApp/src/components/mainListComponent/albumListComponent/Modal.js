@@ -116,6 +116,7 @@ class Modal extends Component{
                         </div>
                     </div>
                     <div className="modalFooter">
+                            <span>이미 존재하는 앨범 이름 입니다.</span>
                             <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state,_id)}/>
                             <input type="button" className="button" onClick={itemCancelClickHandler} value="취소" />
                     </div>
