@@ -43,7 +43,7 @@ class MainList extends React.Component{
             updateAlbumClickHandler,
             updateItemClickHandler,
             updateItemCancelClickHandler,
-            navIdx
+            navIdx,
 
         } = this.props;
 

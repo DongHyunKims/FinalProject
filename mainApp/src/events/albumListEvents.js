@@ -43,11 +43,39 @@ export default {
         event.stopPropagation();
     },
 
-    addAlbumSubmitHandler(data){
+    addAlbumSubmitHandler(data,albumId,titleChecked){
+        console.log(titleChecked);
 
+        if(!titleChecked){
+            return;
+        }
         let {HTTP_METHOD} = config;
         utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),HTTP_METHOD.POST,"/albumList/albums",utility.createFormData(data));
 
+        /*
+        let {albumList,titleChecked} = this.state;
+        let {title} = data;
+        let titleCheckedList = albumList.filter((val)=>{
+            return val.title === title;
+        });
+
+        if(!titleCheckedList.length) {
+            this.setState(()=>{
+                return {
+                    titleChecked : true
+                }
+            });
+            return;
+        }
+
+        this.setState(()=>{
+            return {
+                titleChecked : false
+            }
+        },()=>{
+            utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.addAlbum),HTTP_METHOD.POST,"/albumList/albums",utility.createFormData(data));
+        });
+        */
     },
 
     deleteAlbumClickHandler(albumId,event){
@@ -85,7 +113,10 @@ export default {
         event.stopPropagation();
     },
 
-    updateAlbumClickHandler(data,albumId,event){
+    updateAlbumClickHandler(data,albumId,titleChecked,event){
+        if(!titleChecked){
+            return;
+        }
         let {HTTP_METHOD} = config;
         utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),HTTP_METHOD.PUT,"/albumList/albums/"+albumId,utility.createFormData(data));
         event.stopPropagation();

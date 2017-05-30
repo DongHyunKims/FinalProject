@@ -243,7 +243,7 @@ class App extends Component {
           isAddClicked,
           isAlbumUpdateClicked,
           updateAlbum,
-          videoState
+          videoState,
 
       } = this.state;
 
