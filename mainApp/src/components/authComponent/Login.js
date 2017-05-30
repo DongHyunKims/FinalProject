@@ -25,7 +25,7 @@ class Login extends React.Component{
     this.state = {
       redirectToReferrer: false,
       message:""
-    }
+    };
 
     this.setLogin = this.setLogin.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -39,7 +39,7 @@ class Login extends React.Component{
     let loginObj = {
       email : email,
       password : password
-    }
+    };
     //console.log(JSON.stringify(loginObj))
 
     utility.runAjaxData(function(e){

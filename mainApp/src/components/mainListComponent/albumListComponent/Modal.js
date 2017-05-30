@@ -13,13 +13,14 @@ class Modal extends Component{
     constructor(props){
         super(props);
         this.state = {
-            title : "",
+            title : "Album",
             coverImgUrl : null,
             category : [],
         };
 
         this.handleItemInputChange = this.handleItemInputChange.bind(this);
         this.checkTitle = this.checkTitle.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidMount(){
@@ -108,6 +109,12 @@ class Modal extends Component{
 
     }
 
+    handleKeyPress(data,_id,titleChecked,itemSubmitHandler,e){
+        if(e.charCode===13){
+            itemSubmitHandler.call(null,data,_id,titleChecked);
+        }
+    }
+
 
 
     render(){
@@ -125,15 +132,18 @@ class Modal extends Component{
         let titleChecked = this.checkTitle(dataList);
         if(title.length) {
 
-            renderTitleChecked = "사용 가능한 이름 입니다.";
+            renderTitleChecked = "사용 가능한 Title 입니다.";
             if (!titleChecked) {
                 titleStyle = modalStyle.titleCheckedStyle;
-                renderTitleChecked = "이미 존재하는 이름 입니다.";
+                renderTitleChecked = "이미 존재하는 Title 입니다.";
             }
 
+        }else{
+            renderTitleChecked = "Title을 입력해 주십시오.";
+            titleChecked=false;
         }
         return (
-            <div id="myModal" className="modal">
+            <div id="myModal" className="modal" onKeyPress={this.handleKeyPress.bind(null,this.state,_id,titleChecked,itemSubmitHandler)}>
                 <div className="modalContent">
                     <div className="modalHeader">
                         <span className="close"  onClick={itemCancelClickHandler}>&times;</span>
@@ -142,7 +152,7 @@ class Modal extends Component{
                     <div className="modalBody">
                         <div className="modalFormContainer">
                             <label><b>Title</b></label>
-                            <input type="text" placeholder="Title" name="title" onChange={this.handleItemInputChange} value={title} required />
+                            <input type="text" placeholder="Title" name="title" maxLength="20" onChange={this.handleItemInputChange} value={title} required />
                             <label><b>Album Image</b></label>
                             <input type="file" name="coverImgUrl" onChange={this.handleItemInputChange} required />
                             <label><b>Category</b></label>
@@ -153,7 +163,7 @@ class Modal extends Component{
                     </div>
                     <div className="modalFooter">
                         <span style={titleStyle}>{renderTitleChecked}</span>
-                        <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state,_id,titleChecked)}/>
+                        <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state,_id,titleChecked)} />
                         <input type="button" className="button" onClick={itemCancelClickHandler} value="취소" />
                     </div>
                 </div>

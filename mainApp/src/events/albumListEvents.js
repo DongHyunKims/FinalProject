@@ -110,7 +110,10 @@ export default {
                 updateAlbum: null,
             }
         });
-        event.stopPropagation();
+
+
+            event.stopPropagation();
+
     },
 
     updateAlbumClickHandler(data,albumId,titleChecked,event){
@@ -119,7 +122,9 @@ export default {
         }
         let {HTTP_METHOD} = config;
         utility.runAjaxData(privateAlbumList._albumReqListener.bind(null,ACTION_CONFIG.updateAlbum),HTTP_METHOD.PUT,"/albumList/albums/"+albumId,utility.createFormData(data));
-        event.stopPropagation();
+        if(event) {
+            event.stopPropagation();
+        }
     },
 
 
