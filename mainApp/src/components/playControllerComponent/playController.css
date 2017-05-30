@@ -33,10 +33,8 @@ img.track__image {
   position: relative;
   vertical-align: middle;
 }
-.track__title {
-  font-weight: bolder;
-  font-size: 1.0rem;
-}
+
+
 
 
 #floater {
@@ -91,6 +89,8 @@ img.track__image {
   text-align: left;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-weight: bolder;
+  font-size: 1.0rem;
 }
 .track__time {
   position: absolute;
