@@ -100,6 +100,10 @@ const privatePlayController = {
 
 
 
+    },
+
+    _changeBarBackgroundSize(ele, val){
+
     }
 
 };

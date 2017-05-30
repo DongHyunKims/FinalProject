@@ -90,7 +90,7 @@ export default {
         utility.runAjaxData(function(e){
           let status = e.target.status;
           if(status === 500){
-            console.log("No Album");
+            //console.log("No Album");
             //alert("album을 등록해주세요.")
             libs.showBanner("album을 등록해주세요.");
             this.setState({
@@ -114,7 +114,6 @@ export default {
         let scrollTop  = searchList.scrollTop;
 
         if((scrollHeight - scrollTop) === clientHeight){
-            //this._searchAgainVideo(url)
             privateSearchList._getVideoInfo(url)
         }
     },
