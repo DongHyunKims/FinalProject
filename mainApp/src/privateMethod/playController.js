@@ -2,6 +2,7 @@
  * Created by donghyunkim on 2017. 5. 24..
  */
 import playControllerEvents from "../events/playControllerEvents";
+import utility from "../utility/utility";
 const ACTION_CONFIG = {
     addPlayList : "addPlayList",
     deletePlayList : "deletePlayList",
@@ -25,6 +26,7 @@ const privatePlayController = {
 
     _setCurrentTime(player) {
         let {eventMap} = this.state;
+        let ele = utility.$selector("#seekBar");
         if (eventMap.playing) {
 
             this.interverId = setInterval(() => {
@@ -32,10 +34,15 @@ const privatePlayController = {
                 this.setState((state) => {
 
                     let {eventMap} = state;
+                    let {soundOn} = eventMap;
+
+
                     let sound = false;
-                    if (eventMap.soundOn) {
+                    if (soundOn) {
                         sound = true;
                     }
+
+                    
                     return {
                         eventMap: Object.assign({}, eventMap, {
                             curTime: privatePlayController._toTimeString(time),
@@ -46,7 +53,7 @@ const privatePlayController = {
                 }, () => {
                     let {eventMap, playingState} = this.state;
                     let {curProgressBar, maxProgressBar} = eventMap;
-
+                    privatePlayController._changeBarBackgroundSize(ele,curProgressBar);
 
                     //전부 삭제 되었으면
                     if (!playingState) {
@@ -103,7 +110,16 @@ const privatePlayController = {
 
     },
 
-    _changeBarBackgroundSize(ele, val){
+    _changeBarBackgroundSize(ele,val){
+        let max = ele.max,
+            min = ele.min;
+        ele.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%';
+        ele.style.backgroundImage = "-webkit-gradient(linear, 0% 0%, 0% 0%, color-stop(0%, #d81c5c), color-stop(0%, #d81c5c))";
+        ele.style.backgroundImage = "-moz-linear-gradient(#e91e63, #d81c5c)";
+        ele.style.backgroundImage = "-o-linear-gradient(#e91e63, #d81c5c)";
+        ele.style.backgroundImage = "linear-gradient(#e91e63, #d81c5c)";
+
+
 
     }
 
