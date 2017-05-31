@@ -40,7 +40,9 @@ export default {
         this.setState(()=>{
             return {isAddClicked: false}
         });
-        event.stopPropagation();
+        if(event) {
+            event.stopPropagation();
+        }
     },
 
     addAlbumSubmitHandler(data,albumId,titleChecked){

@@ -21,6 +21,7 @@ class Modal extends Component{
         this.handleItemInputChange = this.handleItemInputChange.bind(this);
         this.checkTitle = this.checkTitle.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
     }
 
     componentDidMount(){
@@ -110,9 +111,21 @@ class Modal extends Component{
     }
 
     handleKeyPress(data,_id,titleChecked,itemSubmitHandler,e){
+
+
+        console.log("e.keyCode",e.charCode);
         if(e.charCode===13){
             itemSubmitHandler.call(null,data,_id,titleChecked);
         }
+
+    }
+
+    handleKeyUp(itemCancelClickHandler,e){
+
+        if(e.keyCode===27){
+            itemCancelClickHandler();
+        }
+
     }
 
 
@@ -143,7 +156,7 @@ class Modal extends Component{
             titleChecked=false;
         }
         return (
-            <div id="myModal" className="modal" onKeyPress={this.handleKeyPress.bind(null,this.state,_id,titleChecked,itemSubmitHandler)}>
+            <div id="myModal" className="modal" onKeyPress={this.handleKeyPress.bind(null,this.state,_id,titleChecked,itemSubmitHandler)} onKeyUp={this.handleKeyUp.bind(null,itemCancelClickHandler)}>
                 <div className="modalContent">
                     <div className="modalHeader">
                         <span className="close"  onClick={itemCancelClickHandler}>&times;</span>
