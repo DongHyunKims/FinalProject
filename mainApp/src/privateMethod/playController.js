@@ -26,7 +26,7 @@ const privatePlayController = {
 
     _setCurrentTime(player) {
         let {eventMap} = this.state;
-        let ele = utility.$selector("#seekBar");
+        let bar = utility.$selector("#seekBar");
         if (eventMap.playing) {
 
             this.interverId = setInterval(() => {
@@ -53,11 +53,16 @@ const privatePlayController = {
                 }, () => {
                     let {eventMap, playingState} = this.state;
                     let {curProgressBar, maxProgressBar} = eventMap;
-                    privatePlayController._changeBarBackgroundSize(ele,curProgressBar);
+                    privatePlayController._changeBarBackgroundSize(bar,curProgressBar);
 
                     //전부 삭제 되었으면
                     if (!playingState) {
+                        bar.style.backgroundImage = "-webkit-gradient(linear, 0% 0%, 0% 0%, color-stop(0%, #ddd), color-stop(0%, #ddd))";
+                        bar.style.backgroundImage = "-moz-linear-gradient(#ddd, #ddd)";
+                        bar.style.backgroundImage = "-o-linear-gradient(#ddd, #ddd)";
+                        bar.style.backgroundImage = "linear-gradient(#ddd, #ddd)";
                         clearInterval(this.interverId);
+
                         let resetEventMap = {
                             playing: false,
                             curTime: '00:00', // 현재 재생 시간
