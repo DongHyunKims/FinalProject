@@ -165,7 +165,7 @@ class Modal extends Component{
                     <div className="modalBody">
                         <div className="modalFormContainer">
                             <label><b>Title</b></label>
-                            <input type="text" placeholder="Title" name="title" maxLength="20" onChange={this.handleItemInputChange} value={title} required />
+                            <input type="text" placeholder="Title" name="title" maxLength="20" onChange={this.handleItemInputChange} value={title} required autoFocus="true"/>
                             <label><b>Album Image</b></label>
                             <input type="file" name="coverImgUrl" onChange={this.handleItemInputChange} required />
                             <label><b>Category</b></label>
