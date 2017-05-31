@@ -2,56 +2,16 @@
  * Created by donghyunkim on 2017. 4. 18..
  */
 import React, {Component} from 'react';
+import PlayListPart from './PlayListPart';
+import utility from '../../utility/utility';
 
-
-
-const PlayListPart = function(props){
-
-    let {videoSnippet,selectedKey,idx} = props;
-    let title = videoSnippet.title;
-    let iconRendering = null;
-    let alStyle = null;
-    let asStyle = null;
-
-    if(selectedKey === idx){
-
-        alStyle = {
-            backgroundColor: "#FD0061",
-        };
-        asStyle ={
-            color: "#FFFFFF"
-        };
-        iconRendering = (
-
-                <div className="eq">
-                    <div className="eq__bar"></div>
-                    <div className="eq__bar"></div>
-                    <div className="eq__bar"></div>
-                </div>
-        );
-
-    }else {
-        iconRendering = (
-            <img src="./images/Headphones-64.png"/>
-        );
-    }
-
-    return (
-        <div className="playListPartArea" onClick={props.onClick} style={alStyle}>
-            <div className="icon playListPartIconArea">
-                <div className="floater"></div>
-                <div className="iconArea">
-                    {iconRendering}
-                </div>
-            </div>
-            <div className="playListPartTitleArea" style={asStyle}>
-                {title}
-            </div>
-            <div className="playListPartDurationArea" style={asStyle}>
-                03:45
-            </div>
-        </div>
-    );
+const playListSectionStyle = {
+    sectionStyle : {
+        height: "calc(100% - 50px)"
+    },
+    menuStyle : {
+        height: "50px",
+    },
 };
 
 
@@ -62,38 +22,59 @@ class PlayListSection extends Component {
 
     }
 
-    render(){
-        let{lStyle, videoData, albumListClickHandler, selectedKey} = this.props;
-        //console.log("albumListClickHandler",albumListClickHandler);
 
-        if(!lStyle){
-            lStyle = {
-                width : "100%",
-                height : "100%",
+
+
+    render(){
+        let {playList, playListClickHandler, selectedKey, deletePlayListBtnClickHandler,checkClickHandler,selectAllBtnClickHandler,checkIdxList,selectAllIsChecked,videoState} = this.props;
+        let menuStyle = null;
+        let sectionStyle = null;
+
+
+        /*
+           데이터 어떻게 받을지 생각 해야한다
+           데이터 조작 필요
+         */
+        let playListSection = null;
+
+
+        if(playList){
+            if(playList.length!==0) {
+                //let items = videoData.items;
+                playListSection = playList.map((val, idx, arr) => {
+                    let {_id,videoId} = val;
+                    return <PlayListPart
+                        key={_id}
+                        videoSnippet={val}
+                        videoState={videoState}
+                        onClick={playListClickHandler.bind(null,arr,idx)}
+                        selectedKey={selectedKey}
+                        idx={idx}
+                        checkClickHandler={checkClickHandler}
+                        isChecked={checkIdxList.indexOf(idx) !== -1}/>;
+                });
             }
         }
-
-        let playListSection = <h2>Album에 저장된 데이터가 없습니다</h2>;
-        //videoData.items[0].id.videoId
-        if(videoData){
-            let items = videoData.items;
-            playListSection = items.map((val,key)=>{
-                let videoSnippet = val.snippet;
-                return  <PlayListPart key={val.id.videoId} videoSnippet={videoSnippet} onClick={albumListClickHandler.bind(null,key)}  selectedKey={selectedKey} idx={key}/>;
-            });
-
+        if(checkIdxList.length >= 1 ) {
+            menuStyle = playListSectionStyle.menuStyle;
+            sectionStyle = playListSectionStyle.sectionStyle;
         }
 
+        let selectAllText = "전체선택";
+        if(selectAllIsChecked){
+            selectAllText = "전체해제";
+        }
 
         return (
-            <div className="playListSectionGroupArea" style={lStyle}>
-                <div className="playListSectionGroup" >
-                    {playListSection}
-                </div>
+            <div className="playListSectionArea" >
+                    <div className="playListSection" style={sectionStyle}>
+                        {playListSection}
+                    </div>
 
-                {/*<div className="playListSectionMenu">*/}
-
-                {/*</div>*/}
+                    <div className="playListSectionMenu" style={menuStyle}>
+                        <button className="button defaultButton" onClick={selectAllBtnClickHandler}>{selectAllText}</button>
+                        <button className="button dangerButton" onClick={deletePlayListBtnClickHandler}>삭제</button>
+                    </div>
             </div>
         );
     }

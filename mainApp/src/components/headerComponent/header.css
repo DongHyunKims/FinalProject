@@ -1,0 +1,68 @@
+/*.mainHeader h1{*/
+  /*position:absolute;*/
+  /*top:30px;*/
+  /*left:30px;*/
+  /*font-weight: bold;*/
+  /*font-size:2rem;*/
+  /*color:rgb(253, 0, 97);*/
+/*}*/
+
+.mainHeader > img{
+  position: absolute;
+  top: 4px;
+  left: 20px;
+  /* font-weight: bold; */
+  /* font-size: 2rem; */
+  /* color: rgb(253, 0, 97); */
+  width: 140px;
+}
+
+
+.albumTitleArea{
+  text-align: center;
+  width: 250px;
+  margin-left: 40%;
+}
+.mainHeader .albumTitleArea .albumTitle{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding:31px 0 31px 0;
+  font-size:1.5rem;
+  color:#999;
+
+
+}
+
+
+
+
+.mainHeader .util{
+  position:absolute;
+  top:30px;
+  right:30px;
+}
+
+.mainHeader .util .user{
+  margin-right:75px;
+}
+
+.mainHeader .util .user .name{
+  font-weight: bold;
+}
+
+.mainHeader .util .logoutBtn{
+  position:absolute;
+  top:-7px;
+  right:0;
+  cursor: pointer;
+  padding:7px;
+  border:1px solid #d9d9d9;
+  border-radius: 3px;
+  background:none;
+}
+
+.mainHeader .util .logoutBtn:hover{
+  color:#fff;
+  background-color:#d9d9d9;
+}

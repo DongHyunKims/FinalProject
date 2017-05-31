@@ -10,8 +10,7 @@ body{
 .mainHeader{
   z-index:100;
   position:relative;
-  background-color: aquamarine;
-  height: 80px;
+  border-bottom:1px solid #d9d9d9
 }
 
 .container{
@@ -22,11 +21,10 @@ body{
   clear:both;
   display: block;
   content:"";
-
 }
 
 .mainFooter{
-  position:absolute;
+  position: fixed;
   bottom:0;
   left:0;
   width:100%;
@@ -52,9 +50,67 @@ body{
   height: 100%;
 }
 
+.container .rightArea > div:nth-child(1){
+
+  height: 100%;
+}
+
 .container .navArea{
   float: left;
-  background-color: #fff384;
-  width: 8%;
+  width: calc(8% - 1px);
   height: 100%;
+  border-left:1px solid #d9d9d9;
+}
+
+
+.button {
+  border: none;
+  padding: 1% 2%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+  margin: 1% 0.5%;
+  cursor: pointer;
+}
+
+#snackbar{
+  z-index:100;
+  display: none;
+  position:fixed;
+  text-align: center;
+  left:50%;
+  top:10px;
+  width:200px;
+  padding:20px;
+  margin-left:-120px;
+  color:rgb(253, 0, 97);
+  border-radius: 5px;
+  background-color:#d9d9d9;
+}
+
+#snackbar.show{
+  display: block;
+  -webkit-animation: fadeIn 0.5s, fadeOut 0.5s 3.5s;
+  animation: fadeIn 0.5s, fadeOut 0.5s 3.5s;
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0; top: -58px;}
+  to {opacity: 1; top: 10px;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; top: -58px;}
+  to {opacity: 1; top: 10px;}
+}
+
+@-webkit-keyframes fadeOut {
+  from {opacity: 1;top:10px}
+  to {opacity: 0;top:-58px}
+}
+
+@keyframes fadeOut {
+  from {opacity: 1;top:10px}
+  to {opacity: 0;top:-58px}
 }

@@ -1,0 +1,385 @@
+.searchTextInput {
+    width:calc(100% - 20px);
+    padding:10px;
+    border:none;
+}
+
+.searchTextInput::-webkit-input-placeholder {
+    color:#d9d9d9;
+}
+
+
+
+.searchTextInput::-moz-placeholder {
+    color:#d9d9d9;
+}
+
+.albumListWrap{
+    height: calc(100% - 38px);
+}
+
+.albumList{
+    overflow: auto;
+    height: 100%;
+    border-top:1px solid #d9d9d9;
+    /*background-color: darkcyan;*/
+}
+
+.albumList > li {
+    width: 30%;
+    min-width: 230px;
+    height: 230px;
+    float:left;
+    /*background-color: #f745ff;*/
+    margin: 20px 1% 10px 2%;
+    cursor: pointer;
+    position: relative;
+    /*border:1px solid #d9d9d9;*/
+}
+
+@media screen and (max-width: 1650px) {
+    .albumList > li {
+        margin: 20px 6% 10px 8%;
+    }
+}
+
+
+@media screen and (max-width: 1360px) {
+    .albumList > li {
+        margin: 20px 0 10px 27%;
+    }
+}
+
+
+
+
+.albumList > li > .albumThum {
+    width: 100%;
+    height: 100%;
+
+}
+
+
+.albumList > li > .albumThum > img {
+    width: 100%;
+    height: 100%;
+
+}
+
+.albumList li > .albumItemCont {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 15%;
+    background: rgba(0, 0, 0, 0.7);
+    /*background-color: black;*/
+    /*opacity: 0.7;*/
+    -webkit-transition: height 0.5s; /* For Safari 3.1 to 6.0 */
+    transition: height 0.5s;
+}
+
+.albumList li > .albumItemCont > .albumItemIntro div{
+    color: white;
+}
+
+
+
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(1) {
+    width: 100%;
+    font-size: 1.1em;
+    font-weight: bold;
+    line-height: 2.3;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /*background-color: #ff4983;*/
+}
+
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(2) {
+    width: 100%;
+    font-size: 1.1em;
+    /*background-color: #2590ff;*/
+    text-align: center;
+    /*visibility: hidden;*/
+    display: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(3) {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    height: 20%;
+    /*background-color: firebrick;*/
+    /*visibility: hidden;*/
+    display: none;
+}
+
+
+.albumList > li > .albumItemCont > .albumItemIntro > div:nth-child(3) > img{
+    width: 100%;
+    height: 100%;
+    /*background-color: firebrick;*/
+}
+
+.albumMenuBtn {
+    width: 0;
+    height: 100%;
+    /*background-color: #ff7064;*/
+    float: left;
+    /*visibility: hidden;*/
+    display: none;
+}
+
+.albumMenuBtn button{
+    width: 40%;
+    height: 60%;
+}
+
+
+
+
+
+
+.albumList > li:hover > .albumItemCont  {
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(1){
+    position: absolute;
+    top: 40%;
+    font-size: 1.3em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(2)  {
+    position: absolute;
+    top: 50%;
+    /*visibility: visible;*/
+    display: block;
+}
+
+
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3){
+    /*visibility: visible;*/
+    display: block;
+}
+
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3):hover{
+    width: 100%;
+}
+
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3):hover > img{
+    width: 20%;
+}
+
+.albumList > li:hover > .albumItemCont > .albumItemIntro > div:nth-child(3):hover  > .albumMenuBtn{
+    width: 80%;
+    /*visibility: visible;*/
+    display: block;
+}
+
+
+
+.albumItemPlay{
+    display: none;
+}
+
+
+#addItem{
+    border : 1px solid lightgray;
+}
+
+#addItem > img{
+    width: 30%;
+    height: 30%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+
+}
+
+
+
+
+/*Modal (background) */
+.modal {
+    /*display: none; !* Hidden by default *!*/
+    position: fixed; /* Stay in place */
+    z-index: 200; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modalContent {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    /*border: 1px solid #888;*/
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modalHeader {
+    padding: 0.3%;
+    background-color: rgb(253,0,97); /* Fallback color */
+    color: white;
+    text-align: center;
+
+}
+
+.modalBody {padding: 2px 16px;}
+
+.modalFooter {
+    /*height: 65px;*/
+    padding: 0.3%;
+    background-color: rgba(0,0,0,0.8); /* Fallback color */
+    color: white;
+}
+
+
+
+/* Add padding to container elements */
+.modalFormContainer {
+    padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+
+/*form*/
+
+/* Full-width input fields */
+.modalFormContainer > input[type=text], input[type=file] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.modalFormCheckContainer{
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 12px 0;
+    margin: 8px 0;
+}
+
+.modalFormCheckContainer > span{
+    padding: 12px 20px;
+}
+
+
+
+
+.modalFooter .button {
+    border: none;
+    color: white;
+    padding: 1.5% 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    /*margin: 0.5% 0.5%;*/
+    cursor: pointer;
+    margin-left: 10px;
+
+}
+
+.modalFooter > span:nth-child(1){ color: #76ff5a; padding: 12px 20px;line-height: 4.5em;} /* Green */
+.modalFooter > input[type=button]:nth-child(2){background-color: #e7e7e7; color: black; position: absolute; right: 70px; } /* Green */
+.modalFooter > input[type=button]:nth-child(3){background-color: #f44336; position: absolute; right: 0;} /* Green */
+
+
+
+
+
+.albumMenuBtn > .floater{
+    float: left;
+    height: 50%;
+    margin-bottom: -7%;
+}
+
+.albumMenuBtn > .albumMenuBtnArea{
+    text-align: center;
+    width: 100%;
+    position: relative;
+    clear: both;
+}
+
+
+.albumMenuBtnArea > .button {
+    border: none;
+    color: white;
+    padding: 1.5% 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 0 3% 0 0;
+    cursor: pointer;
+}
+
+
+.albumMenuBtnArea > button:nth-child(1){background-color: #e7e7e7; color: black;} /* Green */
+.albumMenuBtnArea > button:nth-child(2){background-color: #f44336; } /* Green */
+
+
+
+
+
+
