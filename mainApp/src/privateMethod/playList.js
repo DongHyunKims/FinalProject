@@ -65,12 +65,14 @@ const privatePlayList = {
                 break;
 
             case ACTION_CONFIG.deletePlayList  :
+
+                let prePlayingDataId = null;
                 this.setState((state) => {
 
                     let newCurrentAlbum = jsonData;
                     let {playingState, checkIdxList, selectAllIsChecked, currentAlbum, eventMap}  = state;
+
                     //
-                    // let prePlayingDataId = null;
 
 
                     //어떤 동영상이 플레이 되고 있으면서 전체 선택이 안된 경우
@@ -84,10 +86,8 @@ const privatePlayList = {
                     //플레이 되고 있다면
                     if (playingState) {
                         let {playingKey, playingAlbum,playingData} = playingState;
-                        // prePlayingDataId = playingData._id;
+                        prePlayingDataId = playingData._id;
                         let {playList} = newCurrentAlbum;
-
-
                         if (!selectAllIsChecked) {
                             if (playingAlbum._id !== currentAlbum._id) {
                                 return Object.assign({}, newState, {
@@ -123,8 +123,8 @@ const privatePlayList = {
                             let length = checkIdxList.filter((val) => {
                                 return val < playingKey;
                             }).length;
-
                             let currentPlayingKey = playingKey - length;
+
                             return Object.assign({}, newState, {
                                 playingState: Object.assign({}, playingState, {
                                     playingAlbum: newCurrentAlbum,
@@ -145,9 +145,7 @@ const privatePlayList = {
                         }
                     }
 
-
-
-                    clearInterval(this.interverId);
+                    //clearInterval(this.interverId);
                     let resetEventMap = {
                         playing: false,
                         curTime: '00:00', // 현재 재생 시간
@@ -174,8 +172,8 @@ const privatePlayList = {
                     const {HTTP_METHOD} = config;
                     let {playingState} = this.state;
                     if(playingState) {
-                        let {playingAlbum} = playingState;
-                        if (playingAlbum.playList.length !== 1) {
+                        let {playingAlbum, playingData} = playingState;
+                        if (playingAlbum.playList.length !== 1 && playingData._id !== prePlayingDataId) {
                             clearInterval(this.interverId);
                         }
                     }

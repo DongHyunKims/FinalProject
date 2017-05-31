@@ -16,12 +16,13 @@ class AlbumList extends Component {
     }
 
 
-    renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler){
+    renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler,albumList){
         return isAddClicked ? <Modal
                 itemCancelClickHandler={addItemCancelClickHandler}
                 itemSubmitHandler={addAlbumSubmitHandler}
                 modalTitle="Add Album"
                 btnTitle="앨범 생성"
+                dataList={albumList}
             /> : null;
     }
 
@@ -75,7 +76,7 @@ class AlbumList extends Component {
 
                     </li>
                 </ul>
-                {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler)}
+                {this.renderAddItemModal(isAddClicked,addAlbumSubmitHandler,addItemCancelClickHandler,albumList)}
             </div>
 
 

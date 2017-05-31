@@ -17,7 +17,7 @@ class Nav extends React.Component{
           return(<li id={index+1} key={index}>{val}</li>)
         }
 
-      })
+      });
 
       return(
         <nav className="navArea">

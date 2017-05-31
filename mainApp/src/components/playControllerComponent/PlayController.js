@@ -27,12 +27,6 @@ class PlayController extends React.Component {
   render() {
     let { onChangePrevVideo, onChangeNextVideo, onPlayVideo, onPauseVideo, eventMap, playingData, moveSeekBar, moveVolumeBar, onSound, offSound} = this.props;
 
-    // if(!player){
-    //
-    // }
-
-      //
-      // console.log(eventMap.volume);
 
 
       let playingImg = null;

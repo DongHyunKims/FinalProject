@@ -13,9 +13,10 @@ const utility = {
     runAjax : function(reqListener, method, url){
         let xhr = new XMLHttpRequest();
         //reqListener 제일 마지막에 실행된다.
-        xhr.addEventListener("load", reqListener);
+        //console.log(reqListener);
         xhr.open(method, url);
         xhr.send();
+        xhr.addEventListener("load", reqListener);
     },
     runAjaxData : function(reqListener, method, url, data, contentType){
 

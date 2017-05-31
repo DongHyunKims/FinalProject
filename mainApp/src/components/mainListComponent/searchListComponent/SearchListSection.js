@@ -1,19 +1,10 @@
 import React from "react"
 import "./searchListSection.css"
 
-import utility from "../../../utility/utility"
-
-import moment from 'moment'
 
 
 import SearchInputBox from "./SearchInputSection"
 import SearchList from "./SearchList"
-/*
- this.addSelectedVideo = this.addSelectedVideo.bind(this);
- this.delSelectedVideo = this.delSelectedVideo.bind(this);
- this.changeIsAllClearAddBtn = this.changeIsAllClearAddBtn.bind(this);
- this.addSelectedVideoToAlbum = this.addSelectedVideoToAlbum.bind(this);
- */
 class MainList extends React.Component{
   constructor(props){
     super(props)

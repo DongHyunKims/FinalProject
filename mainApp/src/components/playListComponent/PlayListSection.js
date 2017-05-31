@@ -35,7 +35,7 @@ class PlayListSection extends Component {
            데이터 어떻게 받을지 생각 해야한다
            데이터 조작 필요
          */
-        let playListSection = <h2>Album에 저장된 데이터가 없습니다</h2>;
+        let playListSection = null;
 
 
         if(playList){

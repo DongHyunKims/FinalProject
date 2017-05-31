@@ -3,7 +3,11 @@
  */
 
 import React, {Component} from 'react';
+import libs from '../../../utility/libs'
 
+const modalStyle = {
+    titleCheckedStyle : {color : "red"}
+};
 
 class Modal extends Component{
     constructor(props){
@@ -15,6 +19,9 @@ class Modal extends Component{
         };
 
         this.handleItemInputChange = this.handleItemInputChange.bind(this);
+        this.checkTitle = this.checkTitle.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
     }
 
     componentDidMount(){
@@ -84,10 +91,47 @@ class Modal extends Component{
 
     }
 
+    checkTitle(dataList){
+
+        if(dataList) {
+
+
+            let {title}= this.state;
+            let checked = dataList.filter((val) => {
+                return val.title === title;
+            });
+            if (checked.length) {
+                return false;
+            }
+            return true;
+
+        }
+        return true;
+
+    }
+
+    handleKeyPress(data,_id,titleChecked,itemSubmitHandler,e){
+
+
+        console.log("e.keyCode",e.charCode);
+        if(e.charCode===13){
+            itemSubmitHandler.call(null,data,_id,titleChecked);
+        }
+
+    }
+
+    handleKeyUp(itemCancelClickHandler,e){
+
+        if(e.keyCode===27){
+            itemCancelClickHandler();
+        }
+
+    }
+
 
 
     render(){
-        let { itemCancelClickHandler, itemSubmitHandler, modalTitle, btnTitle, defaultCategoryTitle,data } = this.props;
+        let { itemCancelClickHandler, itemSubmitHandler, modalTitle, btnTitle, defaultCategoryTitle,data,dataList } = this.props;
         let {title,category} = this.state;
         let _id = null;
         if(data){
@@ -96,8 +140,23 @@ class Modal extends Component{
 
 
 
+        let renderTitleChecked = "";
+        let titleStyle = null;
+        let titleChecked = this.checkTitle(dataList);
+        if(title.length) {
+
+            renderTitleChecked = "사용 가능한 Title 입니다.";
+            if (!titleChecked) {
+                titleStyle = modalStyle.titleCheckedStyle;
+                renderTitleChecked = "이미 존재하는 Title 입니다.";
+            }
+
+        }else{
+            renderTitleChecked = "Title을 입력해 주십시오.";
+            titleChecked=false;
+        }
         return (
-            <div id="myModal" className="modal">
+            <div id="myModal" className="modal" onKeyPress={this.handleKeyPress.bind(null,this.state,_id,titleChecked,itemSubmitHandler)} onKeyUp={this.handleKeyUp.bind(null,itemCancelClickHandler)}>
                 <div className="modalContent">
                     <div className="modalHeader">
                         <span className="close"  onClick={itemCancelClickHandler}>&times;</span>
@@ -106,7 +165,7 @@ class Modal extends Component{
                     <div className="modalBody">
                         <div className="modalFormContainer">
                             <label><b>Title</b></label>
-                            <input type="text" placeholder="Title" name="title" onChange={this.handleItemInputChange} value={title} required />
+                            <input type="text" placeholder="Title" name="title" maxLength="20" onChange={this.handleItemInputChange} value={title} required autoFocus="true"/>
                             <label><b>Album Image</b></label>
                             <input type="file" name="coverImgUrl" onChange={this.handleItemInputChange} required />
                             <label><b>Category</b></label>
@@ -116,8 +175,9 @@ class Modal extends Component{
                         </div>
                     </div>
                     <div className="modalFooter">
-                            <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state,_id)}/>
-                            <input type="button" className="button" onClick={itemCancelClickHandler} value="취소" />
+                        <span style={titleStyle}>{renderTitleChecked}</span>
+                        <input type="button" className="button"  value={btnTitle} onClick={itemSubmitHandler.bind(null,this.state,_id,titleChecked)} />
+                        <input type="button" className="button" onClick={itemCancelClickHandler} value="취소" />
                     </div>
                 </div>
             </div>

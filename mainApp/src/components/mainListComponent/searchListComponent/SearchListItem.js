@@ -37,10 +37,10 @@ class SearchListItem extends React.Component{
     playControllerEvents.onPauseVideo(this.props.player);
     let videoId = this.props.data.videoId;
     let videoTitle = this.props.data.title;
-    let videoUrl = "http://www.youtube.com/embed/"+videoId+"?autoplay=1&showinfo=0&rel=0&origin=http://example.com&controls=1"
+    let videoUrl = "http://www.youtube.com/embed/"+videoId+"?autoplay=1&showinfo=0&rel=0&origin=http://example.com&controls=1";
     let app = document.querySelector(".App");
     app.insertAdjacentHTML("beforeend",
-    '<div class="popupVideoWrap"><div class="popup"><div class="title">'+videoTitle+'<button class="btnClose">X</button></div><iframe id="ytplayer" type="text/html" width="633" height="356" src='+videoUrl+' frameborder="0"/></div></div>;')
+    '<div class="popupVideoWrap"><div class="popup"><div class="title">'+videoTitle+'<button class="btnClose">X</button></div><iframe id="ytplayer" type="text/html" width="633" height="356" src='+videoUrl+' frameborder="0"/></div></div>;');
 
     let popupVideoWrap = document.querySelector(".popupVideoWrap");
     this.hidePopupVideo(popupVideoWrap);

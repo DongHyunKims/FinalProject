@@ -7,6 +7,16 @@
     border-bottom: 1px solid lightgray;
 }
 
+.youtubePlayerArea > img{
+    /*background-color: bisque;*/
+    width: 50px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+}
+
 
 .playListSectionArea {
     /*background-color: #ff5644;*/

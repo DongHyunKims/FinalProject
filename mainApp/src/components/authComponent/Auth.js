@@ -18,6 +18,7 @@ class Auth extends React.Component{
 
         <video className="videoContainer" autoPlay="true" loop>
             <source src="../videos/login_02.mov" type="video/mp4" />
+
         </video>
 
         <section className="authSection">

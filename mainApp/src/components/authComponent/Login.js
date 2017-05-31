@@ -25,7 +25,7 @@ class Login extends React.Component{
     this.state = {
       redirectToReferrer: false,
       message:""
-    }
+    };
 
     this.setLogin = this.setLogin.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -39,12 +39,12 @@ class Login extends React.Component{
     let loginObj = {
       email : email,
       password : password
-    }
+    };
     //console.log(JSON.stringify(loginObj))
 
     utility.runAjaxData(function(e){
       let obj = JSON.parse(e.target.responseText);
-      console.log(obj)
+      //console.log(obj)
 
       if(typeof obj === "object"){
         sessionStorage.setItem('id', obj.id);
@@ -85,7 +85,7 @@ class Login extends React.Component{
 
   render(){
 
-    const { redirectToReferrer } = this.state
+    const { redirectToReferrer } = this.state;
 
     // here is the important part
     if (redirectToReferrer || sessionStorage.getItem("id")) {

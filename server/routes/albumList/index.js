@@ -14,8 +14,10 @@ router.use(express.static('public'));
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
 
-const DEFAULT_IMG_URL = "http://localhost:3000";
+//const DEFAULT_IMG_URL = "http://localhost:3000";
 //const DEFAULT_URL = "http://localhost:3000";
+
+const DEFAULT_IMG_URL = "http://localhost:3000";
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -101,23 +103,22 @@ router.get("/insertAllAlbum",(req,res)=>{
 
 router.get("/albums",(req,res)=>{
     let { _id }  = req.user;
-
-    User.find({ _id : _id }).exec()
+    User.find({ _id : _id })
         .then((user)=>{
+            if(!user.length) return res.status(404).send({ err: "User not found" });
             let albumIdList = user[0].albumList;
             return  Album.find({
                 '_id': { $in: albumIdList}
-            }).exec();
+            });
         })
         .catch((err)=>{
-            if(err)           return res.status(500).send(err);
-            if(!user.length) return res.status(404).send({ err: "User not found" });
+            if(err)  return res.status(500).send(err);
         })
         .then((albums)=>{
+            if(!albums.length) return res.send({ err: "Albums not found" });
             res.json({jsonAlbumList:albums});
         }).catch((err)=>{
-            if(err)           return res.status(500).send(err);
-            if(!albums.length) return res.send({ err: "Albums not found" });
+            if(err) return res.status(500).send(err);
         });
 
 });
@@ -126,10 +127,8 @@ router.get("/albums",(req,res)=>{
 
 router.get("/albums/:albumId",(req,res)=>{
     let { albumId }   = req.params;
-    //let objectAlbumId = createObjectId(albumId);
     Album.findOne({ _id: albumId },(err,album)=>{
         if(err)  return res.status(500).send(err);
-        //console.log("album",album);
         res.json(album);
     })
 });
@@ -175,7 +174,7 @@ router.post("/albums",upload.single('coverImgUrl'),(req,res)=>{
     let { _id }  = req.user;
 
 
-   console.log("req.user",req.user);
+   //console.log("req.user",req.user);
     let {title,category} = req.body;
     // // 전송된 파일 데이터 확인
 

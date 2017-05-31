@@ -19,13 +19,14 @@ class MainList extends Component {
     }
 
 
-    renderUpdateItemModal(isAlbumUpdateClicked,updateAlbumClickHandler,updateItemCancelClickHandler,updateAlbum){
+    renderUpdateItemModal(isAlbumUpdateClicked,updateAlbumClickHandler,updateItemCancelClickHandler,updateAlbum,albumList){
         return isAlbumUpdateClicked ? <Modal
                 itemCancelClickHandler={updateItemCancelClickHandler}
                 itemSubmitHandler={updateAlbumClickHandler}
                 modalTitle="Update Album"
                 btnTitle="앨범 수정"
                 data={updateAlbum}
+                dataList={albumList}
             /> : null;
     }
 
@@ -69,7 +70,7 @@ class MainList extends Component {
                     updateItemClickHandler={updateItemClickHandler}
                 />
 
-                {this.renderUpdateItemModal(isAlbumUpdateClicked,updateAlbumClickHandler,updateItemCancelClickHandler,updateAlbum)}
+                {this.renderUpdateItemModal(isAlbumUpdateClicked,updateAlbumClickHandler,updateItemCancelClickHandler,updateAlbum,albumList)}
 
 
 

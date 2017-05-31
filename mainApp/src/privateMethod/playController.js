@@ -46,8 +46,7 @@ const privatePlayController = {
                 }, () => {
                     let {eventMap, playingState} = this.state;
                     let {curProgressBar, maxProgressBar} = eventMap;
-                    let {playingAlbum} = playingState;
-                    let {playList} = playingAlbum;
+
 
                     //전부 삭제 되었으면
                     if (!playingState) {
@@ -68,6 +67,8 @@ const privatePlayController = {
                             return {eventMap: Object.assign({}, eventMap, resetEventMap)};
                         });
                     } else if (curProgressBar >= maxProgressBar) {
+                        let {playingAlbum} = playingState;
+                        let {playList} = playingAlbum;
                         clearInterval(this.interverId);
                         if (playList.length === 1) {
                             player.seekTo(0);
@@ -99,6 +100,10 @@ const privatePlayController = {
         return "00:00";
 
 
+
+    },
+
+    _changeBarBackgroundSize(ele, val){
 
     }
 

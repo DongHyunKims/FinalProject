@@ -215,7 +215,7 @@
 .modal {
     /*display: none; !* Hidden by default *!*/
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 200; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -278,10 +278,10 @@
 .modalBody {padding: 2px 16px;}
 
 .modalFooter {
+    /*height: 65px;*/
     padding: 0.3%;
     background-color: rgba(0,0,0,0.8); /* Fallback color */
     color: white;
-
 }
 
 
@@ -325,7 +325,8 @@
 
 
 
-.modalFooter > .button {
+
+.modalFooter .button {
     border: none;
     color: white;
     padding: 1.5% 2%;
@@ -335,12 +336,15 @@
     font-size: 1em;
     /*margin: 0.5% 0.5%;*/
     cursor: pointer;
+    margin-left: 10px;
+
 }
 
+.modalFooter > span:nth-child(1){ color: #76ff5a; padding: 12px 20px;line-height: 4.5em;} /* Green */
+.modalFooter > input[type=button]:nth-child(2){background-color: #e7e7e7; color: black; position: absolute; right: 70px; } /* Green */
+.modalFooter > input[type=button]:nth-child(3){background-color: #f44336; position: absolute; right: 0;} /* Green */
 
 
-.modalFooter > input[type=button]:nth-child(1){background-color: #e7e7e7; color: black; margin: 0 0 0 80%; } /* Green */
-.modalFooter > input[type=button]:nth-child(2){background-color: #f44336; } /* Green */
 
 
 

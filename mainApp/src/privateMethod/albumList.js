@@ -16,7 +16,11 @@ const ACTION_CONFIG = {
 const privateAlbumList = {
     _getAllAlbumReqListener(action,res){
 
-        let jsonAlbumList = JSON.parse(res.currentTarget.responseText);
+
+        let jsonAlbumList = res.currentTarget.responseText;
+        if(typeof jsonAlbumList !== "object")
+            jsonAlbumList = JSON.parse(res.currentTarget.responseText);
+
 
         if(!jsonAlbumList.err){
             jsonAlbumList = jsonAlbumList.jsonAlbumList;

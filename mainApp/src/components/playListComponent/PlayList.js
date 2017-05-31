@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import "./playList.css";
 import YoutubePlayerComponent from "./Youtube";
+import config from "../../utility/config"
 
 
 import PlayListSection from "./PlayListSection";
@@ -26,7 +27,7 @@ class PlayList extends Component {
             width: "100%",
             height: "100%",
         };
-        let youtubePlayer = <div>loading...</div>;
+        let youtubePlayer = <img src= {config.DEFAULT_SERVER_URL + "/images/default/video.png"} />;
         if(playState){
             let {playingData} = playState;
             let {videoId} = playingData;
